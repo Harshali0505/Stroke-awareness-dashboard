@@ -1,0 +1,93 @@
+[
+  {
+    "medical_history": "cholesterol",
+    "category": "Low Awareness",
+    "count": 35,
+    "total": 59,
+    "percentage": 59.32
+  },
+  {
+    "medical_history": "cholesterol",
+    "category": "Moderate Awareness",
+    "count": 24,
+    "total": 59,
+    "percentage": 40.68
+  },
+  {
+    "medical_history": "diabetes",
+    "category": "High Awareness",
+    "count": 2,
+    "total": 196,
+    "percentage": 1.02
+  },
+  {
+    "medical_history": "diabetes",
+    "category": "Low Awareness",
+    "count": 120,
+    "total": 196,
+    "percentage": 61.22
+  },
+  {
+    "medical_history": "diabetes",
+    "category": "Moderate Awareness",
+    "count": 74,
+    "total": 196,
+    "percentage": 37.76
+  },
+  {
+    "medical_history": "high blood pressure",
+    "category": "Low Awareness",
+    "count": 158,
+    "total": 253,
+    "percentage": 62.45
+  },
+  {
+    "medical_history": "high blood pressure",
+    "category": "Moderate Awareness",
+    "count": 95,
+    "total": 253,
+    "percentage": 37.55
+  },
+  {
+    "medical_history": "other",
+    "category": "High Awareness",
+    "count": 22,
+    "total": 740,
+    "percentage": 2.97
+  },
+  {
+    "medical_history": "other",
+    "category": "Low Awareness",
+    "count": 420,
+    "total": 740,
+    "percentage": 56.76
+  },
+  {
+    "medical_history": "other",
+    "category": "Moderate Awareness",
+    "count": 298,
+    "total": 740,
+    "percentage": 40.27
+  },
+  {
+    "medical_history": "other(please specify):______________________________________",
+    "category": "Low Awareness",
+    "count": 1,
+    "total": 2,
+    "percentage": 50.0
+  },
+  {
+    "medical_history": "other(please specify):______________________________________",
+    "category": "Moderate Awareness",
+    "count": 1,
+    "total": 2,
+    "percentage": 50.0
+  },
+  {
+    "medical_history": "thyroid",
+    "category": "Low Awareness",
+    "count": 1,
+    "total": 1,
+    "percentage": 100.0
+  }
+]
