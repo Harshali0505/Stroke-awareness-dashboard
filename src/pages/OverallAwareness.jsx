@@ -12,7 +12,7 @@ const OverallAwareness = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
   const { data: kpiData, loading: kpiLoading } =
     useStaticData('/analytics/home-analytics.json');
 
-  const { data: analyticsData, loading: analyticsLoading } = 
+  const { data: analyticsData, loading: analyticsLoading } =
     useStaticData("/analytics/overall-awareness.json");
 
   const { data: scoreData, loading: scoreLoading } =
@@ -21,16 +21,20 @@ const OverallAwareness = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
   const { data: scoreSummary, loading: scoreSummaryLoading } =
     useStaticData('/analytics/awareness-score-summary.json');
 
+  const { data: knowStrokeData, loading: knowStrokeLoading } =
+    useStaticData('/analytics/know-stroke.json');
+
   if (
     kpiLoading ||
     analyticsLoading ||
     scoreLoading ||
-    scoreSummaryLoading
+    scoreSummaryLoading ||
+    knowStrokeLoading
   ) {
     return (
       <PageContainer
-        title="Stroke Awareness Dashboard – Overview"
-        description="Overall snapshot of stroke awareness levels and score distribution across survey participants."
+        title="1. Overview (The Awareness Problem)"
+        description="Establishing context and showing the overall stroke awareness gap among survey participants."
         isMobileMenuOpen={isMobileMenuOpen}
         setIsMobileMenuOpen={setIsMobileMenuOpen}
       >
@@ -41,8 +45,8 @@ const OverallAwareness = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
 
   return (
     <PageContainer
-      title="Stroke Awareness Dashboard – Overview"
-      description="Overall snapshot of stroke awareness levels and score distribution across survey participants."
+      title="1. Overview (The Awareness Problem)"
+      description="Establishing context and showing the overall stroke awareness gap among survey participants."
       isMobileMenuOpen={isMobileMenuOpen}
       setIsMobileMenuOpen={setIsMobileMenuOpen}
     >
@@ -84,15 +88,6 @@ const OverallAwareness = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
             subtitle="Good stroke awareness"
           />
 
-          <KpiCard
-            title="Average Awareness Score"
-            value={
-              typeof scoreSummary?.mean === 'number'
-                ? scoreSummary.mean
-                : kpiData?.avgAwarenessScore
-            }
-            subtitle="Mean awareness score"
-          />
         </div>
       </Section>
 
@@ -118,54 +113,57 @@ const OverallAwareness = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
           </ChartPanel>
 
           <ChartPanel
-            title="Awareness Score Distribution"
-            helperText="Distribution of awareness scores (mean and median shown as reference lines)."
+            title="Self-reported knowledge of stroke"
+            helperText="Participants reporting whether they know what a brain stroke is."
           >
-            <GenericHistogram
-              data={scoreData}
-              xKey="score"
-              valueKey="count"
-              referenceLines={[
-                {
-                  key: 'mean',
-                  x: typeof scoreSummary?.mean === 'number' ? scoreSummary.mean : null,
-                  label:
-                    typeof scoreSummary?.mean === 'number'
-                      ? `Mean = ${scoreSummary.mean}`
-                      : null,
-                  color: CHART_COLORS.axis
-                },
-                {
-                  key: 'median',
-                  x:
-                    typeof scoreSummary?.median === 'number'
-                      ? scoreSummary.median
-                      : null,
-                  label:
-                    typeof scoreSummary?.median === 'number'
-                      ? `Median = ${scoreSummary.median}`
-                      : null,
-                  color: CHART_COLORS.axis,
-                  strokeDasharray: '2 4'
-                }
-              ].filter((l) => typeof l.x === 'number')}
-              width={620}
-              height={320}
+            <GenericPieChart
+              data={knowStrokeData}
+              labelKey="response"
+              valueKey="percentage"
+              innerRadius={50}
+              width={420}
+              height={360}
+              interaction="hover"
+              colors={["#0f766e", "#14b8a6", "#2dd4bf", "#99f6e4"]}
             />
           </ChartPanel>
         </div>
       </Section>
 
-      <Section title="Methodology note">
+      <Section title="Why stroke awareness is critical?">
         <p style={{ margin: 0, lineHeight: 1.6, color: 'var(--text-secondary)' }}>
-          Scores are derived from responses on symptoms, risk factors, and emergency actions.
+          Brain stroke is a medical emergency requiring immediate action to prevent long-term disability or death. The data below shows a significant portion of the public lacks baseline knowledge of what a stroke is. This dashboard explores our survey data to identify who is most vulnerable and where awareness campaigns should focus.
         </p>
       </Section>
 
       <Section title="Explore deeper">
         <p style={{ margin: 0, lineHeight: 1.6, color: 'var(--text-secondary)' }}>
-          Next pages break down awareness by demographics, lifestyle, symptoms, and risk factors.
+          The following pages break down this data to form a comprehensive view: identifying who needs the most help, how lifestyle choices corelate with awareness, specific public knowledge gaps regarding symptoms, and emergency actions.
         </p>
+      </Section>
+
+      <Section title="Key Analytical Insights">
+        <div className="who-kpi-row">
+          <KpiCard
+            title="Warning"
+            value="42.5%"
+            subtitle="Aware individuals still delay action"
+            trend="down"
+            icon="🚨"
+          />
+          <KpiCard
+            title="No Link"
+            value="Zero"
+            subtitle="Awareness vs Lifestyle Risk"
+            icon="⚠️"
+          />
+          <KpiCard
+            title="Clusters"
+            value="4"
+            subtitle="Distinct behavioral population segments identified"
+            icon="👥"
+          />
+        </div>
       </Section>
     </PageContainer>
   );

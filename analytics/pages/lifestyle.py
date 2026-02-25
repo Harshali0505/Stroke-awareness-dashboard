@@ -25,4 +25,10 @@ def generate(df, out_dir: Path):
     )
 
     stacked_by(df, "range", out_dir, "bmi-awareness.json")
-    stacked_by(df, "medical_history", out_dir, "medical-history-awareness.json")
+    family_history_col = "do_you_have_a_family_history_of_brain_or_heart_stroke,_of_hypertension_or_diabetes_?"
+    if family_history_col in df.columns:
+        stacked_by(df, family_history_col, out_dir, "family-history-awareness.json")
+
+    tia_col = "tia"
+    if tia_col in df.columns:
+        stacked_by(df, tia_col, out_dir, "tia-awareness.json")

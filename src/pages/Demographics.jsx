@@ -4,6 +4,7 @@ import { useStaticData } from "../data/useStaticData";
 import StackedAwarenessChart from "../components/charts/StackedAwarenessChart";
 import Section from "../components/Section";
 import ChartPanel from "../components/ChartPanel";
+import PlaceholderChart from "../components/charts/PlaceholderChart";
 import useChartSelection from "../hooks/useChartSelection";
 
 const Demographics = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
@@ -35,7 +36,7 @@ const Demographics = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
   }, []);
 
   // ✅ CORRECT transformer: row-based → stacked format
-  const transformToStacked = (data, groupKey) => {
+  const transformToStacked = React.useCallback((data, groupKey) => {
     if (!Array.isArray(data)) return [];
 
     const map = {};
@@ -56,33 +57,54 @@ const Demographics = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
     });
 
     return Object.values(map);
-  };
+  }, [formatSalaryLabel]);
 
   const stackedAgeData = React.useMemo(
     () => transformToStacked(ageData, "age"),
-    [ageData]
+    [ageData, transformToStacked]
   );
 
   const stackedGenderData = React.useMemo(
     () => transformToStacked(genderData, "gender"),
-    [genderData]
+    [genderData, transformToStacked]
   );
 
-  const stackedEducationData = React.useMemo(
-    () => transformToStacked(educationData, "educational_level"),
-    [educationData]
-  );
+  const stackedEducationData = React.useMemo(() => {
+    let data = transformToStacked(educationData, "educational_level");
+    // Change names for sorting and display
+    const renameMap = {
+      "high school": "High School",
+      "high_school": "High School",
+      "undergraduate": "Undergraduate",
+      "graduate": "Graduate",
+      "speciality": "Speciality",
+      "other": "Other"
+    };
+    data = data.map(item => ({ ...item, name: renameMap[item.name.toLowerCase()] || item.name }));
 
-  const stackedIncomeData = React.useMemo(
-    () => transformToStacked(incomeData, "salary"),
-    [incomeData]
-  );
+    const order = ["High School", "Undergraduate", "Graduate", "Speciality", "Other"];
+    return data.sort((a, b) => {
+      const idxA = order.indexOf(a.name);
+      const idxB = order.indexOf(b.name);
+      return (idxA > -1 ? idxA : 99) - (idxB > -1 ? idxB : 99);
+    });
+  }, [educationData, transformToStacked]);
+
+  const stackedIncomeData = React.useMemo(() => {
+    const data = transformToStacked(incomeData, "salary");
+    const order = ["< 2L", "2–4L", "4–6L", "6–8L", "> 8L", "Not specified"];
+    return data.sort((a, b) => {
+      const idxA = order.indexOf(a.name);
+      const idxB = order.indexOf(b.name);
+      return (idxA > -1 ? idxA : 99) - (idxB > -1 ? idxB : 99);
+    });
+  }, [incomeData, transformToStacked]);
 
   if (ageLoading || genderLoading || educationLoading || incomeLoading) {
     return (
       <PageContainer
-        title="Demographic impact"
-        description="How stroke awareness varies across age, gender, education, and income groups."
+        title="2. Who Needs Help? (Demographics)"
+        description="Identifying vulnerable demographic groups to target for awareness campaigns."
         isMobileMenuOpen={isMobileMenuOpen}
         setIsMobileMenuOpen={setIsMobileMenuOpen}
       >
@@ -93,82 +115,99 @@ const Demographics = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
 
   return (
     <PageContainer
-      title="Demographic impact"
-      description="Awareness by age, gender, education, and income."
+      title="2. Who Needs Help? (Demographics)"
+      description="Identifying vulnerable demographic groups to target for awareness campaigns."
       isMobileMenuOpen={isMobileMenuOpen}
       setIsMobileMenuOpen={setIsMobileMenuOpen}
     >
-      <div className="demographics-page">
-        <div className="demographics-overall">
-          <Section
-            title="Overall insight"
-            helperText="Overall, low awareness is common across all demographic groups. This indicates that stroke awareness is a widespread issue and requires broad community-level intervention."
-          />
+      <Section
+        title="Overview"
+        helperText="Low awareness is distributed remarkably evenly across age, gender, education, and income. No single demographic group is adequately prepared."
+      />
+
+      <Section
+        title="Awareness by demographic group"
+        helperText="Click a category in any chart to highlight it across all breakdowns."
+      >
+        <div className="who-grid who-grid--two">
+          <ChartPanel
+            title="Age group × awareness level"
+            helperText="Awareness deficits exist evenly across every single age bracket, showing the problem is widespread."
+          >
+            <StackedAwarenessChart
+              data={stackedAgeData}
+              height={410}
+              barSize={22}
+              valueMode="percent"
+              selectedCategory={selected}
+              onSelectCategory={onSelect}
+            />
+          </ChartPanel>
+
+          <ChartPanel
+            title="Gender × awareness level"
+            helperText="Both males and females reflect an identical distribution of low, medium, and high awareness."
+          >
+            <StackedAwarenessChart
+              data={stackedGenderData}
+              height={410}
+              barSize={28}
+              valueMode="percent"
+              selectedCategory={selected}
+              onSelectCategory={onSelect}
+            />
+          </ChartPanel>
+
+          <ChartPanel
+            title="Education × awareness level"
+            helperText="Surprisingly, higher education does not correlate strongly with health literacy. The majority of graduates still fall into the lowest awareness bracket."
+          >
+            <StackedAwarenessChart
+              data={stackedEducationData}
+              height={410}
+              barSize={22}
+              valueMode="percent"
+              selectedCategory={selected}
+              onSelectCategory={onSelect}
+            />
+          </ChartPanel>
+
+          <ChartPanel
+            title="Income × awareness level"
+            helperText="Regardless of reported salary, stroke awareness remains consistently low across all economic groups."
+          >
+            <StackedAwarenessChart
+              data={stackedIncomeData}
+              height={410}
+              barSize={20}
+              valueMode="percent"
+              selectedCategory={selected}
+              onSelectCategory={onSelect}
+            />
+          </ChartPanel>
         </div>
+      </Section>
 
-        <Section
-          title="Awareness by demographic group"
-          helperText="Click a category in any chart to highlight it across all breakdowns."
-        >
-          <div className="who-grid who-grid--two">
-            <ChartPanel
-              title="Age group × awareness level"
-              helperText="Awareness levels are similar across age groups. In every age category, most people fall under low awareness. This shows that stroke awareness needs improvement across all ages, not just a specific group."
-            >
-              <StackedAwarenessChart
-                data={stackedAgeData}
-                height={410}
-                barSize={22}
-                valueMode="percent"
-                selectedCategory={selected}
-                onSelectCategory={onSelect}
-              />
-            </ChartPanel>
+      <Section
+        title="Action & Urgency Across Ages"
+        helperText="Although urgency increases with age, proactive action does not significantly differ across age groups."
+      >
+        <div className="who-grid who-grid--two">
+          <ChartPanel
+            title="Proactive vs Passive Action by Age"
+            helperText="Shows whether older people act more proactively."
+          >
+            <PlaceholderChart title="Stacked Bar Chart" text="X: Age Groups (18–25, 26–40, 41–60, 60+) | Y: Percentage | Split: Passive vs Proactive" height={360} />
+          </ChartPanel>
 
-            <ChartPanel
-              title="Gender × awareness level"
-              helperText="Both males and females show nearly the same awareness pattern. A majority in both groups have low awareness, indicating that awareness programs should target everyone equally."
-            >
-              <StackedAwarenessChart
-                data={stackedGenderData}
-                height={410}
-                barSize={28}
-                valueMode="percent"
-                selectedCategory={selected}
-                onSelectCategory={onSelect}
-              />
-            </ChartPanel>
-
-            <ChartPanel
-              title="Education × awareness level"
-              helperText="Awareness does not increase significantly with higher education. Even among graduates, low awareness remains common. This suggests that stroke education is not reaching people effectively."
-            >
-              <StackedAwarenessChart
-                data={stackedEducationData}
-                height={410}
-                barSize={22}
-                valueMode="percent"
-                selectedCategory={selected}
-                onSelectCategory={onSelect}
-              />
-            </ChartPanel>
-
-            <ChartPanel
-              title="Income × awareness level"
-              helperText="Stroke awareness remains low across all income groups. Income level alone does not appear to strongly influence awareness levels."
-            >
-              <StackedAwarenessChart
-                data={stackedIncomeData}
-                height={410}
-                barSize={20}
-                valueMode="percent"
-                selectedCategory={selected}
-                onSelectCategory={onSelect}
-              />
-            </ChartPanel>
-          </div>
-        </Section>
-      </div>
+          <ChartPanel
+            title="Mean Urgency Score by Age"
+            helperText="Visual proof that perceived urgency of stroke increases with age."
+          >
+            <PlaceholderChart title="Line Chart" text="X: Age Groups | Y: Mean Urgency Score" height={360} />
+          </ChartPanel>
+        </div>
+      </Section>
     </PageContainer>
   );
 };

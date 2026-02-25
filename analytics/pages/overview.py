@@ -91,3 +91,20 @@ def generate(df, out_dir: Path):
             for score, count in vc.items()
         ],
     )
+
+    know_col = "do_you_know_what_is_a_brain_stroke?"
+    if know_col in df.columns:
+        know_counts = df[know_col].dropna().value_counts()
+        save_json(
+            out_dir,
+            "know-stroke.json",
+            [
+                {
+                    "response": str(resp),
+                    "count": int(count),
+                    "percentage": round((float(count) / total) * 100, 2) if total else 0,
+                }
+                for resp, count in know_counts.items()
+            ],
+        )
+

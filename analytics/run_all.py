@@ -12,6 +12,7 @@ if str(_ANALYTICS_DIR) not in sys.path:
 from pages import (  # noqa: E402
     community,
     demographics,
+    emergency,
     insights,
     lifestyle,
     overview,
@@ -35,6 +36,7 @@ def main():
     risk_factors.generate(df, out_dir)
     community.generate(df, out_dir)
     insights.generate(df, out_dir)
+    emergency.generate(df, out_dir)
 
     print("✅ ALL ANALYTICS JSON FILES GENERATED SUCCESSFULLY")
 

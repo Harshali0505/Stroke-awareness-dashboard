@@ -25,46 +25,23 @@ const KPICard = ({ title, value, subtitle, trend, icon }) => {
   };
 
   return (
-    <div
-      style={{
-        backgroundColor: 'var(--bg-tertiary)',
-        borderRadius: '10px',
-        padding: '24px',
-        boxShadow: 'none',
-        border: '1px solid var(--neutral-200)',
-        height: '100%',
-        transition: 'border-color 0.2s ease',
-        position: 'relative',
-        overflow: 'hidden'
-      }}
-    >
-      <div
-        style={{
-          position: 'absolute',
-          left: 0,
-          top: 0,
-          bottom: 0,
-          width: '4px',
-          background: 'var(--primary)'
-        }}
-      />
-
+    <div className="kpi-card">
       {/* Header */}
       <div
         style={{
           display: 'flex',
           justifyContent: 'space-between',
-          alignItems: 'flex-start',
-          marginBottom: '16px'
+          alignItems: 'center',
+          marginBottom: '20px'
         }}
       >
         <div
           style={{
-            color: 'var(--text-tertiary)',
-            fontSize: '13px',
+            color: 'var(--text-secondary)',
+            fontSize: '14px',
             fontWeight: '600',
             textTransform: 'uppercase',
-            letterSpacing: '0.6px'
+            letterSpacing: '0.5px'
           }}
         >
           {title}
@@ -74,8 +51,14 @@ const KPICard = ({ title, value, subtitle, trend, icon }) => {
           <div
             style={{
               fontSize: '22px',
-              color: 'var(--primary-light)',
-              opacity: 0.85
+              color: 'var(--primary)',
+              backgroundColor: 'var(--neutral-50)',
+              width: '44px',
+              height: '44px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: '12px'
             }}
           >
             {icon}
@@ -86,10 +69,10 @@ const KPICard = ({ title, value, subtitle, trend, icon }) => {
       {/* Value */}
       <div
         style={{
-          fontSize: '32px',
-          fontWeight: '700',
+          fontSize: '34px',
+          fontWeight: '800',
           color: 'var(--text-primary)',
-          marginBottom: '12px',
+          marginBottom: '8px',
           lineHeight: '1',
           letterSpacing: '-0.5px'
         }}
@@ -103,7 +86,7 @@ const KPICard = ({ title, value, subtitle, trend, icon }) => {
           style={{
             color: 'var(--text-secondary)',
             fontSize: '14px',
-            opacity: 0.85,
+            fontWeight: '500',
             marginBottom: trend ? '12px' : '0',
             lineHeight: '1.4'
           }}
@@ -120,7 +103,8 @@ const KPICard = ({ title, value, subtitle, trend, icon }) => {
             alignItems: 'center',
             gap: '6px',
             fontSize: '14px',
-            fontWeight: '600'
+            fontWeight: '600',
+            marginTop: 'auto'
           }}
         >
           <span style={{ color: getTrendColor(trend) }}>

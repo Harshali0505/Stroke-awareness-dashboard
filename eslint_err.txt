@@ -1,0 +1,29 @@
+[0m[0m
+[0m[4mD:\Harshali\Projects\miniprojectTY\stroke-dashboard\src\components\charts\GenericBarChart.jsx[24m[0m
+[0m  [2m22:3[22m  [31merror[39m  'width' is defined but never used  [2mno-unused-vars[22m[0m
+[0m[0m
+[0m[4mD:\Harshali\Projects\miniprojectTY\stroke-dashboard\src\components\charts\GenericHistogram.jsx[24m[0m
+[0m  [2m22:3[22m  [31merror[39m  'width' is defined but never used  [2mno-unused-vars[22m[0m
+[0m[0m
+[0m[4mD:\Harshali\Projects\miniprojectTY\stroke-dashboard\src\components\charts\GenericPieChart.jsx[24m[0m
+[0m  [2m39:3[22m  [31merror[39m  'width' is defined but never used  [2mno-unused-vars[22m[0m
+[0m[0m
+[0m[4mD:\Harshali\Projects\miniprojectTY\stroke-dashboard\src\components\charts\GenericStackedBarChart.jsx[24m[0m
+[0m  [2m23:51[22m  [31merror[39m  'React' is not defined  [2mno-undef[22m[0m
+[0m[0m
+[0m[4mD:\Harshali\Projects\miniprojectTY\stroke-dashboard\src\components\charts\StackedAwarenessChart.jsx[24m[0m
+[0m  [2m113:3[22m  [31merror[39m  'selectedCategory' is assigned a value but never used  [2mno-unused-vars[22m[0m
+[0m[0m
+[0m[4mD:\Harshali\Projects\miniprojectTY\stroke-dashboard\src\pages\Demographics.jsx[24m[0m
+[0m  [2m66:5[22m  [33mwarning[39m  React Hook React.useMemo has a missing dependency: 'transformToStacked'. Either include it or remove the dependency array  [2mreact-hooks/exhaustive-deps[22m[0m
+[0m  [2m71:5[22m  [33mwarning[39m  React Hook React.useMemo has a missing dependency: 'transformToStacked'. Either include it or remove the dependency array  [2mreact-hooks/exhaustive-deps[22m[0m
+[0m  [2m76:5[22m  [33mwarning[39m  React Hook React.useMemo has a missing dependency: 'transformToStacked'. Either include it or remove the dependency array  [2mreact-hooks/exhaustive-deps[22m[0m
+[0m  [2m81:5[22m  [33mwarning[39m  React Hook React.useMemo has a missing dependency: 'transformToStacked'. Either include it or remove the dependency array  [2mreact-hooks/exhaustive-deps[22m[0m
+[0m  [2m86:5[22m  [33mwarning[39m  React Hook React.useMemo has a missing dependency: 'transformToStacked'. Either include it or remove the dependency array  [2mreact-hooks/exhaustive-deps[22m[0m
+[0m[0m
+[0m[4mD:\Harshali\Projects\miniprojectTY\stroke-dashboard\src\pages\KnowledgeGap.jsx[24m[0m
+[0m  [2m11:13[22m  [31merror[39m  'selected' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u  [2mno-unused-vars[22m[0m
+[0m  [2m11:23[22m  [31merror[39m  'onSelect' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u  [2mno-unused-vars[22m[0m
+[0m[0m
+[0m[31m[1m✖ 12 problems (7 errors, 5 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[0m

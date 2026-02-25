@@ -3,8 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import OverallAwareness from './pages/OverallAwareness';
 import Demographics from './pages/Demographics';
 import Lifestyle from './pages/Lifestyle';
-import Symptoms from './pages/Symptoms';
-import RiskFactors from './pages/RiskFactors';
+import KnowledgeGap from './pages/KnowledgeGap';
 import Emergency from './pages/Emergency';
 import Community from './pages/Community';
 import Insights from './pages/Insights';
@@ -18,10 +17,10 @@ function App() {
     const checkMobile = () => {
       setIsMobile(window.innerWidth <= 640);
     };
-    
+
     checkMobile();
     window.addEventListener('resize', checkMobile);
-    
+
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
@@ -31,7 +30,7 @@ function App() {
         setIsMobileMenuOpen(false);
       }
     };
-    
+
     document.addEventListener('keydown', handleEscape);
     return () => document.removeEventListener('keydown', handleEscape);
   }, [isMobileMenuOpen]);
@@ -44,7 +43,7 @@ function App() {
     <div className="app">
       {/* Mobile Menu Toggle */}
       {isMobile && (
-        <button 
+        <button
           className="mobile-menu-toggle"
           onClick={toggleMobileMenu}
           aria-label="Toggle menu"
@@ -52,23 +51,22 @@ function App() {
           {isMobileMenuOpen ? '✕' : '☰'}
         </button>
       )}
-      
+
       {/* Overlay for mobile menu */}
       {isMobile && isMobileMenuOpen && (
-        <div 
+        <div
           className="mobile-overlay"
           onClick={() => setIsMobileMenuOpen(false)}
         />
       )}
-      
+
       <Router>
         <Routes>
           <Route path="/" element={<OverallAwareness isMobileMenuOpen={isMobileMenuOpen} setIsMobileMenuOpen={setIsMobileMenuOpen} />} />
-          <Route path="/overall-awareness" element={<OverallAwareness isMobileMenuOpen={isMobileMenuOpen} setIsMobileMenuOpen={setIsMobileMenuOpen} />} />
+          <Route path="/overview" element={<OverallAwareness isMobileMenuOpen={isMobileMenuOpen} setIsMobileMenuOpen={setIsMobileMenuOpen} />} />
           <Route path="/demographics" element={<Demographics isMobileMenuOpen={isMobileMenuOpen} setIsMobileMenuOpen={setIsMobileMenuOpen} />} />
           <Route path="/lifestyle" element={<Lifestyle isMobileMenuOpen={isMobileMenuOpen} setIsMobileMenuOpen={setIsMobileMenuOpen} />} />
-          <Route path="/symptoms" element={<Symptoms isMobileMenuOpen={isMobileMenuOpen} setIsMobileMenuOpen={setIsMobileMenuOpen} />} />
-          <Route path="/risk-factors" element={<RiskFactors isMobileMenuOpen={isMobileMenuOpen} setIsMobileMenuOpen={setIsMobileMenuOpen} />} />
+          <Route path="/knowledge-gap" element={<KnowledgeGap isMobileMenuOpen={isMobileMenuOpen} setIsMobileMenuOpen={setIsMobileMenuOpen} />} />
           <Route path="/emergency" element={<Emergency isMobileMenuOpen={isMobileMenuOpen} setIsMobileMenuOpen={setIsMobileMenuOpen} />} />
           <Route path="/community" element={<Community isMobileMenuOpen={isMobileMenuOpen} setIsMobileMenuOpen={setIsMobileMenuOpen} />} />
           <Route path="/insights" element={<Insights isMobileMenuOpen={isMobileMenuOpen} setIsMobileMenuOpen={setIsMobileMenuOpen} />} />

@@ -7,7 +7,8 @@ import {
   YAxis,
   Tooltip,
   CartesianGrid,
-  ReferenceLine
+  ReferenceLine,
+  ResponsiveContainer
 } from "recharts";
 import { CHART_COLORS } from "../../constants/colors";
 import ChartTooltip from "../common/ChartTooltip";
@@ -18,7 +19,6 @@ const GenericHistogram = ({
   valueKey = "count",
   referenceLines = [],
   showTrendLine = true,
-  width = 700,
   height = 350
 }) => {
   const trendData = React.useMemo(() => {
@@ -34,52 +34,54 @@ const GenericHistogram = ({
   }, [data, showTrendLine, valueKey]);
 
   return (
-    <ComposedChart width={width} height={height} data={trendData || data}>
-      <CartesianGrid strokeDasharray="3 3" stroke={CHART_COLORS.grid} />
-      <XAxis
-        dataKey={xKey}
-        stroke={CHART_COLORS.axis}
-        tickFormatter={(v) => {
-          const n = Number(v);
-          return Number.isFinite(n) ? String(Math.round(n)) : v;
-        }}
-      />
-      <YAxis stroke={CHART_COLORS.axis} />
-      <Tooltip content={<ChartTooltip />} />
-      {Array.isArray(referenceLines) &&
-        referenceLines
-          .filter((l) => l && typeof l.x === "number")
-          .map((l) => (
-            <ReferenceLine
-              key={l.key || `${l.label || "ref"}-${l.x}`}
-              x={l.x}
-              stroke={l.color || CHART_COLORS.axis}
-              strokeDasharray={l.strokeDasharray || "4 4"}
-              label={
-                l.label
-                  ? {
+    <ResponsiveContainer width="100%" height={height}>
+      <ComposedChart data={trendData || data}>
+        <CartesianGrid strokeDasharray="3 3" stroke={CHART_COLORS.grid} />
+        <XAxis
+          dataKey={xKey}
+          stroke={CHART_COLORS.axis}
+          tickFormatter={(v) => {
+            const n = Number(v);
+            return Number.isFinite(n) ? String(Math.round(n)) : v;
+          }}
+        />
+        <YAxis stroke={CHART_COLORS.axis} />
+        <Tooltip content={<ChartTooltip />} />
+        {Array.isArray(referenceLines) &&
+          referenceLines
+            .filter((l) => l && typeof l.x === "number")
+            .map((l) => (
+              <ReferenceLine
+                key={l.key || `${l.label || "ref"}-${l.x}`}
+                x={l.x}
+                stroke={l.color || CHART_COLORS.axis}
+                strokeDasharray={l.strokeDasharray || "4 4"}
+                label={
+                  l.label
+                    ? {
                       value: l.label,
                       fill: l.color || CHART_COLORS.axis,
                       position: "top",
                       fontSize: 12
                     }
-                  : undefined
-              }
-            />
-          ))}
+                    : undefined
+                }
+              />
+            ))}
 
-      <Bar dataKey={valueKey} fill={CHART_COLORS.neutral} />
-      {showTrendLine && (
-        <Line
-          type="monotone"
-          dataKey="__trend"
-          stroke={CHART_COLORS.high}
-          strokeWidth={2}
-          dot={false}
-          isAnimationActive={false}
-        />
-      )}
-    </ComposedChart>
+        <Bar dataKey={valueKey} fill={CHART_COLORS.neutral} />
+        {showTrendLine && (
+          <Line
+            type="monotone"
+            dataKey="__trend"
+            stroke={CHART_COLORS.high}
+            strokeWidth={2}
+            dot={false}
+            isAnimationActive={false}
+          />
+        )}
+      </ComposedChart>
+    </ResponsiveContainer>
   );
 };
 

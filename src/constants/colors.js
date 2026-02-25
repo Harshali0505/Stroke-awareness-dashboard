@@ -52,7 +52,7 @@ export const LAYOUT_COLORS = {
   textMuted: '#64748b',
 
   border: '#e2e8f0',
-  shadow: 'rgba(15, 23, 42, 0.08)'
+  shadow: 'rgba(11, 47, 43, 0.08)'
 };
 
 // ==============================

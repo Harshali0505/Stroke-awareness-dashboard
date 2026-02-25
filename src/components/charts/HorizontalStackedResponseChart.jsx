@@ -2,6 +2,7 @@ import React from "react";
 import {
   BarChart,
   Bar,
+  Cell,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -24,20 +25,29 @@ const formatCount = (value) => {
   return Number(value).toLocaleString();
 };
 
-const PercentResponseTooltip = ({ active, payload, label }) => {
+const PercentResponseTooltip = ({ active, payload, label, highlightLabels = [] }) => {
   if (!active || !payload || payload.length === 0) return null;
 
   const datum = payload?.[0]?.payload;
   const totalN = datum?.total;
+  const isHighlighted = highlightLabels.includes(datum?.name);
 
   const rows = payload
-    .map((p) => ({
-      key: p.dataKey,
-      category: p.dataKey,
-      percentValue: p.value,
-      countValue: datum?.[`${p.dataKey}__count`],
-      color: p.color
-    }))
+    .map((p) => {
+      let cellColor = p.color;
+      if (isHighlighted) {
+        if (p.dataKey === "Yes") cellColor = "#DC2626"; // Red
+        else if (p.dataKey === "No") cellColor = "#16A34A"; // Green
+        else if (p.dataKey === "Maybe") cellColor = "#F59E0B"; // Orange
+      }
+      return {
+        key: p.dataKey,
+        category: p.dataKey,
+        percentValue: p.value,
+        countValue: datum?.[`${p.dataKey}__count`],
+        color: cellColor
+      };
+    })
     .sort(
       (a, b) =>
         RESPONSE_ORDER.indexOf(a.category) -
@@ -174,16 +184,22 @@ const HorizontalStackedResponseChart = ({
           tickLine={{ stroke: CHART_COLORS.grid }}
         />
 
-        <Tooltip content={<PercentResponseTooltip />} />
+        <Tooltip content={<PercentResponseTooltip highlightLabels={highlightLabels} />} />
 
         <Legend
           wrapperStyle={{ paddingTop: "10px", fontSize: "12px" }}
           onClick={(e) => {
             const value = e?.value;
             setHiddenLevels((prev) => {
-              const next = new Set(prev);
-              next.has(value) ? next.delete(value) : next.add(value);
-              return next;
+              const responseLevels = ["Yes", "Maybe", "No"];
+              const isIsolated = prev.size === responseLevels.length - 1 && !prev.has(value);
+              if (isIsolated) {
+                return new Set();
+              } else {
+                const next = new Set(responseLevels);
+                next.delete(value);
+                return next;
+              }
             });
           }}
         />
@@ -197,13 +213,22 @@ const HorizontalStackedResponseChart = ({
               level === "Yes"
                 ? "#16A34A"
                 : level === "Maybe"
-                ? "#F59E0B"
-                : "#DC2626"
+                  ? "#F59E0B"
+                  : "#DC2626"
             }
             hide={hiddenLevels.has(level)}
             opacity={1}
             animationDuration={700}
-          />
+          >
+            {data.map((entry, index) => {
+              const isHighlight = highlightLabels.includes(entry.name);
+              let cellColor = level === "Yes" ? "#16A34A" : level === "Maybe" ? "#F59E0B" : "#DC2626";
+              if (isHighlight) {
+                cellColor = level === "Yes" ? "#DC2626" : level === "Maybe" ? "#F59E0B" : "#16A34A";
+              }
+              return <Cell key={`cell-${index}`} fill={cellColor} />;
+            })}
+          </Bar>
         ))}
       </BarChart>
     </ResponsiveContainer>

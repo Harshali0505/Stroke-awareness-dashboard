@@ -1,38 +1,24 @@
 [
   {
-    "age": "0-15",
-    "category": "Low Awareness",
-    "count": 6,
-    "total": 8,
-    "percentage": 75.0
-  },
-  {
-    "age": "0-15",
-    "category": "Moderate Awareness",
-    "count": 2,
-    "total": 8,
-    "percentage": 25.0
-  },
-  {
-    "age": "15-25",
+    "age": "0-25",
     "category": "High Awareness",
     "count": 26,
-    "total": 1539,
-    "percentage": 1.69
+    "total": 1547,
+    "percentage": 1.68
   },
   {
-    "age": "15-25",
+    "age": "0-25",
     "category": "Low Awareness",
-    "count": 1038,
-    "total": 1539,
-    "percentage": 67.45
+    "count": 1044,
+    "total": 1547,
+    "percentage": 67.49
   },
   {
-    "age": "15-25",
+    "age": "0-25",
     "category": "Moderate Awareness",
-    "count": 475,
-    "total": 1539,
-    "percentage": 30.86
+    "count": 477,
+    "total": 1547,
+    "percentage": 30.83
   },
   {
     "age": "26-40",

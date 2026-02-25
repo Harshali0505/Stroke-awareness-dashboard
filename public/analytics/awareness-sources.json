@@ -1,52 +1,32 @@
 [
   {
-    "source": "etc.)",
-    "count": 2462,
-    "percentage": 19.5
-  },
-  {
     "source": "healthcare provider",
     "count": 1849,
-    "percentage": 14.65
+    "percentage": 29.98
   },
   {
-    "source": "newspapers",
+    "source": "media (tv, radio, newspapers, etc.)",
     "count": 1532,
-    "percentage": 12.14
+    "percentage": 24.84
   },
   {
-    "source": "media (tv",
-    "count": 1532,
-    "percentage": 12.14
-  },
-  {
-    "source": "radio",
-    "count": 1532,
-    "percentage": 12.14
-  },
-  {
-    "source": "educational materials (brochures",
+    "source": "educational materials (brochures, websites, etc.)",
     "count": 930,
-    "percentage": 7.37
-  },
-  {
-    "source": "websites",
-    "count": 930,
-    "percentage": 7.37
+    "percentage": 15.08
   },
   {
     "source": "family/friends",
     "count": 669,
-    "percentage": 5.3
+    "percentage": 10.85
   },
   {
     "source": "not aware",
     "count": 623,
-    "percentage": 4.94
+    "percentage": 10.1
   },
   {
     "source": "other",
     "count": 565,
-    "percentage": 4.48
+    "percentage": 9.16
   }
 ]

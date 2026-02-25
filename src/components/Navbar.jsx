@@ -38,15 +38,12 @@ const Navbar = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
   const isActive = (path) => location.pathname === path;
 
   const navItems = [
-    { path: '/', label: 'Overview', icon: <FiBarChart2 /> },
-    { path: '/demographics', label: 'Demographics', icon: <FiUsers /> },
-    { path: '/lifestyle', label: 'Lifestyle', icon: <FiActivity /> },
-    { path: '/symptoms', label: 'Symptoms', icon: <FiAlertTriangle /> },
-    { path: '/risk-factors', label: 'Risk Factors', icon: <FiAlertTriangle /> },
-    { path: '/emergency', label: 'Emergency', icon: <FiActivity /> },
-    { path: '/community', label: 'Community', icon: <FiInfo /> },
-    { path: '/insights', label: 'Insights', icon: <FiBarChart2 /> },
-    { path: '/about', label: 'About', icon: <FiInfo /> }
+    { path: '/', label: '1. Overview', icon: <FiBarChart2 /> },
+    { path: '/demographics', label: '2. Demographics', icon: <FiUsers /> },
+    { path: '/lifestyle', label: '3. Lifestyle Risks', icon: <FiActivity /> },
+    { path: '/knowledge-gap', label: '4. Knowledge Gap', icon: <FiAlertTriangle /> },
+    { path: '/emergency', label: '5. Emergency', icon: <FiActivity /> },
+    { path: '/community', label: '6. Awareness Sources', icon: <FiInfo /> }
   ];
 
   const handleNavClick = () => {

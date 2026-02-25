@@ -2,76 +2,61 @@
   {
     "risk": "smoking_or_tobacco",
     "count": 3186,
-    "percentage": 11.85
+    "percentage": 51.65
   },
   {
     "risk": "high_cholesterol",
     "count": 3012,
-    "percentage": 11.2
+    "percentage": 48.83
   },
   {
     "risk": "hypertension",
     "count": 2983,
-    "percentage": 11.09
+    "percentage": 48.36
   },
   {
     "risk": "diabetes",
     "count": 2977,
-    "percentage": 11.07
+    "percentage": 48.27
   },
   {
     "risk": "obesity_or_physical_inactivity",
     "count": 2914,
-    "percentage": 10.84
+    "percentage": 47.24
   },
   {
     "risk": "family_history_or_genetics",
     "count": 2359,
-    "percentage": 8.77
+    "percentage": 38.25
   },
   {
     "risk": "heart_disease_or_af",
     "count": 1998,
-    "percentage": 7.43
-  },
-  {
-    "risk": "no_response",
-    "count": 1977,
-    "percentage": 7.35
+    "percentage": 32.39
   },
   {
     "risk": "age",
     "count": 1902,
-    "percentage": 7.07
+    "percentage": 30.84
   },
   {
     "risk": "alcohol_or_drug_use",
     "count": 1789,
-    "percentage": 6.65
+    "percentage": 29.0
   },
   {
     "risk": "gender",
     "count": 700,
-    "percentage": 2.6
+    "percentage": 11.35
   },
   {
     "risk": "unhealthy_diet",
     "count": 661,
-    "percentage": 2.46
+    "percentage": 10.72
   },
   {
     "risk": "previous_stroke_or_tia",
     "count": 240,
-    "percentage": 0.89
-  },
-  {
-    "risk": "other",
-    "count": 149,
-    "percentage": 0.55
-  },
-  {
-    "risk": "unaware",
-    "count": 47,
-    "percentage": 0.17
+    "percentage": 3.89
   }
 ]

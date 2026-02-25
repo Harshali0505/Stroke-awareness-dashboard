@@ -25,7 +25,7 @@ const formatCount = (value) => {
   return Number(value).toLocaleString();
 };
 
-const PercentAwarenessTooltip = ({ active, payload, label }) => {
+const PercentAwarenessTooltip = ({ active, payload, label, isolatedLevel, totalIsolated }) => {
   if (!active || !payload || payload.length === 0) return null;
 
   const datum = payload?.[0]?.payload;
@@ -65,7 +65,11 @@ const PercentAwarenessTooltip = ({ active, payload, label }) => {
         </div>
       )}
 
-      {totalN !== undefined && (
+      {isolatedLevel && totalIsolated !== undefined && totalIsolated !== null ? (
+        <div style={{ marginBottom: "8px" }}>
+          Share of total {isolatedLevel} ({formatCount(totalIsolated)})
+        </div>
+      ) : totalN !== undefined && (
         <div style={{ marginBottom: "8px" }}>
           Total N: <strong>{formatCount(totalN)}</strong>
         </div>
@@ -110,7 +114,6 @@ const StackedAwarenessChart = ({
   barSize = 18,
   widthScaling = 'standard',
   valueMode = 'count',
-  selectedCategory = null,
   onSelectCategory = null
 }) => {
   const [hiddenLevels, setHiddenLevels] = React.useState(() => new Set());
@@ -188,6 +191,35 @@ const StackedAwarenessChart = ({
     });
   }, [awarenessLevels]);
 
+  const isolatedLevel = React.useMemo(() => {
+    if (hiddenLevels.size === awarenessLevels.length - 1 && awarenessLevels.length > 1) {
+      return awarenessLevels.find(l => !hiddenLevels.has(l));
+    }
+    return null;
+  }, [hiddenLevels, awarenessLevels]);
+
+  const displayData = React.useMemo(() => {
+    if (!isolatedLevel || valueMode !== 'percent') return data;
+
+    // If we're isolating a specific column, its percentages should be relative to
+    // the sum of that column across all demographics in the current chart.
+    const totalIsolatedCount = data.reduce((sum, item) => sum + (item[`${isolatedLevel}__count`] || 0), 0);
+
+    return data.map(item => {
+      const count = item[`${isolatedLevel}__count`] || 0;
+      const pct = totalIsolatedCount > 0 ? (count / totalIsolatedCount) * 100 : 0;
+      return {
+        ...item,
+        [isolatedLevel]: pct
+      };
+    });
+  }, [data, isolatedLevel, valueMode]);
+
+  const totalIsolated = React.useMemo(() => {
+    if (!isolatedLevel || valueMode !== 'percent') return null;
+    return data.reduce((sum, item) => sum + (item[`${isolatedLevel}__count`] || 0), 0);
+  }, [data, isolatedLevel, valueMode]);
+
   // No data guard
   if (!data || data.length === 0) {
     return (
@@ -224,7 +256,7 @@ const StackedAwarenessChart = ({
 
       <ResponsiveContainer width="100%" height={height}>
         <BarChart
-          data={data}
+          data={displayData}
           barCategoryGap={spacing.barCategoryGap}
           barGap={spacing.barGap}
           maxBarSize={44}
@@ -278,7 +310,7 @@ const StackedAwarenessChart = ({
           <Tooltip
             content={
               valueMode === 'percent' ? (
-                <PercentAwarenessTooltip />
+                <PercentAwarenessTooltip isolatedLevel={isolatedLevel} totalIsolated={totalIsolated} />
               ) : (
                 <ChartTooltip />
               )
@@ -312,10 +344,16 @@ const StackedAwarenessChart = ({
                         onClick={() => {
                           if (!value) return;
                           setHiddenLevels((prev) => {
-                            const next = new Set(prev);
-                            if (next.has(value)) next.delete(value);
-                            else next.add(value);
-                            return next;
+                            const isIsolated = prev.size === awarenessLevels.length - 1 && !prev.has(value);
+                            if (isIsolated) {
+                              // If it's already the only one showing, restore all
+                              return new Set();
+                            } else {
+                              // Hide everything EXCEPT the clicked one
+                              const next = new Set(awarenessLevels);
+                              next.delete(value);
+                              return next;
+                            }
                           });
                         }}
                         style={{
