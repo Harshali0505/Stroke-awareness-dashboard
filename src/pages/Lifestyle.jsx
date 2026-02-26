@@ -104,7 +104,7 @@ const Lifestyle = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
 
   return (
     <PageContainer
-      title="3. Risk Meets Ignorance (Lifestyle & Health Risk)"
+      title="3. Correlating Lifestyle with Awareness"
       description="Showing the overlap between stroke risk factors and low awareness."
       isMobileMenuOpen={isMobileMenuOpen}
       setIsMobileMenuOpen={setIsMobileMenuOpen}
@@ -218,24 +218,24 @@ const Lifestyle = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
         title="Awareness vs Lifestyle Risk"
         helperText="Statistical testing shows no significant association between awareness and lifestyle risk."
       >
-        <ChartPanel
+        {/* <ChartPanel
           title="Comparison of Lifestyle Risk by Awareness Level"
           helperText="Visual comparison showing High Awareness does not equal better lifestyle habits."
           fullWidth
         >
           <PlaceholderChart title="Grouped Bar Chart" text="X: Awareness Level (High vs Low) | Y: % High Lifestyle Risk" height={380} />
-        </ChartPanel>
+        </ChartPanel> */}
         <div style={{
           marginTop: '16px',
           padding: '16px 24px',
           backgroundColor: '#ffffff',
           borderRadius: 'var(--radius)',
           boxShadow: 'var(--shadow-sm)',
-          borderLeft: '4px solid var(--warning)',
+          borderLeft: '4px solid var(--text-tertiary)',
           fontSize: '15px',
           color: 'var(--text-secondary)'
         }}>
-          <strong>Deep Insight:</strong> Statistical testing shows no significant association between awareness and lifestyle risk.
+          <strong>Statistical finding:</strong> Testing shows no significant association between awareness and lifestyle risk.
         </div>
       </Section>
     </PageContainer>

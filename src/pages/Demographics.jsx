@@ -115,7 +115,7 @@ const Demographics = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
 
   return (
     <PageContainer
-      title="2. Who Needs Help? (Demographics)"
+      title="2. Demograhics of our data"
       description="Identifying vulnerable demographic groups to target for awareness campaigns."
       isMobileMenuOpen={isMobileMenuOpen}
       setIsMobileMenuOpen={setIsMobileMenuOpen}
@@ -146,7 +146,7 @@ const Demographics = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
 
           <ChartPanel
             title="Gender × awareness level"
-            helperText="Both males and females reflect an identical distribution of low, medium, and high awareness."
+            helperText="Both males and females reflect an similar distribution of low, medium, and high awareness."
           >
             <StackedAwarenessChart
               data={stackedGenderData}
@@ -193,7 +193,7 @@ const Demographics = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
         helperText="Although urgency increases with age, proactive action does not significantly differ across age groups."
       >
         <div className="who-grid who-grid--two">
-          <ChartPanel
+          {/* <ChartPanel
             title="Proactive vs Passive Action by Age"
             helperText="Shows whether older people act more proactively."
           >
@@ -205,7 +205,7 @@ const Demographics = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
             helperText="Visual proof that perceived urgency of stroke increases with age."
           >
             <PlaceholderChart title="Line Chart" text="X: Age Groups | Y: Mean Urgency Score" height={360} />
-          </ChartPanel>
+          </ChartPanel> */}
         </div>
       </Section>
     </PageContainer>

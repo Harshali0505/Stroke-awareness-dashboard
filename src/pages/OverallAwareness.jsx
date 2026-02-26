@@ -33,7 +33,7 @@ const OverallAwareness = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
   ) {
     return (
       <PageContainer
-        title="1. Overview (The Awareness Problem)"
+        title="1. Overview-The Awareness Problem"
         description="Establishing context and showing the overall stroke awareness gap among survey participants."
         isMobileMenuOpen={isMobileMenuOpen}
         setIsMobileMenuOpen={setIsMobileMenuOpen}
@@ -45,7 +45,7 @@ const OverallAwareness = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
 
   return (
     <PageContainer
-      title="1. Overview (The Awareness Problem)"
+      title="1. Overview-The Awareness Problem"
       description="Establishing context and showing the overall stroke awareness gap among survey participants."
       isMobileMenuOpen={isMobileMenuOpen}
       setIsMobileMenuOpen={setIsMobileMenuOpen}
@@ -120,11 +120,11 @@ const OverallAwareness = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
               data={knowStrokeData}
               labelKey="response"
               valueKey="percentage"
-              innerRadius={50}
+              innerRadius={0}
               width={420}
               height={360}
               interaction="hover"
-              colors={["#0f766e", "#14b8a6", "#2dd4bf", "#99f6e4"]}
+              showOuterLabels={false}
             />
           </ChartPanel>
         </div>
@@ -132,7 +132,7 @@ const OverallAwareness = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
 
       <Section title="Why stroke awareness is critical?">
         <p style={{ margin: 0, lineHeight: 1.6, color: 'var(--text-secondary)' }}>
-          Brain stroke is a medical emergency requiring immediate action to prevent long-term disability or death. The data below shows a significant portion of the public lacks baseline knowledge of what a stroke is. This dashboard explores our survey data to identify who is most vulnerable and where awareness campaigns should focus.
+          Brain stroke is a medical emergency requiring immediate action to prevent long-term disability or death. The data shows a significant portion of the public lacks baseline knowledge of what a stroke is. This dashboard explores our survey data to identify who is most vulnerable and where awareness campaigns should focus.
         </p>
       </Section>
 
@@ -145,23 +145,19 @@ const OverallAwareness = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
       <Section title="Key Analytical Insights">
         <div className="who-kpi-row">
           <KpiCard
-            title="Warning"
+            title="Action Delay"
             value="42.5%"
-            subtitle="Aware individuals still delay action"
-            trend="down"
-            icon="🚨"
+            subtitle="of aware individuals fail to seek immediate help"
           />
           <KpiCard
-            title="No Link"
-            value="Zero"
-            subtitle="Awareness vs Lifestyle Risk"
-            icon="⚠️"
+            title="Lifestyle Risk"
+            value="Independent"
+            subtitle="Shows no correlation with awareness levels"
           />
           <KpiCard
-            title="Clusters"
+            title="Population Segments"
             value="4"
-            subtitle="Distinct behavioral population segments identified"
-            icon="👥"
+            subtitle="distinct profiles based on survey data"
           />
         </div>
       </Section>

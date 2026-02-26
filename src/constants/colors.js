@@ -12,13 +12,16 @@ export const getAwarenessColor = (level) => {
   switch (level?.toLowerCase()) {
     case 'low':
     case 'low awareness':
+    case 'no':
       return AWARENESS_COLORS.low;
     case 'moderate':
     case 'medium':
     case 'moderate awareness':
+    case 'maybe':
       return AWARENESS_COLORS.moderate;
     case 'high':
     case 'high awareness':
+    case 'yes':
       return AWARENESS_COLORS.high;
     default:
       return AWARENESS_COLORS.moderate;

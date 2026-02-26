@@ -5,6 +5,7 @@ import GenericBarChart from "../components/charts/GenericBarChart";
 import StackedAwarenessChart from "../components/charts/StackedAwarenessChart";
 import Section from "../components/Section";
 import ChartPanel from "../components/ChartPanel";
+import PlaceholderChart from "../components/charts/PlaceholderChart";
 import useChartSelection from "../hooks/useChartSelection";
 
 const Community = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
@@ -34,7 +35,7 @@ const Community = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
   if (sourcesLoading || sourcesStackedLoading) {
     return (
       <PageContainer
-        title="6. Sources of Awareness (Solution Direction)"
+        title="6. Sources of Awareness "
         description="If awareness is this low, how are we communicating? By mapping where people currently learn about stroke, we can identify which channels to upgrade."
         isMobileMenuOpen={isMobileMenuOpen}
         setIsMobileMenuOpen={setIsMobileMenuOpen}
@@ -46,14 +47,61 @@ const Community = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
 
   return (
     <PageContainer
-      title="6. Sources of Awareness (Solution Direction)"
+      title="6. Sources of Awareness"
       description="Identifying how people learn about stroke to guide future interventions."
       isMobileMenuOpen={isMobileMenuOpen}
       setIsMobileMenuOpen={setIsMobileMenuOpen}
     >
+      {/* <Section title="Behavioral Segments (Clustering)">
+        <p style={{ margin: 0, lineHeight: 1.6, color: 'var(--text-secondary)', marginBottom: '24px' }}>
+          Through statistical clustering, we identified four distinct behavioral population segments. 
+          Understanding these groups reveals crucial behavioral differences.
+        </p>
+
+        <div className="who-grid who-grid--two">
+          <ChartPanel
+            title="Cluster Distribution"
+            helperText="% population in each behavioral cluster."
+          >
+            <PlaceholderChart title="Pie Chart" text="Distribution of the 4 behavioral clusters" height={360} />
+          </ChartPanel>
+
+          <ChartPanel
+            title="Structural Behavioral Differences"
+            helperText="How each cluster scores across Awareness, Lifestyle Risk, Medical Risk, and Action."
+          >
+            <PlaceholderChart title="Heatmap" text="Rows: Cluster 0, 1, 2, 3 | Columns: Awareness, Lifestyle Risk, Medical Risk, Action" height={360} />
+          </ChartPanel>
+        </div>
+
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+          gap: '16px',
+          marginTop: '24px'
+        }}>
+          <div className="kpi-card" style={{ padding: '20px' }}>
+            <div style={{ fontSize: '12px', fontWeight: 600, color: 'var(--text-tertiary)', letterSpacing: '0.5px' }}>CLUSTER 0</div>
+            <div style={{ fontSize: '16px', fontWeight: 700, marginTop: '6px' }}>Mixed Behavior Profile</div>
+          </div>
+          <div className="kpi-card" style={{ padding: '20px' }}>
+            <div style={{ fontSize: '12px', fontWeight: 600, color: 'var(--text-tertiary)', letterSpacing: '0.5px' }}>CLUSTER 1</div>
+            <div style={{ fontSize: '16px', fontWeight: 700, marginTop: '6px' }}>Lifestyle Risk Dominant</div>
+          </div>
+          <div className="kpi-card" style={{ padding: '20px' }}>
+            <div style={{ fontSize: '12px', fontWeight: 600, color: 'var(--text-tertiary)', letterSpacing: '0.5px' }}>CLUSTER 2</div>
+            <div style={{ fontSize: '16px', fontWeight: 700, marginTop: '6px' }}>Low Awareness / Passive</div>
+          </div>
+          <div className="kpi-card" style={{ padding: '20px' }}>
+            <div style={{ fontSize: '12px', fontWeight: 600, color: 'var(--text-tertiary)', letterSpacing: '0.5px' }}>CLUSTER 3</div>
+            <div style={{ fontSize: '16px', fontWeight: 700, marginTop: '6px' }}>Aware / High Medical Risk</div>
+          </div>
+        </div>
+      </Section> */}
+
       <Section title="Improving awareness campaigns">
         <p style={{ margin: 0, lineHeight: 1.6, color: 'var(--text-secondary)' }}>
-          To close the dangerous knowledge gap, we must look at where people currently receive their medical information. By pinpointing which sources lead to the highest levels of awareness—and which sources are simply most popular—health professionals can better target their public awareness campaigns.
+          To bridge the dangerous knowledge gap, we must look at where people currently receive their medical information. By pinpointing which sources lead to the highest levels of awareness—and which sources are simply most popular—health professionals can better target their public awareness campaigns.
         </p>
       </Section>
 

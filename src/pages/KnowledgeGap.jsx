@@ -55,7 +55,7 @@ const KnowledgeGap = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
 
     return (
         <PageContainer
-            title="4. The Dangerous Knowledge Gap (Symptoms & Risks)"
+            title="4. The Dangerous Knowledge Gap - Symptoms & Risks"
             description="A stroke can look like a sudden headache or a silent loss of balance. These graphs expose the specific blind spots in the public's symptom and risk recognition."
             isMobileMenuOpen={isMobileMenuOpen}
             setIsMobileMenuOpen={setIsMobileMenuOpen}
@@ -63,15 +63,13 @@ const KnowledgeGap = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
             <Section title="The Awareness Paradox">
                 <div style={{ marginBottom: '24px' }}>
                     <KpiCard
-                        title="Critical Warning"
+                        title="The Action Gap"
                         value="42.5%"
-                        subtitle="of high-awareness individuals still delay medical action"
-                        icon="⚠️"
-                        trend="down"
+                        subtitle="of individuals with high symptom awareness still delay emergency response"
                     />
                 </div>
 
-                <div className="who-grid who-grid--two">
+                {/* <div className="who-grid who-grid--two">
                     <ChartPanel
                         title="Action by Symptom Awareness"
                         helperText="Breaking down whether knowing the symptoms actually leads to proactive emergency behavior."
@@ -85,12 +83,12 @@ const KnowledgeGap = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
                     >
                         <PlaceholderChart title="Donut Chart" text="High Awareness Group Only | 57.5% Proactive vs 42.5% Passive" height={360} />
                     </ChartPanel>
-                </div>
+                </div> */}
             </Section>
 
             <Section title="Why recognizing symptoms and risks matters">
                 <p style={{ margin: 0, lineHeight: 1.6, color: 'var(--text-secondary)' }}>
-                    Stroke treatment is incredibly time-sensitive as \"time is brain.\" If you don't instantly recognize signs like sudden weakness, speech problems, or vision loss, you cannot act. Even worse, many people fail to understand what underlying conditions (risk factors) actively cause them. The figures below detail exactly where our public knowledge dangerously drops off.
+                    Stroke treatment is incredibly time-sensitive as "time is brain" If you don't instantly recognize signs like sudden weakness, speech problems, or vision loss, you cannot act. Even worse, many people fail to understand what underlying conditions (risk factors) actively cause them. The figures below detail exactly where our public knowledge dangerously drops off.
                 </p>
             </Section>
 
@@ -113,7 +111,7 @@ const KnowledgeGap = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
                 <div className="who-grid who-grid--two" style={{ marginTop: '24px' }}>
                     <ChartPanel
                         title="Unprompted Symptom Recall Rate (%)"
-                        helperText="When asked to name symptoms off the top of their head, the results are deeply alarming. While vision and speech problems are somewhat known, critical symptoms like devastating headaches or loss of consciousness remain dangerously undocumented in the public mind."
+                        helperText="When asked to name symptoms , the results are deeply alarming. While vision and speech problems are somewhat known, critical symptoms like devastating headaches or loss of consciousness remain dangerously undocumented in the public mind."
                     >
                         <GenericBarChart
                             data={recallFrequency && recallFrequency.filter(item => item.symptom !== "no_recall_or_unclear").map(item => ({

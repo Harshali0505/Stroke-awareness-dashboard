@@ -5,6 +5,7 @@ import GenericBarChart from "../components/charts/GenericBarChart";
 import StackedAwarenessChart from "../components/charts/StackedAwarenessChart";
 import Section from "../components/Section";
 import ChartPanel from "../components/ChartPanel";
+import PlaceholderChart from "../components/charts/PlaceholderChart";
 import useChartSelection from "../hooks/useChartSelection";
 
 const Emergency = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
@@ -65,9 +66,29 @@ const Emergency = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
       isMobileMenuOpen={isMobileMenuOpen}
       setIsMobileMenuOpen={setIsMobileMenuOpen}
     >
+      {/* <Section title="Urgency vs Action Mismatch">
+        <ChartPanel
+          title="Urgency Score vs Action Taken"
+          helperText="Shows behavior vs perception mismatch. Higher urgency doesn't always lead to proactive action."
+          fullWidth
+        >
+          <PlaceholderChart title="Scatter Plot" text="X: Urgency Score | Y: Binary Action (0 = Passive, 1 = Proactive)" height={320} />
+        </ChartPanel>
+
+        <div style={{ marginTop: '24px' }}>
+          <ChartPanel
+            title="Distribution of Urgency by Action Type"
+            helperText="Do proactive people actually report higher urgency? Comparing the spread of urgency scores."
+            fullWidth
+          >
+            <PlaceholderChart title="Box Plot" text="Compare Urgency Score by Action Type (Passive vs Proactive)" height={320} />
+          </ChartPanel>
+        </div>
+      </Section> */}
+
       <Section title="The Golden Hour">
         <p style={{ margin: 0, lineHeight: 1.6, color: 'var(--text-secondary)' }}>
-          Every single minute matters in a stroke. Getting a clot-busting drug within the first hour of symptom onset drastically determines long-term disability or death. Rushing to a specialized hospital using emergency transport is critical. Reaching out to a general physician, resting, or \"waiting it out\" could waste this precious window. How well does our community understand this?
+          Every single minute matters in a stroke. Getting a clot-busting drug within the first hour of symptom onset drastically determines long-term disability or death. Rushing to a specialized hospital using emergency transport is critical. Reaching out to a general physician, resting, or waiting it out could waste this precious window. How well does our community understand this?
         </p>
       </Section>
 
@@ -170,7 +191,7 @@ const Emergency = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
 
           <ChartPanel
             title="How soon to consult a specialist"
-            helperText="Any delay is a mistake. However, many participants report they would stall their specialist consultation, giving the stroke a devastating head start."
+            helperText="Any delay is a mistake. However, many participants report they would seek specialist consultation, giving the stroke a devastating head start."
           >
             <GenericBarChart
               data={howSoonConsultData}
