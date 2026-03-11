@@ -303,17 +303,19 @@ const StackedAwarenessChart = ({
             tickFormatter={valueMode === 'percent' ? (value) => `${value}%` : undefined}
             axisLine={false}
             tickLine={false}
-            width={44}
+            width={56}
             label={{
               value: valueMode === 'percent' ? "Percentage" : "Participants",
               angle: -90,
               position: "insideLeft",
-              offset: 10,
+              offset: -2,
+              dx: -10,
               style: {
                 fill: CHART_COLORS.axis,
                 fontSize: 11,
                 fontWeight: 500,
-                fontFamily: 'Inter, sans-serif'
+                fontFamily: 'Inter, sans-serif',
+                textAnchor: 'middle'
               }
             }}
           />
@@ -404,15 +406,17 @@ const StackedAwarenessChart = ({
                       onClick={resetHiddenLevels}
                       style={{
                         marginLeft: '8px',
-                        border: '1px solid var(--border, rgba(148,163,184,0.25))',
-                        background: 'transparent',
+                        border: '1px solid var(--brand-primary)',
+                        background: 'var(--brand-primary)',
                         padding: '3px 10px',
                         borderRadius: '999px',
                         cursor: 'pointer',
                         fontSize: '11px',
+                        fontWeight: 600,
                         fontFamily: 'Inter, sans-serif',
-                        color: 'var(--text-tertiary, #94a3b8)',
-                        transition: 'all 0.2s ease'
+                        color: '#ffffff',
+                        transition: 'all 0.2s ease',
+                        boxShadow: '0 2px 4px rgba(15, 118, 110, 0.2)'
                       }}
                     >
                       Reset
@@ -444,6 +448,15 @@ const StackedAwarenessChart = ({
           })}
         </BarChart>
       </ResponsiveContainer>
+      <p style={{
+        marginTop: '-4px',
+        fontSize: '11px',
+        color: 'var(--text-tertiary, #94a3b8)',
+        textAlign: 'center',
+        lineHeight: 1.4
+      }}>
+        <strong>Tip:</strong> Click a label above to view percentages specifically within that group.
+      </p>
     </div>
   );
 };

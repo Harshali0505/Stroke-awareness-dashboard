@@ -10,7 +10,8 @@ import {
   FiChevronsLeft,
   FiChevronsRight,
   FiSun,
-  FiMoon
+  FiMoon,
+  FiTarget
 } from 'react-icons/fi';
 import { useTheme } from '../App';
 
@@ -50,15 +51,43 @@ const Navbar = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
   const isActive = (path) =>
     location.pathname === path || (path === '/' && location.pathname === '/overview');
 
-  // Labels match the exact page h1 titles
+  // Navigation items — labels match the exact page titles
   const navItems = [
-    { path: '/', label: 'The Big Picture: Stroke Awareness', icon: <FiBarChart2 /> },
-    { path: '/demographics', label: 'Demographic Awareness Distribution', icon: <FiUsers /> },
-    { path: '/lifestyle', label: 'Risk Meets Ignorance (Lifestyle & Health Risk)', icon: <FiActivity /> },
-    { path: '/knowledge-gap', label: 'Knowledge Gaps and Misconceptions', icon: <FiAlertTriangle /> },
-    { path: '/emergency', label: 'Time-Critical Awareness', icon: <FiActivity /> },
-    { path: '/community', label: 'Communication Channels & Community Knowledge', icon: <FiInfo /> },
-    { path: '/personas', label: 'Behavioral Personas', icon: <FiUsers /> }
+    {
+      path: '/',
+      label: 'The Big Picture: Stroke Awareness',
+      icon: <FiBarChart2 />
+    },
+    {
+      path: '/demographics',
+      label: 'Demographic Awareness Distribution',
+      icon: <FiUsers />
+    },
+    {
+      path: '/lifestyle',
+      label: '3. Lifestyle Patterns',
+      icon: <FiActivity />
+    },
+    {
+      path: '/knowledge-gap',
+      label: 'Knowledge Gaps & Misconceptions',
+      icon: <FiAlertTriangle />
+    },
+    {
+      path: '/emergency',
+      label: 'Time-Critical Awareness',
+      icon: <FiZap />
+    },
+    {
+      path: '/community',
+      label: 'Communication Channels & Community Knowledge',
+      icon: <FiRadio />
+    },
+    {
+      path: '/personas',
+      label: 'Behavioral Personas',
+      icon: <FiTarget />
+    },
   ];
 
   const handleNavClick = () => setMobileOpen(false);
@@ -84,6 +113,7 @@ const Navbar = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
               <span className="brand-subtitle">Awareness Dashboard</span>
             </div>
           )}
+
 
           <button
             type="button"
@@ -120,35 +150,24 @@ const Navbar = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
                 <span className="nav-icon" aria-hidden="true">
                   {item.icon}
                 </span>
-                {/* Label shown in expanded state, hidden by CSS class in collapsed state */}
+                {/* Label shown in expanded state, hidden by CSS when collapsed */}
                 <span className="nav-label">{item.label}</span>
               </Link>
             );
           })}
         </nav>
-
-        {/* Spacer pushes theme toggle to bottom */}
-        <div style={{ flex: 1 }} />
-
-        {/* ——— Theme toggle ——— */}
-        <div className="sidebar-bottom">
-          <button
-            className="theme-toggle-btn"
-            onClick={toggleTheme}
-            title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-            style={{ width: '100%' }}
-            aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-          >
-            <span className="theme-toggle-icon">
-              {theme === 'dark' ? <FiSun size={14} /> : <FiMoon size={14} />}
-            </span>
-            {!isCollapsed && (
-              <span>{theme === 'dark' ? 'Light Mode' : 'Dark Mode'}</span>
-            )}
-          </button>
-        </div>
-
       </div>
+
+      {/* ——— Theme toggle floating button ——— */}
+      <button
+        type="button"
+        className="theme-toggle-floating"
+        onClick={toggleTheme}
+        title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+        aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+      >
+        {theme === 'dark' ? <FiSun size={20} /> : <FiMoon size={20} />}
+      </button>
     </nav>
   );
 };

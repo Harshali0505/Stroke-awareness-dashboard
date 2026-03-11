@@ -68,6 +68,7 @@ const OverallAwareness = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
             title="Total Participants"
             value={kpiData?.totalRespondents}
             subtitle="Total survey participants"
+            severity="neutral"
           />
 
           <KpiCard
@@ -78,6 +79,7 @@ const OverallAwareness = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
                 : '—'
             }
             subtitle="Limited stroke awareness"
+            severity="danger"
           />
 
           <KpiCard
@@ -88,6 +90,7 @@ const OverallAwareness = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
                 : '—'
             }
             subtitle="Partial stroke awareness"
+            severity="warning"
           />
 
           <KpiCard
@@ -98,6 +101,7 @@ const OverallAwareness = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
                 : '—'
             }
             subtitle="Good stroke awareness"
+            severity="success"
           />
 
         </div>
@@ -173,16 +177,19 @@ const OverallAwareness = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
             title="Awareness and Action Gap"
             value="42.5%"
             subtitle="of AWARE individuals fail to seek immediate help"
+            severity="none"
           />
           <KpiCard
             title="Awareness and Lifestyle Correlation"
             value="Independent"
             subtitle="No correlation found"
+            severity="none"
           />
           <KpiCard
             title="Population Segments"
             value="4"
             subtitle="distinct profiles can be derived from the given data"
+            severity="none"
           />
         </div>
       </Section>

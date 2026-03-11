@@ -6,9 +6,7 @@ import Lifestyle from './pages/Lifestyle';
 import KnowledgeGap from './pages/KnowledgeGap';
 import Emergency from './pages/Emergency';
 import Community from './pages/Community';
-import Insights from './pages/Insights';
 import Personas from './pages/Personas';
-import About from './pages/About';
 
 // ——— Theme Context ———
 export const ThemeContext = createContext({
@@ -71,6 +69,7 @@ function App() {
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
       <div className="app">
+
         {/* Mobile Menu Toggle */}
         {isMobile && (
           <button
@@ -90,21 +89,22 @@ function App() {
           />
         )}
 
-      <Router>
-        <Routes>
-          <Route path="/" element={<OverallAwareness isMobileMenuOpen={isMobileMenuOpen} setIsMobileMenuOpen={setIsMobileMenuOpen} />} />
-          <Route path="/overview" element={<OverallAwareness isMobileMenuOpen={isMobileMenuOpen} setIsMobileMenuOpen={setIsMobileMenuOpen} />} />
-          <Route path="/demographics" element={<Demographics isMobileMenuOpen={isMobileMenuOpen} setIsMobileMenuOpen={setIsMobileMenuOpen} />} />
-          <Route path="/lifestyle" element={<Lifestyle isMobileMenuOpen={isMobileMenuOpen} setIsMobileMenuOpen={setIsMobileMenuOpen} />} />
-          <Route path="/knowledge-gap" element={<KnowledgeGap isMobileMenuOpen={isMobileMenuOpen} setIsMobileMenuOpen={setIsMobileMenuOpen} />} />
-          <Route path="/emergency" element={<Emergency isMobileMenuOpen={isMobileMenuOpen} setIsMobileMenuOpen={setIsMobileMenuOpen} />} />
-          <Route path="/community" element={<Community isMobileMenuOpen={isMobileMenuOpen} setIsMobileMenuOpen={setIsMobileMenuOpen} />} />
-          <Route path="/insights" element={<Insights isMobileMenuOpen={isMobileMenuOpen} setIsMobileMenuOpen={setIsMobileMenuOpen} />} />
-          <Route path="/personas" element={<Personas isMobileMenuOpen={isMobileMenuOpen} setIsMobileMenuOpen={setIsMobileMenuOpen} />} />
-          <Route path="/about" element={<About isMobileMenuOpen={isMobileMenuOpen} setIsMobileMenuOpen={setIsMobileMenuOpen} />} />
-        </Routes>
-      </Router>
-    </div>
+        <Router>
+          <Routes>
+            {/* Core pages */}
+            <Route path="/"               element={<OverallAwareness {...sharedProps} />} />
+            <Route path="/overview"       element={<OverallAwareness {...sharedProps} />} />
+            <Route path="/demographics"   element={<Demographics     {...sharedProps} />} />
+            <Route path="/lifestyle"      element={<Lifestyle        {...sharedProps} />} />
+            <Route path="/knowledge-gap"  element={<KnowledgeGap    {...sharedProps} />} />
+            <Route path="/emergency"      element={<Emergency        {...sharedProps} />} />
+            <Route path="/community"      element={<Community        {...sharedProps} />} />
+            <Route path="/personas"       element={<Personas         {...sharedProps} />} />
+          </Routes>
+        </Router>
+
+      </div>
+    </ThemeContext.Provider>
   );
 }
 

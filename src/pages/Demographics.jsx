@@ -6,6 +6,7 @@ import Section from "../components/Section";
 import ChartPanel from "../components/ChartPanel";
 import PlaceholderChart from "../components/charts/PlaceholderChart";
 import useChartSelection from "../hooks/useChartSelection";
+import KeyInsight from "../components/KeyInsight";
 
 const Demographics = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
   // 🔹 Shared selection across all charts
@@ -122,12 +123,17 @@ const Demographics = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
     >
       <Section
         title="Overview"
-        helperText="Majority of the population lies in the low awareness category irrespective of their age, gender, education level and income, showing that no demographic group is adequately prepared."
-      />
+      >
+        <p style={{
+          margin: 0, lineHeight: 1.6, color: 'var(--text-secondary)', whiteSpace: 'pre-wrap'
+        }}>
+        Majority of the population lies in the low awareness category irrespective of their age, gender, education level and income, showing that no demographic group is adequately prepared.
+
+        </p>
+      </Section>
 
       <Section
         title="Awareness by demographic group"
-        helperText="Click on the buttons 'High', 'Medium' or 'Low' to highlight the population percentage in that category for a graph. Click on reset to view the complete graph."
       >
         <div className="who-grid who-grid--two">
           <ChartPanel
@@ -143,10 +149,10 @@ const Demographics = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
                 selectedCategory={selected}
                 onSelectCategory={onSelect}
               />
-              <p style={{ marginTop: '1rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+              <KeyInsight>
                 The low awareness portion for each age group is seen to be the highest,
                 showing that not a single age group is adequately aware of stroke.
-              </p>
+              </KeyInsight>
             </div>
           </ChartPanel>
 
@@ -164,10 +170,10 @@ const Demographics = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
                 selectedCategory={selected}
                 onSelectCategory={onSelect}
               />
-              <p style={{ marginTop: '1rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+              <KeyInsight>
                 The low awareness portion for each gender is seen to be the highest,
                 showing that gender is not a factor of influence for awareness of stroke.
-              </p>
+              </KeyInsight>
             </div>
           </ChartPanel>
 
@@ -185,10 +191,10 @@ const Demographics = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
                 selectedCategory={selected}
                 onSelectCategory={onSelect}
               />
-              <p style={{ marginTop: '1rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+              <KeyInsight>
                 The low awareness portion for each education level is seen to be the highest,
                 showing that high education does not account for lack of awareness about stroke.
-              </p>
+              </KeyInsight>
             </div>
           </ChartPanel>
 
@@ -206,10 +212,10 @@ const Demographics = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
                 selectedCategory={selected}
                 onSelectCategory={onSelect}
               />
-              <p style={{ marginTop: '1rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+              <KeyInsight>
                 The low awareness portion for each income level is seen to be the highest,
                 showing that even those with higher income do not have a good awareness of stroke.
-              </p>
+              </KeyInsight>
             </div>
           </ChartPanel>
         </div>

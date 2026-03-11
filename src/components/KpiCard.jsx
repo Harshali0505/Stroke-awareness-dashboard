@@ -1,7 +1,14 @@
 import React from 'react';
-import { AWARENESS_COLORS } from '../constants/colors';
 
-const KPICard = ({ title, value, subtitle, trend, icon }) => {
+/**
+ * KpiCard — color-coded by severity.
+ *
+ * severity: 'danger'  → red  (low awareness / bad metric)
+ *           'warning' → amber (medium / caution)
+ *           'success' → green (high awareness / good metric)
+ *           'neutral' → teal (informational, default)
+ */
+const KpiCard = ({ title, value, subtitle, trend, icon, severity = 'neutral' }) => {
   const getTrendColor = (t) => {
     if (t === 'up')   return 'var(--color-success)';
     if (t === 'down') return 'var(--color-danger)';
@@ -20,8 +27,24 @@ const KPICard = ({ title, value, subtitle, trend, icon }) => {
     return '';
   };
 
+  const badgeLabel = {
+    danger:  '● Critical',
+    warning: '● Moderate',
+    success: '● Good',
+    neutral: '● Total',
+  }[severity] ?? '';
+
+  const cardClass = `kpi-card${severity !== 'neutral' ? ` kpi-card--${severity}` : ''}`;
+
   return (
-    <div className="kpi-card">
+    <div className={cardClass}>
+      {/* Severity badge */}
+      {badgeLabel && (
+        <div className={`kpi-severity-badge kpi-severity-badge--${severity}`}>
+          {badgeLabel}
+        </div>
+      )}
+
       {/* Icon */}
       {icon && (
         <div className="kpi-icon-wrap" aria-hidden="true">
@@ -55,4 +78,4 @@ const KPICard = ({ title, value, subtitle, trend, icon }) => {
   );
 };
 
-export default KPICard;
+export default KpiCard;

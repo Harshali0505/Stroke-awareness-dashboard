@@ -2,6 +2,7 @@ import React from "react";
 import {
   ComposedChart,
   Bar,
+  Cell,
   Line,
   XAxis,
   YAxis,
@@ -19,7 +20,8 @@ const GenericHistogram = ({
   valueKey = "count",
   referenceLines = [],
   showTrendLine = true,
-  height = 350
+  height = 350,
+  barColor = CHART_COLORS.neutral,
 }) => {
   const trendData = React.useMemo(() => {
     if (!showTrendLine || !Array.isArray(data)) return null;
@@ -82,7 +84,14 @@ const GenericHistogram = ({
               />
             ))}
 
-        <Bar dataKey={valueKey} fill={CHART_COLORS.neutral} radius={[4, 4, 0, 0]} maxBarSize={36} />
+        <Bar dataKey={valueKey} radius={[3, 3, 0, 0]} maxBarSize={48}>
+          {Array.isArray(data) && data.map((_, index) => (
+            <Cell
+              key={index}
+              fill={barColor}
+            />
+          ))}
+        </Bar>
         {showTrendLine && (
           <Line
             type="monotone"
