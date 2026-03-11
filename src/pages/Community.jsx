@@ -35,8 +35,8 @@ const Community = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
   if (sourcesLoading || sourcesStackedLoading) {
     return (
       <PageContainer
-        title="6. Sources of Awareness "
-        description="If awareness is this low, how are we communicating? By mapping where people currently learn about stroke, we can identify which channels to upgrade."
+        title="Communication Channels & Community Knowledge"
+        description="Mapping where individuals acquire stroke education to optimize public health messaging."
         isMobileMenuOpen={isMobileMenuOpen}
         setIsMobileMenuOpen={setIsMobileMenuOpen}
       >
@@ -47,8 +47,8 @@ const Community = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
 
   return (
     <PageContainer
-      title="6. Sources of Awareness"
-      description="Identifying how people learn about stroke to guide future interventions."
+      title="Communication Channels & Community Knowledge"
+      description="Mapping where individuals acquire stroke education to optimize public health messaging."
       isMobileMenuOpen={isMobileMenuOpen}
       setIsMobileMenuOpen={setIsMobileMenuOpen}
     >
@@ -111,27 +111,37 @@ const Community = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
             title="Stroke knowledge sources"
             helperText="What is the loudest voice in the room? This graph ranks the top channels where our community actually reports receiving stroke education."
           >
-            <GenericBarChart
-              data={sourcesData}
-              xKey="source"
-              valueKey="percentage"
-              layout="vertical"
-              height={350}
-            />
+            <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
+              <GenericBarChart
+                data={sourcesData}
+                xKey="source"
+                valueKey="percentage"
+                layout="vertical"
+                height={350}
+              />
+              <p style={{ marginTop: '1rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+                Identifying the most common sources of information helps in tailoring more effective communication strategies for stroke awareness.
+              </p>
+            </div>
           </ChartPanel>
 
           <ChartPanel
             title="Source effectiveness"
             helperText="Not all sources are equal. Notice how some information channels correlate strongly with low awareness, suggesting that the material taught there is ineffective."
           >
-            <StackedAwarenessChart
-              data={stackedSourcesList}
-              height={410}
-              barSize={20}
-              valueMode="percent"
-              selectedCategory={selected}
-              onSelectCategory={onSelect}
-            />
+            <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
+              <StackedAwarenessChart
+                data={stackedSourcesList}
+                height={410}
+                barSize={20}
+                valueMode="percent"
+                selectedCategory={selected}
+                onSelectCategory={onSelect}
+              />
+              <p style={{ marginTop: '1rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+                The effectiveness of information sources varies significantly, with some traditional channels struggling to impart high levels of awareness.
+              </p>
+            </div>
           </ChartPanel>
         </div>
       </Section>

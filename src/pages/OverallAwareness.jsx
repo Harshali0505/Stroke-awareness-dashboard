@@ -33,8 +33,11 @@ const OverallAwareness = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
   ) {
     return (
       <PageContainer
-        title="1. Overview-The Awareness Problem"
-        description="Establishing context and showing the overall stroke awareness gap among survey participants."
+        title="The Big Picture: Stroke Awareness"
+        description={
+          <>
+            This section presents a consolidated overview of stroke awareness levels across the surveyed population. It highlights overall knowledge distribution, self-reported familiarity, and readiness indicators to establish a baseline understanding.          </>
+        }
         isMobileMenuOpen={isMobileMenuOpen}
         setIsMobileMenuOpen={setIsMobileMenuOpen}
       >
@@ -45,12 +48,21 @@ const OverallAwareness = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
 
   return (
     <PageContainer
-      title="1. Overview-The Awareness Problem"
-      description="Establishing context and showing the overall stroke awareness gap among survey participants."
+      title="The Big Picture: Stroke Awareness"
+      description={
+        <>
+          This section presents a consolidated overview of stroke awareness levels across the surveyed population. It highlights overall knowledge distribution, self-reported familiarity, and readiness indicators to establish a baseline understanding.
+        </>
+      }
       isMobileMenuOpen={isMobileMenuOpen}
       setIsMobileMenuOpen={setIsMobileMenuOpen}
     >
       <Section title="Key indicators">
+        <p style={{
+          margin: 0, lineHeight: 1.6, color: 'var(--text-secondary)', whiteSpace: 'pre-wrap'
+        }}>
+          The awareness is judged across factors like knowledge of stroke, risk factors, symptoms, and emergency response. A huge section of the respondents have low awareness about stroke and only a select few have high awareness, indicating substantial room for public health improvement.
+        </p>
         <div className="who-kpi-row">
           <KpiCard
             title="Total Participants"
@@ -59,7 +71,7 @@ const OverallAwareness = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
           />
 
           <KpiCard
-            title="Low Awareness %"
+            title="Percentage of people with low awareness"
             value={
               typeof kpiData?.lowPercent === 'number'
                 ? `${kpiData.lowPercent}%`
@@ -69,7 +81,7 @@ const OverallAwareness = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
           />
 
           <KpiCard
-            title="Medium Awareness %"
+            title="Percentage of people with medium awareness"
             value={
               typeof kpiData?.moderatePercent === 'number'
                 ? `${kpiData.moderatePercent}%`
@@ -79,7 +91,7 @@ const OverallAwareness = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
           />
 
           <KpiCard
-            title="High Awareness %"
+            title="Percentage of people with high awareness"
             value={
               typeof kpiData?.highPercent === 'number'
                 ? `${kpiData.highPercent}%`
@@ -92,7 +104,7 @@ const OverallAwareness = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
       </Section>
 
       <Section
-        title="Distributions"
+        title="Awareness Distribution"
         helperText="Hover over a category to see participant count and share."
       >
         <div className="who-grid who-grid--two">
@@ -128,36 +140,49 @@ const OverallAwareness = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
             />
           </ChartPanel>
         </div>
+        <br></br>
+        <p style={{
+          margin: 0, lineHeight: 1.6, color: 'var(--text-secondary)', whiteSpace: 'pre-wrap'
+        }}>
+          The gap between the percieved awareness and the actual awareness is a cause for concern. It indicates that there is a disconnect between what people know and what they actually understand about stroke. This gap suggests that there is a need for better education and awareness campaigns to bridge this gap and improve public understanding of stroke.
+        </p>
       </Section>
 
       <Section title="Why stroke awareness is critical?">
-        <p style={{ margin: 0, lineHeight: 1.6, color: 'var(--text-secondary)' }}>
-          Brain stroke is a medical emergency requiring immediate action to prevent long-term disability or death. The data shows a significant portion of the public lacks baseline knowledge of what a stroke is. This dashboard explores our survey data to identify who is most vulnerable and where awareness campaigns should focus.
-        </p>
+        <p style={{
+          margin: 0, lineHeight: 1.6, color: 'var(--text-secondary)', whiteSpace: 'pre-wrap'
+        }}>
+          Stroke outcomes are highly time-sensitive. Early recognition and immediate medical response significantly improve survival and recovery rates. Awareness directly influences response time, making public knowledge a critical determinant of health outcomes.        </p>
       </Section>
 
       <Section title="Explore deeper">
-        <p style={{ margin: 0, lineHeight: 1.6, color: 'var(--text-secondary)' }}>
-          The following pages break down this data to form a comprehensive view: identifying who needs the most help, how lifestyle choices corelate with awareness, specific public knowledge gaps regarding symptoms, and emergency actions.
-        </p>
+        <div style={{ margin: 0, lineHeight: 1.6, color: 'var(--text-secondary)' }}>
+          Subsequent sections examine demographic variation, lifestyle associations, symptom recognition accuracy, and identified knowledge gaps to provide a multidimensional analysis.          <ul>
+            <li>the knowledge of stroke with respect to their demographic details</li>
+            <li>how awareness and lifestyle choices correlate (if they do at all)</li>
+            <li>knowledge gaps with respect to symptoms and risk factors</li>
+            <li>awareness and action gap</li>
+            <li>what is the source of knowledge</li>
+          </ul>
+        </div>
       </Section>
 
       <Section title="Key Analytical Insights">
         <div className="who-kpi-row">
           <KpiCard
-            title="Action Delay"
+            title="Awareness and Action Gap"
             value="42.5%"
-            subtitle="of aware individuals fail to seek immediate help"
+            subtitle="of AWARE individuals fail to seek immediate help"
           />
           <KpiCard
-            title="Lifestyle Risk"
+            title="Awareness and Lifestyle Correlation"
             value="Independent"
-            subtitle="Shows no correlation with awareness levels"
+            subtitle="No correlation found"
           />
           <KpiCard
             title="Population Segments"
             value="4"
-            subtitle="distinct profiles based on survey data"
+            subtitle="distinct profiles can be derived from the given data"
           />
         </div>
       </Section>

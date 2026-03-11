@@ -103,8 +103,8 @@ const Demographics = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
   if (ageLoading || genderLoading || educationLoading || incomeLoading) {
     return (
       <PageContainer
-        title="2. Who Needs Help? (Demographics)"
-        description="Identifying vulnerable demographic groups to target for awareness campaigns."
+        title="Demographic Awareness Distribution"
+        description="Analyzing how background factors like age, gender, and education influence stroke literacy."
         isMobileMenuOpen={isMobileMenuOpen}
         setIsMobileMenuOpen={setIsMobileMenuOpen}
       >
@@ -115,97 +115,103 @@ const Demographics = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
 
   return (
     <PageContainer
-      title="2. Demograhics of our data"
-      description="Identifying vulnerable demographic groups to target for awareness campaigns."
+      title="Demographic Awareness Distribution"
+      description="Analyzing how background factors like age, gender, and education influence stroke literacy."
       isMobileMenuOpen={isMobileMenuOpen}
       setIsMobileMenuOpen={setIsMobileMenuOpen}
     >
       <Section
         title="Overview"
-        helperText="Low awareness is distributed remarkably evenly across age, gender, education, and income. No single demographic group is adequately prepared."
+        helperText="Majority of the population lies in the low awareness category irrespective of their age, gender, education level and income, showing that no demographic group is adequately prepared."
       />
 
       <Section
         title="Awareness by demographic group"
-        helperText="Click a category in any chart to highlight it across all breakdowns."
+        helperText="Click on the buttons 'High', 'Medium' or 'Low' to highlight the population percentage in that category for a graph. Click on reset to view the complete graph."
       >
         <div className="who-grid who-grid--two">
           <ChartPanel
             title="Age group × awareness level"
             helperText="Awareness deficits exist evenly across every single age bracket, showing the problem is widespread."
           >
-            <StackedAwarenessChart
-              data={stackedAgeData}
-              height={410}
-              barSize={22}
-              valueMode="percent"
-              selectedCategory={selected}
-              onSelectCategory={onSelect}
-            />
+            <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
+              <StackedAwarenessChart
+                data={stackedAgeData}
+                height={410}
+                barSize={22}
+                valueMode="percent"
+                selectedCategory={selected}
+                onSelectCategory={onSelect}
+              />
+              <p style={{ marginTop: '1rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+                The low awareness portion for each age group is seen to be the highest,
+                showing that not a single age group is adequately aware of stroke.
+              </p>
+            </div>
           </ChartPanel>
 
           <ChartPanel
             title="Gender × awareness level"
             helperText="Both males and females reflect an similar distribution of low, medium, and high awareness."
           >
-            <StackedAwarenessChart
-              data={stackedGenderData}
-              height={410}
-              barSize={28}
-              valueMode="percent"
-              selectedCategory={selected}
-              onSelectCategory={onSelect}
-            />
+            <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
+
+              <StackedAwarenessChart
+                data={stackedGenderData}
+                height={410}
+                barSize={28}
+                valueMode="percent"
+                selectedCategory={selected}
+                onSelectCategory={onSelect}
+              />
+              <p style={{ marginTop: '1rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+                The low awareness portion for each gender is seen to be the highest,
+                showing that gender is not a factor of influence for awareness of stroke.
+              </p>
+            </div>
           </ChartPanel>
 
           <ChartPanel
             title="Education × awareness level"
-            helperText="Surprisingly, higher education does not correlate strongly with health literacy. The majority of graduates still fall into the lowest awareness bracket."
+            helperText="Higher education does not correlate strongly with health literacy. The majority of graduates still fall into the lowest awareness bracket."
           >
-            <StackedAwarenessChart
-              data={stackedEducationData}
-              height={410}
-              barSize={22}
-              valueMode="percent"
-              selectedCategory={selected}
-              onSelectCategory={onSelect}
-            />
+            <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
+
+              <StackedAwarenessChart
+                data={stackedEducationData}
+                height={410}
+                barSize={22}
+                valueMode="percent"
+                selectedCategory={selected}
+                onSelectCategory={onSelect}
+              />
+              <p style={{ marginTop: '1rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+                The low awareness portion for each education level is seen to be the highest,
+                showing that high education does not account for lack of awareness about stroke.
+              </p>
+            </div>
           </ChartPanel>
 
           <ChartPanel
             title="Income × awareness level"
             helperText="Regardless of reported salary, stroke awareness remains consistently low across all economic groups."
           >
-            <StackedAwarenessChart
-              data={stackedIncomeData}
-              height={410}
-              barSize={20}
-              valueMode="percent"
-              selectedCategory={selected}
-              onSelectCategory={onSelect}
-            />
-          </ChartPanel>
-        </div>
-      </Section>
+            <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
 
-      <Section
-        title="Action & Urgency Across Ages"
-        helperText="Although urgency increases with age, proactive action does not significantly differ across age groups."
-      >
-        <div className="who-grid who-grid--two">
-          {/* <ChartPanel
-            title="Proactive vs Passive Action by Age"
-            helperText="Shows whether older people act more proactively."
-          >
-            <PlaceholderChart title="Stacked Bar Chart" text="X: Age Groups (18–25, 26–40, 41–60, 60+) | Y: Percentage | Split: Passive vs Proactive" height={360} />
+              <StackedAwarenessChart
+                data={stackedIncomeData}
+                height={410}
+                barSize={20}
+                valueMode="percent"
+                selectedCategory={selected}
+                onSelectCategory={onSelect}
+              />
+              <p style={{ marginTop: '1rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+                The low awareness portion for each income level is seen to be the highest,
+                showing that even those with higher income do not have a good awareness of stroke.
+              </p>
+            </div>
           </ChartPanel>
-
-          <ChartPanel
-            title="Mean Urgency Score by Age"
-            helperText="Visual proof that perceived urgency of stroke increases with age."
-          >
-            <PlaceholderChart title="Line Chart" text="X: Age Groups | Y: Mean Urgency Score" height={360} />
-          </ChartPanel> */}
         </div>
       </Section>
     </PageContainer>

@@ -62,23 +62,33 @@ const Home = () => {
       <Section title="Distributions">
         <div className="who-grid who-grid--two">
           <ChartPanel title="Awareness category distribution">
-            <GenericPieChart
-              data={awarenessData}
-              labelKey="label"
-              valueKey="percentage"
-              countkey="count"
-              innerRadius={70}
-            />
+            <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
+              <GenericPieChart
+                data={awarenessData}
+                labelKey="label"
+                valueKey="percentage"
+                countkey="count"
+                innerRadius={70}
+              />
+              <p style={{ marginTop: '1rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+                The majority of the population falls into the low awareness category, emphasizing the need for widespread education.
+              </p>
+            </div>
           </ChartPanel>
 
           <ChartPanel title="Awareness score distribution">
-            <GenericHistogram
-              data={scoreData}
-              xKey="score"
-              valueKey="count"
-              width={600}
-              height={300}
-            />
+            <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
+              <GenericHistogram
+                data={scoreData}
+                xKey="score"
+                valueKey="count"
+                width={600}
+                height={300}
+              />
+              <p style={{ marginTop: '1rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+                The distribution of awareness scores shows a significant lean towards lower knowledge levels across the surveyed group.
+              </p>
+            </div>
           </ChartPanel>
         </div>
       </Section>
