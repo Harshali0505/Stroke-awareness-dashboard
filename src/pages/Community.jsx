@@ -120,7 +120,7 @@ const Community = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
                 height={350}
               />
               <p style={{ marginTop: '1rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
-                Identifying the most common sources of information helps in tailoring more effective communication strategies for stroke awareness.
+                Identifying the most common sources of information helps in tailoring more effective communication strategies for stroke awareness. The majority of the respondents (29.98%) report receiving information from healthcare providers, which shows that people value legit sources of information.
               </p>
             </div>
           </ChartPanel>
@@ -139,7 +139,8 @@ const Community = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
                 onSelectCategory={onSelect}
               />
               <p style={{ marginTop: '1rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
-                The effectiveness of information sources varies significantly, with some traditional channels struggling to impart high levels of awareness.
+                The effectiveness of information sources varies significantly, with some traditional channels struggling to impart high levels of awareness. High awareness individuals are only seen to obtain information from healthcare providers, while the low awareness individuals are seen to obtain information from social media and news channels. Thus, we can say that healthcare providers can act as a reliable source of information.
+
               </p>
             </div>
           </ChartPanel>

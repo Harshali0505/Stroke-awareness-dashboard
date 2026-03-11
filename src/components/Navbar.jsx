@@ -52,36 +52,13 @@ const Navbar = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
 
   // Labels match the exact page h1 titles
   const navItems = [
-    {
-      path: '/',
-      label: 'The Big Picture: Stroke Awareness',
-      icon: <FiBarChart2 />
-    },
-    {
-      path: '/demographics',
-      label: 'Demographic Awareness Distribution',
-      icon: <FiUsers />
-    },
-    {
-      path: '/lifestyle',
-      label: '3. Lifestyle Patterns',
-      icon: <FiActivity />
-    },
-    {
-      path: '/knowledge-gap',
-      label: 'Knowledge Gaps & Misconceptions',
-      icon: <FiAlertTriangle />
-    },
-    {
-      path: '/emergency',
-      label: 'Time-Critical Awareness',
-      icon: <FiZap />
-    },
-    {
-      path: '/community',
-      label: 'Communication Channels & Community Knowledge',
-      icon: <FiRadio />
-    },
+    { path: '/', label: 'The Big Picture: Stroke Awareness', icon: <FiBarChart2 /> },
+    { path: '/demographics', label: 'Demographic Awareness Distribution', icon: <FiUsers /> },
+    { path: '/lifestyle', label: 'Risk Meets Ignorance (Lifestyle & Health Risk)', icon: <FiActivity /> },
+    { path: '/knowledge-gap', label: 'Knowledge Gaps and Misconceptions', icon: <FiAlertTriangle /> },
+    { path: '/emergency', label: 'Time-Critical Awareness', icon: <FiActivity /> },
+    { path: '/community', label: 'Communication Channels & Community Knowledge', icon: <FiInfo /> },
+    { path: '/personas', label: 'Behavioral Personas', icon: <FiUsers /> }
   ];
 
   const handleNavClick = () => setMobileOpen(false);

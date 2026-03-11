@@ -92,7 +92,7 @@ const Lifestyle = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
   ) {
     return (
       <PageContainer
-        title="3. Risk Meets Ignorance (Lifestyle & Health Risk)"
+        title="Risk Meets Ignorance (Lifestyle & Health Risk)"
         description="Showing the overlap between stroke risk factors and low awareness."
         isMobileMenuOpen={isMobileMenuOpen}
         setIsMobileMenuOpen={setIsMobileMenuOpen}
@@ -104,7 +104,7 @@ const Lifestyle = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
 
   return (
     <PageContainer
-      title="3. Lifestyle Patterns"
+      title="Risk Meets Ignorance (Lifestyle & Health Risk)"
       description="Showing the overlap between stroke risk factors and lifestyle choices with low awareness."
       isMobileMenuOpen={isMobileMenuOpen}
       setIsMobileMenuOpen={setIsMobileMenuOpen}
