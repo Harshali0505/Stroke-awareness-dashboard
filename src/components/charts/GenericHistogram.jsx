@@ -35,18 +35,30 @@ const GenericHistogram = ({
 
   return (
     <ResponsiveContainer width="100%" height={height}>
-      <ComposedChart data={trendData || data}>
-        <CartesianGrid strokeDasharray="3 3" stroke={CHART_COLORS.grid} />
+      <ComposedChart
+        data={trendData || data}
+        margin={{ top: 12, right: 16, left: 0, bottom: 8 }}
+      >
+        <CartesianGrid strokeDasharray="4 4" stroke={CHART_COLORS.grid} vertical={false} />
         <XAxis
           dataKey={xKey}
-          stroke={CHART_COLORS.axis}
+          stroke="transparent"
+          tick={{ fill: CHART_COLORS.axis, fontSize: 11, fontFamily: 'Inter, sans-serif' }}
+          tickLine={false}
+          axisLine={false}
           tickFormatter={(v) => {
             const n = Number(v);
             return Number.isFinite(n) ? String(Math.round(n)) : v;
           }}
         />
-        <YAxis stroke={CHART_COLORS.axis} />
-        <Tooltip content={<ChartTooltip />} />
+        <YAxis
+          stroke="transparent"
+          tick={{ fill: CHART_COLORS.axis, fontSize: 11, fontFamily: 'Inter, sans-serif' }}
+          tickLine={false}
+          axisLine={false}
+          width={40}
+        />
+        <Tooltip content={<ChartTooltip />} cursor={{ fill: 'rgba(148,163,184,0.08)' }} />
         {Array.isArray(referenceLines) &&
           referenceLines
             .filter((l) => l && typeof l.x === "number")
@@ -62,14 +74,15 @@ const GenericHistogram = ({
                       value: l.label,
                       fill: l.color || CHART_COLORS.axis,
                       position: "top",
-                      fontSize: 12
+                      fontSize: 11,
+                      fontFamily: 'Inter, sans-serif'
                     }
                     : undefined
                 }
               />
             ))}
 
-        <Bar dataKey={valueKey} fill={CHART_COLORS.neutral} />
+        <Bar dataKey={valueKey} fill={CHART_COLORS.neutral} radius={[4, 4, 0, 0]} maxBarSize={36} />
         {showTrendLine && (
           <Line
             type="monotone"

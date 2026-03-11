@@ -4,7 +4,6 @@ import {
   XAxis,
   YAxis,
   Tooltip,
-  Legend,
   CartesianGrid,
   Cell,
   ResponsiveContainer
@@ -30,28 +29,65 @@ const GenericBarChart = ({
 
   return (
     <ResponsiveContainer width="100%" height={height}>
-      <BarChart data={data} layout={layout} margin={{ top: 20, right: 30, left: 10, bottom: 5 }}>
-        <CartesianGrid strokeDasharray="3 3" stroke={CHART_COLORS.grid} />
+      <BarChart
+        data={data}
+        layout={layout}
+        margin={
+          layout === "vertical"
+            ? { top: 8, right: 36, left: 8, bottom: 8 }
+            : { top: 12, right: 24, left: 0, bottom: 8 }
+        }
+        barCategoryGap="30%"
+      >
+        <CartesianGrid
+          strokeDasharray="4 4"
+          stroke={CHART_COLORS.grid}
+          vertical={layout !== "vertical"}
+          horizontal={layout === "vertical"}
+        />
+
         <XAxis
           type={layout === "vertical" ? "number" : "category"}
           dataKey={layout === "vertical" ? undefined : xKey}
-          stroke={CHART_COLORS.axis}
+          stroke="transparent"
+          tick={{
+            fill: CHART_COLORS.axis,
+            fontSize: 11,
+            fontFamily: 'Inter, sans-serif'
+          }}
+          tickLine={false}
+          axisLine={false}
           interval={0}
-          tickFormatter={layout === "vertical" ? undefined : formatTick}
+          tickFormatter={layout === "vertical" ? (v) => `${v}%` : formatTick}
         />
+
         <YAxis
           type={layout === "vertical" ? "category" : "number"}
           dataKey={layout === "vertical" ? xKey : undefined}
-          stroke={CHART_COLORS.axis}
-          width={layout === "vertical" ? 180 : 60}
-          tick={layout === "vertical" ? { fontSize: 13, textAnchor: 'end' } : { fontSize: 13 }}
+          stroke="transparent"
+          width={layout === "vertical" ? 190 : 48}
+          tick={{
+            fill: CHART_COLORS.axis,
+            fontSize: 11,
+            fontFamily: 'Inter, sans-serif',
+            textAnchor: layout === "vertical" ? 'end' : 'middle'
+          }}
+          tickLine={false}
+          axisLine={false}
           interval={0}
           tickFormatter={layout === "vertical" ? formatTick : undefined}
         />
-        <Tooltip content={<ChartTooltip />} />
-        <Legend />
 
-        <Bar dataKey={valueKey}>
+        <Tooltip
+          content={<ChartTooltip />}
+          cursor={{ fill: 'rgba(148,163,184,0.08)' }}
+        />
+
+        <Bar
+          dataKey={valueKey}
+          radius={layout === "vertical" ? [0, 6, 6, 0] : [6, 6, 0, 0]}
+          maxBarSize={layout === "vertical" ? 22 : 40}
+        >
           {data.map((entry, index) => {
             const isActive =
               !selectedValue || entry[xKey] === selectedValue;
@@ -73,4 +109,3 @@ const GenericBarChart = ({
 };
 
 export default GenericBarChart;
-

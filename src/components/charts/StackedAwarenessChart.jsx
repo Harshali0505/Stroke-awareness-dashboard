@@ -49,29 +49,36 @@ const PercentAwarenessTooltip = ({ active, payload, label, isolatedLevel, totalI
   return (
     <div
       style={{
-        backgroundColor: "#fff",
-        border: `1px solid ${CHART_COLORS.grid}`,
-        borderRadius: "8px",
-        padding: "10px 12px",
-        fontSize: "13px",
-        color: CHART_COLORS.axis,
-        boxShadow: "0 8px 20px rgba(0,0,0,0.12)",
-        minWidth: "220px"
+        background: 'var(--tooltip-bg, #ffffff)',
+        border: '1px solid var(--tooltip-border, rgba(148,163,184,0.25))',
+        borderRadius: '10px',
+        padding: '10px 14px',
+        fontSize: '12px',
+        fontFamily: 'Inter, sans-serif',
+        color: 'var(--text-primary, #0f172a)',
+        boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
+        minWidth: '220px',
+        pointerEvents: 'none'
       }}
     >
       {label && (
-        <div style={{ fontWeight: 700, marginBottom: "8px" }}>
+        <div style={{
+          fontWeight: 700,
+          marginBottom: '8px',
+          paddingBottom: '6px',
+          borderBottom: '1px solid var(--border, rgba(148,163,184,0.15))'
+        }}>
           {label}
         </div>
       )}
 
       {isolatedLevel && totalIsolated !== undefined && totalIsolated !== null ? (
-        <div style={{ marginBottom: "8px" }}>
+        <div style={{ marginBottom: '8px', color: 'var(--text-secondary, #64748b)', fontSize: '11px' }}>
           Share of total {isolatedLevel} ({formatCount(totalIsolated)})
         </div>
       ) : totalN !== undefined && (
-        <div style={{ marginBottom: "8px" }}>
-          Total N: <strong>{formatCount(totalN)}</strong>
+        <div style={{ marginBottom: '8px', color: 'var(--text-secondary, #64748b)', fontSize: '11px' }}>
+          Total N: <strong style={{ color: 'var(--text-primary, #0f172a)' }}>{formatCount(totalN)}</strong>
         </div>
       )}
 
@@ -79,28 +86,28 @@ const PercentAwarenessTooltip = ({ active, payload, label, isolatedLevel, totalI
         <div
           key={row.key}
           style={{
-            display: "grid",
-            gridTemplateColumns: "12px 1fr auto",
-            columnGap: "8px",
-            alignItems: "start",
-            marginTop: "6px"
+            display: 'grid',
+            gridTemplateColumns: '10px 1fr auto',
+            columnGap: '8px',
+            alignItems: 'start',
+            marginTop: '6px'
           }}
         >
           <span
             style={{
-              width: "12px",
-              height: "12px",
-              borderRadius: "2px",
-              marginTop: "3px",
+              width: '10px',
+              height: '10px',
+              borderRadius: '2px',
+              marginTop: '3px',
               backgroundColor: row.color || getAwarenessColor(row.category)
             }}
           />
-          <span style={{ fontWeight: 600 }}>{row.category}</span>
-          <span style={{ fontWeight: 700 }}>{formatPercent(row.percentValue)}</span>
+          <span style={{ fontWeight: 600, color: 'var(--text-primary, #0f172a)' }}>{row.category}</span>
+          <span style={{ fontWeight: 700, color: 'var(--brand-primary, #0f766e)' }}>{formatPercent(row.percentValue)}</span>
 
           <span />
-          <span style={{ opacity: 0.9 }}>Count</span>
-          <span style={{ fontWeight: 600 }}>{formatCount(row.countValue)} participants</span>
+          <span style={{ opacity: 0.7, fontSize: '11px', color: 'var(--text-secondary, #64748b)' }}>Count</span>
+          <span style={{ fontWeight: 600, fontSize: '11px', color: 'var(--text-secondary, #64748b)' }}>{formatCount(row.countValue)} participants</span>
         </div>
       ))}
     </div>
@@ -263,7 +270,7 @@ const StackedAwarenessChart = ({
           margin={{ top: 10, right: 18, left: 10, bottom: 18 }}
         >
           <CartesianGrid
-            strokeDasharray="3 3"
+            strokeDasharray="4 4"
             stroke={CHART_COLORS.grid}
             vertical={false}
           />
@@ -274,34 +281,39 @@ const StackedAwarenessChart = ({
             height={42}
             tick={{
               fill: CHART_COLORS.axis,
-              fontSize: 12
+              fontSize: 11,
+              fontFamily: 'Inter, sans-serif'
             }}
             tickMargin={10}
             tickFormatter={(value) => {
               const s = String(value ?? "");
               return s.length > 14 ? `${s.slice(0, 14)}…` : s;
             }}
-            axisLine={{ stroke: CHART_COLORS.grid }}
-            tickLine={{ stroke: CHART_COLORS.grid }}
+            axisLine={false}
+            tickLine={false}
           />
 
           <YAxis
             domain={valueMode === 'percent' ? [0, 100] : undefined}
             tick={{
               fill: CHART_COLORS.axis,
-              fontSize: 12
+              fontSize: 11,
+              fontFamily: 'Inter, sans-serif'
             }}
             tickFormatter={valueMode === 'percent' ? (value) => `${value}%` : undefined}
-            axisLine={{ stroke: CHART_COLORS.grid }}
-            tickLine={{ stroke: CHART_COLORS.grid }}
+            axisLine={false}
+            tickLine={false}
+            width={44}
             label={{
               value: valueMode === 'percent' ? "Percentage" : "Participants",
               angle: -90,
               position: "insideLeft",
+              offset: 10,
               style: {
                 fill: CHART_COLORS.axis,
-                fontSize: 12,
-                fontWeight: 600
+                fontSize: 11,
+                fontWeight: 500,
+                fontFamily: 'Inter, sans-serif'
               }
             }}
           />
@@ -318,7 +330,7 @@ const StackedAwarenessChart = ({
           />
 
           <Legend
-            wrapperStyle={{ paddingTop: "10px", fontSize: "12px", lineHeight: 1.2 }}
+            wrapperStyle={{ paddingTop: '12px', fontSize: '11px' }}
             content={({ payload }) => {
               if (!payload || payload.length === 0) return null;
 
@@ -327,16 +339,17 @@ const StackedAwarenessChart = ({
               return (
                 <div
                   style={{
-                    display: "flex",
-                    flexWrap: "wrap",
-                    alignItems: "center",
-                    gap: "8px",
-                    color: CHART_COLORS.axis
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '6px'
                   }}
                 >
                   {payload.map((entry) => {
                     const value = entry?.value;
                     const isHidden = value ? hiddenLevels.has(value) : false;
+                    const color = getAwarenessColor(value);
                     return (
                       <button
                         key={String(value)}
@@ -346,10 +359,8 @@ const StackedAwarenessChart = ({
                           setHiddenLevels((prev) => {
                             const isIsolated = prev.size === awarenessLevels.length - 1 && !prev.has(value);
                             if (isIsolated) {
-                              // If it's already the only one showing, restore all
                               return new Set();
                             } else {
-                              // Hide everything EXCEPT the clicked one
                               const next = new Set(awarenessLevels);
                               next.delete(value);
                               return next;
@@ -357,25 +368,29 @@ const StackedAwarenessChart = ({
                           });
                         }}
                         style={{
-                          display: "inline-flex",
-                          alignItems: "center",
-                          gap: "6px",
-                          border: "none",
-                          background: "transparent",
-                          padding: 0,
-                          cursor: "pointer",
-                          color: CHART_COLORS.axis,
-                          fontSize: "12px",
-                          opacity: isHidden ? 0.45 : 1
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '5px',
+                          border: `1px solid ${isHidden ? 'rgba(148,163,184,0.2)' : color + '40'}`,
+                          background: isHidden ? 'transparent' : color + '15',
+                          padding: '3px 9px',
+                          borderRadius: '999px',
+                          cursor: 'pointer',
+                          color: isHidden ? 'var(--text-tertiary, #94a3b8)' : 'var(--text-secondary, #64748b)',
+                          fontSize: '11px',
+                          fontFamily: 'Inter, sans-serif',
+                          fontWeight: isHidden ? 400 : 500,
+                          transition: 'all 0.2s ease'
                         }}
                       >
                         <span
                           style={{
-                            display: "inline-block",
-                            width: "12px",
-                            height: "12px",
-                            backgroundColor: getAwarenessColor(value),
-                            borderRadius: "2px"
+                            display: 'inline-block',
+                            width: '8px',
+                            height: '8px',
+                            backgroundColor: isHidden ? 'rgba(148,163,184,0.4)' : color,
+                            borderRadius: '50%',
+                            flexShrink: 0
                           }}
                         />
                         <span>{value}</span>
@@ -388,14 +403,16 @@ const StackedAwarenessChart = ({
                       type="button"
                       onClick={resetHiddenLevels}
                       style={{
-                        marginLeft: "auto",
-                        border: `1px solid ${CHART_COLORS.grid}`,
-                        background: "transparent",
-                        padding: "2px 8px",
-                        borderRadius: "999px",
-                        cursor: "pointer",
-                        fontSize: "12px",
-                        color: CHART_COLORS.axis
+                        marginLeft: '8px',
+                        border: '1px solid var(--border, rgba(148,163,184,0.25))',
+                        background: 'transparent',
+                        padding: '3px 10px',
+                        borderRadius: '999px',
+                        cursor: 'pointer',
+                        fontSize: '11px',
+                        fontFamily: 'Inter, sans-serif',
+                        color: 'var(--text-tertiary, #94a3b8)',
+                        transition: 'all 0.2s ease'
                       }}
                     >
                       Reset
@@ -416,11 +433,12 @@ const StackedAwarenessChart = ({
                 barSize={effectiveBarSize}
                 hide={hiddenLevels.has(level)}
                 opacity={1}
+                radius={[4, 4, 0, 0]}
                 cursor="pointer"
                 onClick={() =>
                   onSelectCategory && onSelectCategory(level)
                 }
-                animationDuration={700}
+                animationDuration={600}
               />
             );
           })}

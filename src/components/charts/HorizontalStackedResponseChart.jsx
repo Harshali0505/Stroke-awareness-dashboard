@@ -34,11 +34,12 @@ const PercentResponseTooltip = ({ active, payload, label, highlightLabels = [] }
 
   const rows = payload
     .map((p) => {
+      // Highlighted rows flip colors: Yes = red (wrong to go to hospital?), No = teal (correct: no symptoms)
       let cellColor = p.color;
       if (isHighlighted) {
-        if (p.dataKey === "Yes") cellColor = "#DC2626"; // Red
-        else if (p.dataKey === "No") cellColor = "#16A34A"; // Green
-        else if (p.dataKey === "Maybe") cellColor = "#F59E0B"; // Orange
+        if (p.dataKey === "Yes") cellColor = "#f87171";   // soft red
+        else if (p.dataKey === "No") cellColor = "#2dd4bf";  // teal
+        else if (p.dataKey === "Maybe") cellColor = "#fbbf24"; // amber
       }
       return {
         key: p.dataKey,
@@ -57,50 +58,57 @@ const PercentResponseTooltip = ({ active, payload, label, highlightLabels = [] }
   return (
     <div
       style={{
-        backgroundColor: "#fff",
-        border: `1px solid ${CHART_COLORS.grid}`,
-        borderRadius: "8px",
-        padding: "10px 12px",
-        fontSize: "13px",
-        color: CHART_COLORS.axis,
-        boxShadow: "0 8px 20px rgba(0,0,0,0.12)",
-        minWidth: "220px"
+        background: 'var(--tooltip-bg, #ffffff)',
+        border: '1px solid var(--tooltip-border, rgba(148,163,184,0.25))',
+        borderRadius: '10px',
+        padding: '10px 14px',
+        fontSize: '12px',
+        fontFamily: 'Inter, sans-serif',
+        color: 'var(--text-primary, #0f172a)',
+        boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
+        minWidth: '220px',
+        pointerEvents: 'none'
       }}
     >
-      <div style={{ fontWeight: 700, marginBottom: "8px" }}>{label}</div>
+      <div style={{
+        fontWeight: 700,
+        marginBottom: '8px',
+        paddingBottom: '6px',
+        borderBottom: '1px solid var(--border, rgba(148,163,184,0.15))'
+      }}>{label}</div>
 
-      <div style={{ marginBottom: "8px" }}>
-        Total N: <strong>{formatCount(totalN)}</strong>
+      <div style={{ marginBottom: '8px', color: 'var(--text-secondary, #64748b)', fontSize: '11px' }}>
+        Total N: <strong style={{ color: 'var(--text-primary, #0f172a)' }}>{formatCount(totalN)}</strong>
       </div>
 
       {rows.map((row) => (
         <div
           key={row.key}
           style={{
-            display: "grid",
-            gridTemplateColumns: "12px 1fr auto",
-            columnGap: "8px",
-            alignItems: "start",
-            marginTop: "6px"
+            display: 'grid',
+            gridTemplateColumns: '10px 1fr auto',
+            columnGap: '8px',
+            alignItems: 'start',
+            marginTop: '6px'
           }}
         >
           <span
             style={{
-              width: "12px",
-              height: "12px",
-              borderRadius: "2px",
-              marginTop: "3px",
+              width: '10px',
+              height: '10px',
+              borderRadius: '2px',
+              marginTop: '3px',
               backgroundColor: row.color
             }}
           />
-          <span style={{ fontWeight: 600 }}>{row.category}</span>
-          <span style={{ fontWeight: 700 }}>
+          <span style={{ fontWeight: 600, color: 'var(--text-primary, #0f172a)' }}>{row.category}</span>
+          <span style={{ fontWeight: 700, color: 'var(--brand-primary, #0f766e)' }}>
             {formatPercent(row.percentValue)}
           </span>
 
           <span />
-          <span style={{ opacity: 0.9 }}>Count</span>
-          <span style={{ fontWeight: 600 }}>
+          <span style={{ opacity: 0.7, fontSize: '11px', color: 'var(--text-secondary, #64748b)' }}>Count</span>
+          <span style={{ fontWeight: 600, fontSize: '11px', color: 'var(--text-secondary, #64748b)' }}>
             {formatCount(row.countValue)} participants
           </span>
         </div>
@@ -143,7 +151,7 @@ const HorizontalStackedResponseChart = ({
         margin={{ top: 10, right: 18, left: 120, bottom: 18 }}
       >
         <CartesianGrid
-          strokeDasharray="3 3"
+          strokeDasharray="4 4"
           stroke={CHART_COLORS.grid}
           vertical={false}
         />
@@ -151,10 +159,10 @@ const HorizontalStackedResponseChart = ({
         <XAxis
           type="number"
           domain={[0, 100]}
-          tick={{ fill: CHART_COLORS.axis, fontSize: 12 }}
+          tick={{ fill: CHART_COLORS.axis, fontSize: 11, fontFamily: 'Inter, sans-serif' }}
           tickFormatter={(value) => `${value}%`}
-          axisLine={{ stroke: CHART_COLORS.grid }}
-          tickLine={{ stroke: CHART_COLORS.grid }}
+          axisLine={false}
+          tickLine={false}
         />
 
         <YAxis
@@ -172,16 +180,17 @@ const HorizontalStackedResponseChart = ({
                 y={y}
                 dy={4}
                 textAnchor="end"
-                fill={isHighlighted ? "#B91C1C" : CHART_COLORS.axis}
-                fontSize={12}
-                fontWeight={isHighlighted ? 500 : 400}
+                fill={isHighlighted ? "#f87171" : CHART_COLORS.axis}
+                fontSize={11}
+                fontFamily="Inter, sans-serif"
+                fontWeight={isHighlighted ? 600 : 400}
               >
                 {value}
               </text>
             );
           }}
-          axisLine={{ stroke: CHART_COLORS.grid }}
-          tickLine={{ stroke: CHART_COLORS.grid }}
+          axisLine={false}
+          tickLine={false}
         />
 
         <Tooltip content={<PercentResponseTooltip highlightLabels={highlightLabels} />} />
@@ -211,20 +220,22 @@ const HorizontalStackedResponseChart = ({
             stackId="a"
             fill={
               level === "Yes"
-                ? "#16A34A"
+                ? "#2dd4bf"   // teal  – correct/positive
                 : level === "Maybe"
-                  ? "#F59E0B"
-                  : "#DC2626"
+                  ? "#fbbf24" // amber – uncertain
+                  : "#f87171" // soft red – no
             }
             hide={hiddenLevels.has(level)}
             opacity={1}
-            animationDuration={700}
+            animationDuration={600}
+            radius={level === "No" ? [0, 4, 4, 0] : [0, 0, 0, 0]}
           >
             {data.map((entry, index) => {
               const isHighlight = highlightLabels.includes(entry.name);
-              let cellColor = level === "Yes" ? "#16A34A" : level === "Maybe" ? "#F59E0B" : "#DC2626";
+              let cellColor = level === "Yes" ? "#2dd4bf" : level === "Maybe" ? "#fbbf24" : "#f87171";
               if (isHighlight) {
-                cellColor = level === "Yes" ? "#DC2626" : level === "Maybe" ? "#F59E0B" : "#16A34A";
+                // Flipped: for highlighted "wrong" symptom
+                cellColor = level === "Yes" ? "#f87171" : level === "Maybe" ? "#fbbf24" : "#2dd4bf";
               }
               return <Cell key={`cell-${index}`} fill={cellColor} />;
             })}
