@@ -7,6 +7,7 @@ import KnowledgeGap from './pages/KnowledgeGap';
 import Emergency from './pages/Emergency';
 import Community from './pages/Community';
 import Insights from './pages/Insights';
+import Personas from './pages/Personas';
 import About from './pages/About';
 
 function App() {
@@ -70,6 +71,7 @@ function App() {
           <Route path="/emergency" element={<Emergency isMobileMenuOpen={isMobileMenuOpen} setIsMobileMenuOpen={setIsMobileMenuOpen} />} />
           <Route path="/community" element={<Community isMobileMenuOpen={isMobileMenuOpen} setIsMobileMenuOpen={setIsMobileMenuOpen} />} />
           <Route path="/insights" element={<Insights isMobileMenuOpen={isMobileMenuOpen} setIsMobileMenuOpen={setIsMobileMenuOpen} />} />
+          <Route path="/personas" element={<Personas isMobileMenuOpen={isMobileMenuOpen} setIsMobileMenuOpen={setIsMobileMenuOpen} />} />
           <Route path="/about" element={<About isMobileMenuOpen={isMobileMenuOpen} setIsMobileMenuOpen={setIsMobileMenuOpen} />} />
         </Routes>
       </Router>

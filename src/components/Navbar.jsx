@@ -38,12 +38,13 @@ const Navbar = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
   const isActive = (path) => location.pathname === path;
 
   const navItems = [
-    { path: '/', label: '1. Overview', icon: <FiBarChart2 /> },
-    { path: '/demographics', label: '2. Demographics', icon: <FiUsers /> },
-    { path: '/lifestyle', label: '3. Lifestyle Risks', icon: <FiActivity /> },
-    { path: '/knowledge-gap', label: '4. Knowledge Gap', icon: <FiAlertTriangle /> },
-    { path: '/emergency', label: '5. Emergency', icon: <FiActivity /> },
-    { path: '/community', label: '6. Awareness Sources', icon: <FiInfo /> }
+    { path: '/', label: 'The Big Picture: Stroke Awareness', icon: <FiBarChart2 /> },
+    { path: '/demographics', label: 'Demographic Awareness Distribution', icon: <FiUsers /> },
+    { path: '/lifestyle', label: 'Risk Meets Ignorance (Lifestyle & Health Risk)', icon: <FiActivity /> },
+    { path: '/knowledge-gap', label: 'Knowledge Gaps and Misconceptions', icon: <FiAlertTriangle /> },
+    { path: '/emergency', label: 'Time-Critical Awareness', icon: <FiActivity /> },
+    { path: '/community', label: 'Communication Channels & Community Knowledge', icon: <FiInfo /> },
+    { path: '/personas', label: 'Behavioral Personas', icon: <FiUsers /> }
   ];
 
   const handleNavClick = () => {
