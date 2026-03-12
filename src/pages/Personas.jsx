@@ -11,7 +11,7 @@ const Personas = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
   const personas = [
     {
       id: 'cluster-0',
-      title: 'Cluster 0: The Baseline - 1,296',
+      title: 'Cluster 0: The Baseline  1,296',
       subtitle: 'The Knowledgeable & Healthy',
       color: '#2dd4bf',   // Dashboard teal — positive
       icon: <FiUsers />,
@@ -21,7 +21,7 @@ const Personas = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
     },
     {
       id: 'cluster-1',
-      title: 'Cluster 1: The Willing - 1,504',
+      title: 'Cluster 1: The Willing -1,504',
       subtitle: 'Uninformed but Proactive',
       color: '#fbbf24',   // Dashboard amber — caution/moderate
       icon: <FiZap />,
@@ -31,7 +31,7 @@ const Personas = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
     },
     {
       id: 'cluster-2',
-      title: 'Cluster 2: The High-Risk - 1,619',
+      title: 'Cluster 2: The High-Risk  1,619',
       subtitle: 'Low Awareness & Passive',
       color: '#f87171',   // Dashboard soft-red — alert/low
       icon: <FiAlertCircle />,
@@ -41,7 +41,7 @@ const Personas = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
     },
     {
       id: 'cluster-3',
-      title: 'Cluster 3: The Paradox - 1,749',
+      title: 'Cluster 3: The Paradox  1,749',
       subtitle: 'Knowledgeable but Risky',
       color: '#818cf8',   // Indigo — contrasting accent
       icon: <FiTarget />,
@@ -77,19 +77,44 @@ const Personas = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
                 cursor: 'default'
               }}
             >
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px' }}>
-                <div>
-                  <h3 style={{ margin: 0, fontSize: '18px', fontWeight: 700 }}>{persona.title}</h3>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px', gap: '16px' }}>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  {(() => {
+                    const t = String(persona.title ?? '');
+
+                    // Extract a trailing population number (e.g. "1,296") even if formatting varies
+                    const match = t.match(/(\d[\d,]*)\s*$/);
+                    if (!match) {
+                      return (
+                        <h3 style={{ margin: 0, fontSize: '18px', fontWeight: 700 }}>{t}</h3>
+                      );
+                    }
+
+                    const populationValue = match[1];
+                    const leftRaw = t.slice(0, match.index ?? 0);
+                    const left = leftRaw.replace(/[\s\-–—:]*$/, '').trim();
+                    const right = populationValue;
+
+                    return (
+                      <div
+                        style={{
+                          display: 'grid',
+                          gridTemplateColumns: 'minmax(0, 1fr) auto',
+                          columnGap: '14px',
+                          alignItems: 'start'
+                        }}
+                      >
+                        <h3 style={{ margin: 0, fontSize: '18px', fontWeight: 700, minWidth: 0 }}>
+                          {left}
+                        </h3>
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', lineHeight: 1.1, paddingTop: '2px' }}>
+                          <span style={{ fontSize: '11px', fontWeight: 600, color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Population</span>
+                          <span style={{ whiteSpace: 'nowrap', fontWeight: 700 }}>{right}</span>
+                        </div>
+                      </div>
+                    );
+                  })()}
                   <div style={{ color: persona.color, fontSize: '14px', fontWeight: 600, marginTop: '4px' }}>{persona.subtitle}</div>
-                </div>
-                <div style={{ 
-                  backgroundColor: `${persona.color}15`, 
-                  color: persona.color, 
-                  padding: '10px', 
-                  borderRadius: '12px',
-                  fontSize: '20px'
-                }}>
-                  {persona.icon}
                 </div>
               </div>
               

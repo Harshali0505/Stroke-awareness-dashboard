@@ -25,6 +25,65 @@ const formatCount = (value) => {
   return Number(value).toLocaleString();
 };
 
+const toLabelString = (value) => {
+  if (value === null || value === undefined) return "";
+  return String(value);
+};
+
+const truncateLabel = (value, maxChars) => {
+  const s = toLabelString(value);
+  if (!maxChars || maxChars <= 0) return "";
+  if (s.length <= maxChars) return s;
+  return `${s.slice(0, Math.max(1, maxChars - 1))}…`;
+};
+
+const XAxisTick = ({ x, y, payload, angle = 0, maxChars = 14, maxLines = 2 }) => {
+  const full = toLabelString(payload?.value);
+  const display = truncateLabel(full, Math.max(8, maxChars * maxLines));
+  const words = String(display).split(/\s+/).filter(Boolean);
+
+  const lines = [];
+  let current = "";
+
+  for (const w of words) {
+    const next = current ? `${current} ${w}` : w;
+    if (next.length <= maxChars) {
+      current = next;
+    } else {
+      if (current) lines.push(current);
+      current = w;
+    }
+    if (lines.length === maxLines) break;
+  }
+  if (lines.length < maxLines && current) lines.push(current);
+
+  const finalLines = lines.length > 0 ? lines.slice(0, maxLines) : [display];
+
+  const anchor = angle < 0 ? "end" : "middle";
+
+  return (
+    <g transform={`translate(${x},${y})`}>
+      <text
+        x={0}
+        y={0}
+        dy={16}
+        textAnchor={anchor}
+        fill={CHART_COLORS.axis}
+        fontSize={10}
+        fontFamily="Inter, sans-serif"
+        transform={angle ? `rotate(${angle})` : undefined}
+      >
+        <title>{full}</title>
+        {finalLines.map((line, idx) => (
+          <tspan key={idx} x={0} dy={idx === 0 ? 0 : 12}>
+            {line}
+          </tspan>
+        ))}
+      </text>
+    </g>
+  );
+};
+
 const PercentAwarenessTooltip = ({ active, payload, label, isolatedLevel, totalIsolated }) => {
   if (!active || !payload || payload.length === 0) return null;
 
@@ -123,6 +182,16 @@ const StackedAwarenessChart = ({
   valueMode = 'count',
   onSelectCategory = null
 }) => {
+  const [viewportWidth, setViewportWidth] = React.useState(() =>
+    typeof window !== "undefined" ? window.innerWidth : 1024
+  );
+
+  React.useEffect(() => {
+    const onResize = () => setViewportWidth(window.innerWidth);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
   const [hiddenLevels, setHiddenLevels] = React.useState(() => new Set());
 
   const resetHiddenLevels = React.useCallback(() => {
@@ -227,6 +296,38 @@ const StackedAwarenessChart = ({
     return data.reduce((sum, item) => sum + (item[`${isolatedLevel}__count`] || 0), 0);
   }, [data, isolatedLevel, valueMode]);
 
+  const groupCount = Array.isArray(displayData) ? displayData.length : 0;
+  const approxChartWidth = Math.max(320, viewportWidth - 360);
+  const approxLabelSlot = groupCount > 0 ? approxChartWidth / groupCount : approxChartWidth;
+
+  const longestLabelLength = React.useMemo(() => {
+    if (!Array.isArray(displayData)) return 0;
+    return displayData.reduce((max, d) => {
+      const s = String(d?.name ?? "");
+      return Math.max(max, s.length);
+    }, 0);
+  }, [displayData]);
+
+  const shouldWrap = approxLabelSlot < 90 || groupCount >= 8 || longestLabelLength > 14;
+  const tickAngle = 0;
+
+  const maxChars = approxLabelSlot < 60
+    ? 10
+    : approxLabelSlot < 90
+      ? 12
+      : approxLabelSlot < 120
+        ? 14
+        : 18;
+
+  const xAxisHeight = shouldWrap ? 78 : 46;
+
+  const chartMargin = {
+    top: 10,
+    right: 18,
+    left: 10,
+    bottom: shouldWrap ? 76 : 36
+  };
+
   // No data guard
   if (!data || data.length === 0) {
     return (
@@ -267,28 +368,27 @@ const StackedAwarenessChart = ({
           barCategoryGap={spacing.barCategoryGap}
           barGap={spacing.barGap}
           maxBarSize={44}
-          margin={{ top: 10, right: 18, left: 10, bottom: 18 }}
+          margin={chartMargin}
         >
           <CartesianGrid
-            strokeDasharray="4 4"
-            stroke={CHART_COLORS.grid}
-            vertical={false}
-          />
+                strokeDasharray="4 4"
+                stroke={CHART_COLORS.grid}
+                vertical={false}
+              />
 
           <XAxis
             dataKey="name"
-            interval={0}
-            height={42}
-            tick={{
-              fill: CHART_COLORS.axis,
-              fontSize: 11,
-              fontFamily: 'Inter, sans-serif'
-            }}
+            interval={groupCount > 8 ? 'preserveStartEnd' : 0}
+            height={xAxisHeight}
             tickMargin={10}
-            tickFormatter={(value) => {
-              const s = String(value ?? "");
-              return s.length > 14 ? `${s.slice(0, 14)}…` : s;
-            }}
+            tick={(props) => (
+              <XAxisTick
+                {...props}
+                angle={tickAngle}
+                maxChars={maxChars}
+                maxLines={shouldWrap ? 2 : 1}
+              />
+            )}
             axisLine={false}
             tickLine={false}
           />

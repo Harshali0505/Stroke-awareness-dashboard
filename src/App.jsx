@@ -1,5 +1,5 @@
 import React, { useState, useEffect, createContext, useContext } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import OverallAwareness from './pages/OverallAwareness';
 import Demographics from './pages/Demographics';
 import Lifestyle from './pages/Lifestyle';
@@ -15,6 +15,27 @@ export const ThemeContext = createContext({
 });
 
 export const useTheme = () => useContext(ThemeContext);
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    // Ensure each route starts from the top
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+    // Some browsers/pages may use documentElement/body for scrolling
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+
+    // If your layout scrolls inside a container (dashboard-style), reset that too
+    const main = document.querySelector('main.main-content');
+    if (main) {
+      main.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+      main.scrollTop = 0;
+    }
+  }, [pathname]);
+
+  return null;
+}
 
 function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -90,6 +111,7 @@ function App() {
         )}
 
         <Router>
+          <ScrollToTop />
           <Routes>
             {/* Core pages */}
             <Route path="/"               element={<OverallAwareness {...sharedProps} />} />

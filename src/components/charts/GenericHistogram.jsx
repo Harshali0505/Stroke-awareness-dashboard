@@ -22,6 +22,7 @@ const GenericHistogram = ({
   showTrendLine = true,
   height = 350,
   barColor = CHART_COLORS.neutral,
+  showHoverHint = true,
 }) => {
   const trendData = React.useMemo(() => {
     if (!showTrendLine || !Array.isArray(data)) return null;
@@ -36,11 +37,12 @@ const GenericHistogram = ({
   }, [data, showTrendLine, valueKey]);
 
   return (
-    <ResponsiveContainer width="100%" height={height}>
-      <ComposedChart
-        data={trendData || data}
-        margin={{ top: 12, right: 16, left: 0, bottom: 8 }}
-      >
+    <div style={{ width: "100%" }}>
+      <ResponsiveContainer width="100%" height={height}>
+        <ComposedChart
+          data={trendData || data}
+          margin={{ top: 12, right: 16, left: 0, bottom: 8 }}
+        >
         <CartesianGrid strokeDasharray="4 4" stroke={CHART_COLORS.grid} vertical={false} />
         <XAxis
           dataKey={xKey}
@@ -104,6 +106,21 @@ const GenericHistogram = ({
         )}
       </ComposedChart>
     </ResponsiveContainer>
+
+    {showHoverHint && (
+      <p
+        style={{
+          margin: "8px 0 0 0",
+          fontSize: "11px",
+          color: "var(--text-tertiary, #94a3b8)",
+          textAlign: "center",
+          lineHeight: 1.4
+        }}
+      >
+        Hover over a category to see participant count and share.
+      </p>
+    )}
+  </div>
   );
 };
 

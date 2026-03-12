@@ -20,26 +20,17 @@ const Navbar = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
   const { theme, toggleTheme } = useTheme();
 
   // Sidebar starts expanded (false = not collapsed); localStorage persists user preference
-  const [isCollapsed, setIsCollapsed] = React.useState(false);
+  const [isCollapsed, setIsCollapsed] = React.useState(() => {
+    const saved = window.localStorage.getItem('sidebarCollapsed');
+    return saved === 'true';
+  });
   const [internalMobileOpen, setInternalMobileOpen] = React.useState(false);
 
   const mobileOpen = isMobileMenuOpen ?? internalMobileOpen;
   const setMobileOpen = setIsMobileMenuOpen ?? setInternalMobileOpen;
 
-  // Restore persisted collapse state on mount
-  React.useEffect(() => {
-    const saved = window.localStorage.getItem('sidebarCollapsed');
-    const shouldCollapse = saved === 'true';
-    setIsCollapsed(shouldCollapse);
-    if (shouldCollapse) {
-      document.documentElement.classList.add('sidebar-collapsed');
-    } else {
-      document.documentElement.classList.remove('sidebar-collapsed');
-    }
-  }, []);
-
   // Sync HTML class + localStorage whenever collapsed state changes
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
     if (isCollapsed) {
       document.documentElement.classList.add('sidebar-collapsed');
     } else {
@@ -90,7 +81,19 @@ const Navbar = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
     },
   ];
 
-  const handleNavClick = () => setMobileOpen(false);
+  const handleNavClick = () => {
+    setMobileOpen(false);
+
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+
+    const main = document.querySelector('main.main-content');
+    if (main) {
+      main.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+      main.scrollTop = 0;
+    }
+  };
   const toggleCollapsed = () => setIsCollapsed((prev) => !prev);
 
   return (
