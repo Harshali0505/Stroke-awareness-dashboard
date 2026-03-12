@@ -14,11 +14,9 @@ const Footer = ({ sidebarWidth }) => {
     >
       <div className="footer-container">
         <p className="footer-text">
-          © {year} Stroke Awareness &amp; Risk Patterns Dashboard. All rights reserved.
+          © {year} Stroke Awareness Dashboard. All rights reserved.
         </p>
-        <span className="footer-badge">
-          Built with <span>♥</span> for public health insights
-        </span>
+        
       </div>
     </footer>
   );

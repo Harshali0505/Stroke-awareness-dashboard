@@ -65,7 +65,7 @@ const Navbar = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
     },
     {
       path: '/lifestyle',
-      label: '3. Lifestyle Patterns',
+      label: 'Lifestyle Patterns',
       icon: <FiActivity />
     },
     {

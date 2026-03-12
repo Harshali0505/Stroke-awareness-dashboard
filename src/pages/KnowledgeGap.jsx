@@ -174,7 +174,7 @@ const KnowledgeGap = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
                                 barColor={CHART_COLORS.palette[1]}
                             />
                             <KeyInsight>
-                                Almost no one can rattle off multiple risk factors. This severe lack of recall depth allows dangerous habits to flourish unchecked.
+                            A large number of participants could not recall atleast one risk factor, and only a few were able to name several. This indicates a serious lack of awareness about stroke risk factors, which may lead to poor prevention and unhealthy lifestyle choices.
                             </KeyInsight>
                         </div>
                     </ChartPanel>

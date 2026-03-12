@@ -77,4 +77,4 @@ def generate(df, out_dir: Path):
     save_json(out_dir, "risk-recall-depth.json", risk_depth_data)
     
     df.drop(columns=["_parsed_risks", "_risk_recall_count"], inplace=True)
-    print("✅ Risk factors generated")
+    print(" Risk factors generated")

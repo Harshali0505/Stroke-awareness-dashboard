@@ -38,7 +38,7 @@ def main():
     insights.generate(df, out_dir)
     emergency.generate(df, out_dir)
 
-    print("✅ ALL ANALYTICS JSON FILES GENERATED SUCCESSFULLY")
+    print(" ALL ANALYTICS JSON FILES GENERATED SUCCESSFULLY")
 
 
 if __name__ == "__main__":

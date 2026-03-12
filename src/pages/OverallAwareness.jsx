@@ -36,7 +36,7 @@ const OverallAwareness = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
         title="The Big Picture: Stroke Awareness"
         description={
           <>
-            This section presents a consolidated overview of stroke awareness levels across the surveyed population. It highlights overall knowledge distribution, self-reported familiarity, and readiness indicators to establish a baseline understanding.          </>
+            The dashboard presents a consolidated overview of stroke awareness levels across the surveyed population. It highlights overall knowledge distribution, self-reported familiarity, and readiness indicators to establish a baseline understanding.          </>
         }
         isMobileMenuOpen={isMobileMenuOpen}
         setIsMobileMenuOpen={setIsMobileMenuOpen}
@@ -51,7 +51,7 @@ const OverallAwareness = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
       title="The Big Picture: Stroke Awareness"
       description={
         <>
-          This section presents a consolidated overview of stroke awareness levels across the surveyed population. It highlights overall knowledge distribution, self-reported familiarity, and readiness indicators to establish a baseline understanding.
+          The dashboard presents a consolidated overview of stroke awareness levels across the surveyed population. It highlights overall knowledge distribution, self-reported familiarity, and readiness indicators to establish a baseline understanding.
         </>
       }
       isMobileMenuOpen={isMobileMenuOpen}
