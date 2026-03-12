@@ -11,7 +11,7 @@ const Personas = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
   const personas = [
     {
       id: 'cluster-0',
-      title: 'Cluster 0: The Baseline',
+      title: 'Cluster 0: The Baseline - 1,296',
       subtitle: 'The Knowledgeable & Healthy',
       color: '#2dd4bf',   // Dashboard teal — positive
       icon: <FiUsers />,
@@ -21,7 +21,7 @@ const Personas = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
     },
     {
       id: 'cluster-1',
-      title: 'Cluster 1: The Willing',
+      title: 'Cluster 1: The Willing - 1,504',
       subtitle: 'Uninformed but Proactive',
       color: '#fbbf24',   // Dashboard amber — caution/moderate
       icon: <FiZap />,
@@ -31,7 +31,7 @@ const Personas = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
     },
     {
       id: 'cluster-2',
-      title: 'Cluster 2: The High-Risk',
+      title: 'Cluster 2: The High-Risk - 1,619',
       subtitle: 'Low Awareness & Passive',
       color: '#f87171',   // Dashboard soft-red — alert/low
       icon: <FiAlertCircle />,
@@ -41,7 +41,7 @@ const Personas = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
     },
     {
       id: 'cluster-3',
-      title: 'Cluster 3: The Paradox',
+      title: 'Cluster 3: The Paradox - 1,749',
       subtitle: 'Knowledgeable but Risky',
       color: '#818cf8',   // Indigo — contrasting accent
       icon: <FiTarget />,

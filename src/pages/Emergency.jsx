@@ -128,7 +128,7 @@ const Emergency = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
         <div className="who-grid who-grid--two">
           <ChartPanel
             title="First Action by Awareness Profile"
-            helperText="A concerning paradox exists: even individuals with 'High Awareness' classifications frequently default to non-emergency actions."
+            helperText="Shows that low-awareness individuals tend to contact doctors, family, or remain unsure, while moderate awareness groups are more likely to call emergency services."
           >
             <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
               <StackedAwarenessChart
@@ -140,7 +140,7 @@ const Emergency = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
                 onSelectCategory={onSelect}
               />
               <KeyInsight>
-                Even individuals with high awareness scores often fail to prioritize emergency hospital care  showing a gap between knowledge and action. Further analysis of data shows that 42.5% of the high awareness individuals fail to prioritize emergency hospital care.
+                Higher awareness improves the likelihood of contacting emergency services, but many individuals—especially those with low awareness—still choose non-emergency actions, indicating a gap between recognizing stroke symptoms and taking the correct immediate action.
               </KeyInsight>
             </div>
           </ChartPanel>
@@ -238,7 +238,7 @@ const Emergency = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
         </div>
       </Section>
 
-      <Section title="Key Analytical Insights">
+      {/* <Section title="Key Analytical Insights">
         <div className="who-kpi-row">
           <ChartPanel
             title="Action-Knowledge Disconnect"
@@ -250,7 +250,7 @@ const Emergency = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
             </KeyInsight>
           </ChartPanel>
         </div>
-      </Section>
+      </Section> */}
     </PageContainer>
   );
 };
