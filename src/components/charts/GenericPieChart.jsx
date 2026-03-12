@@ -19,10 +19,11 @@ const renderOuterLabel = ({
     <text
       x={x}
       y={y}
-      fill={CHART_COLORS.axis}
+      fill="var(--text-secondary, #64748b)"
       textAnchor={x > cx ? "start" : "end"}
       dominantBaseline="central"
-      fontSize={12}
+      fontSize={11}
+      fontFamily="Inter, sans-serif"
       fontWeight={600}
     >
       {(percent * 100).toFixed(1)}%
@@ -91,21 +92,21 @@ const GenericPieChart = ({
 
         <Legend
           iconSize={0}
-          wrapperStyle={{ paddingTop: "20px" }}
+          wrapperStyle={{ paddingTop: '16px', fontSize: '11px', fontFamily: 'Inter, sans-serif' }}
           onClick={(e) => {
             if (isHover) return;
             onSelect && onSelect(e.value);
           }}
           formatter={(value, entry, index) => (
-            <span style={{ color: "#023337" }}>
+            <span style={{ color: 'var(--text-secondary, #64748b)', fontFamily: 'Inter, sans-serif' }}>
               <span
                 style={{
-                  display: "inline-block",
-                  width: "12px",
-                  height: "12px",
+                  display: 'inline-block',
+                  width: '10px',
+                  height: '10px',
                   backgroundColor: colors ? colors[index % colors.length] : getAwarenessColor(value),
-                  marginRight: "6px",
-                  borderRadius: "2px"
+                  marginRight: '6px',
+                  borderRadius: '50%'
                 }}
               />
               {value}

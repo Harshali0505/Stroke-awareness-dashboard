@@ -3,48 +3,51 @@ import PageContainer from "../components/PageContainer";
 import Section from "../components/Section";
 import ChartPanel from "../components/ChartPanel";
 import { FiUsers, FiTarget, FiAlertCircle, FiZap } from "react-icons/fi";
+import radarImg from "../assets/radar_clusters.png";
+import h1Img from "../assets/h1_awareness_action_bar.png";
+import h2Img from "../assets/h2_urgency_risk_violin.png";
 
 const Personas = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
   const personas = [
     {
-      id: "cluster-0",
-      title: "Cluster 0: The Baseline",
-      subtitle: "The Knowledgeable & Healthy",
-      color: "#4CAF50", // Green
+      id: 'cluster-0',
+      title: 'Cluster 0: The Baseline',
+      subtitle: 'The Knowledgeable & Healthy',
+      color: '#2dd4bf',   // Dashboard teal — positive
       icon: <FiUsers />,
-      profile: "High knowledge, low lifestyle risk.",
-      description: "These individuals are well-informed about stroke symptoms and maintain healthy lifestyle habits. They represent the 'ideal' segment of the population.",
-      strategy: "Engage as community ambassadors to help spread awareness to other segments."
+      profile: 'High knowledge, low lifestyle risk.',
+      description: 'These individuals are well-informed about stroke symptoms and maintain healthy lifestyle habits. They represent the \'ideal\' segment of the population.',
+      strategy: 'Engage as community ambassadors to help spread awareness to other segments.'
     },
     {
-      id: "cluster-1",
-      title: "Cluster 1: The Willing",
-      subtitle: "Uninformed but Proactive",
-      color: "#FFC107", // Amber
+      id: 'cluster-1',
+      title: 'Cluster 1: The Willing',
+      subtitle: 'Uninformed but Proactive',
+      color: '#fbbf24',   // Dashboard amber — caution/moderate
       icon: <FiZap />,
-      profile: "Low knowledge, but takes quick action.",
-      description: "They may not know all the medical signs of a stroke, but they have a strong instinct to seek help immediately when something feels wrong. Their gap is purely educational.",
-      strategy: "Provide clear, accessible health literacy materials to bridge their knowledge gap."
+      profile: 'Low knowledge, but takes quick action.',
+      description: 'They may not know all the medical signs of a stroke, but they have a strong instinct to seek help immediately when something feels wrong. Their gap is purely educational.',
+      strategy: 'Provide clear, accessible health literacy materials to bridge their knowledge gap.'
     },
     {
-      id: "cluster-2",
-      title: "Cluster 2: The High-Risk",
-      subtitle: "Low Awareness & Passive",
-      color: "#F44336", // Red
+      id: 'cluster-2',
+      title: 'Cluster 2: The High-Risk',
+      subtitle: 'Low Awareness & Passive',
+      color: '#f87171',   // Dashboard soft-red — alert/low
       icon: <FiAlertCircle />,
-      profile: "The most vulnerable group.",
-      description: "This group combines low awareness with a tendency for slow responses and higher risk behaviors (e.g., smoking, physical inactivity).",
-      strategy: "High-priority target for intensive intervention and community-based health programs."
+      profile: 'The most vulnerable group.',
+      description: 'This group combines low awareness with a tendency for slow responses and higher risk behaviors (e.g., smoking, physical inactivity).',
+      strategy: 'High-priority target for intensive intervention and community-based health programs.'
     },
     {
-      id: "cluster-3",
-      title: "Cluster 3: The Paradox",
-      subtitle: "Knowledgeable but Risky",
-      color: "#2196F3", // Blue
+      id: 'cluster-3',
+      title: 'Cluster 3: The Paradox',
+      subtitle: 'Knowledgeable but Risky',
+      color: '#818cf8',   // Indigo — contrasting accent
       icon: <FiTarget />,
-      profile: "High knowledge, but high lifestyle risk.",
-      description: "A concerning segment that knows the risks and symptoms but fails to translate that knowledge into healthy habits or rapid action.",
-      strategy: "Focus on behavioral nudges and lifestyle coaching rather than just information."
+      profile: 'High knowledge, but high lifestyle risk.',
+      description: 'A concerning segment that knows the risks and symptoms but fails to translate that knowledge into healthy habits or rapid action.',
+      strategy: 'Focus on behavioral nudges and lifestyle coaching rather than just information.'
     }
   ];
 
@@ -99,7 +102,7 @@ const Personas = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
                 {persona.description}
               </p>
               
-              <div style={{ marginTop: 'auto', paddingTop: '16px', borderTop: '1px solid var(--border-color)' }}>
+              <div style={{ marginTop: 'auto', paddingTop: '16px', borderTop: '1px solid var(--border)' }}>
                 <span style={{ fontWeight: 600, fontSize: '13px' }}>Focus Strategy: </span>
                 <span style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>{persona.strategy}</span>
               </div>
@@ -117,9 +120,9 @@ const Personas = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
           >
             <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <img 
-                src="/assets/clustering/radar_clusters.png" 
+                src={radarImg}
                 alt="Radar Clusters Profile" 
-                style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px', border: '1px solid var(--border-color)', marginBottom: '1.5rem' }} 
+                style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px', border: '1px solid var(--border)', marginBottom: '1.5rem' }} 
               />
               <p style={{ color: 'var(--text-secondary)', lineHeight: 1.6 }}>
                 The <strong>Radar Profile</strong> validates our 4-cluster model by showing how each segment occupies a unique space in the behavioral map. Cluster 0 (Baseline) dominates in awareness, while Cluster 2 (High-Risk) consistently lags across all positive metrics. Cluster 3 (The Paradox) shows a significant spike in risk factors despite high awareness.
@@ -134,9 +137,9 @@ const Personas = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
             >
               <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
                 <img 
-                  src="/assets/clustering/h1_awareness_action_bar.png" 
+                  src={h1Img}
                   alt="Awareness-Action Gap" 
-                  style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px', border: '1px solid var(--border-color)', marginBottom: '1rem' }} 
+                  style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px', border: '1px solid var(--border)', marginBottom: '1rem' }} 
                 />
                 <p style={{ color: 'var(--text-secondary)', fontSize: '14px', lineHeight: 1.6 }}>
                   Our research confirms that individuals with <strong>High Awareness</strong> are nearly <strong>2x more likely</strong> to take proactive emergency action compared to low-awareness counterparts.
@@ -150,9 +153,9 @@ const Personas = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
             >
               <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
                 <img 
-                  src="/assets/clustering/h2_urgency_risk_violin.png" 
+                  src={h2Img}
                   alt="Risk-Urgency Paradox" 
-                  style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px', border: '1px solid var(--border-color)', marginBottom: '1rem' }} 
+                  style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px', border: '1px solid var(--border)', marginBottom: '1rem' }} 
                 />
                 <p style={{ color: 'var(--text-secondary)', fontSize: '14px', lineHeight: 1.6 }}>
                   The <strong>Paradox</strong> (Cluster 3) reveals that high knowledge of symptoms does not always decrease risky lifestyle behaviors, and age remains a major factor in perceived medical urgency.

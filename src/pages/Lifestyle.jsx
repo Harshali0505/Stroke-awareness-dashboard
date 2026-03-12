@@ -6,6 +6,7 @@ import PlaceholderChart from "../components/charts/PlaceholderChart";
 import Section from "../components/Section";
 import ChartPanel from "../components/ChartPanel";
 import useChartSelection from "../hooks/useChartSelection";
+import KeyInsight from "../components/KeyInsight";
 
 const Lifestyle = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
   // 🔹 Shared selection across all charts
@@ -92,7 +93,7 @@ const Lifestyle = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
   ) {
     return (
       <PageContainer
-        title="Risk Meets Ignorance (Lifestyle & Health Risk)"
+        title="Lifestyle Patterns"
         description="Showing the overlap between stroke risk factors and low awareness."
         isMobileMenuOpen={isMobileMenuOpen}
         setIsMobileMenuOpen={setIsMobileMenuOpen}
@@ -104,15 +105,19 @@ const Lifestyle = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
 
   return (
     <PageContainer
-      title="Risk Meets Ignorance (Lifestyle & Health Risk)"
+      title="Lifestyle Patterns"
       description="Showing the overlap between stroke risk factors and lifestyle choices with low awareness."
       isMobileMenuOpen={isMobileMenuOpen}
       setIsMobileMenuOpen={setIsMobileMenuOpen}
     >
       <Section
         title="Lifestyle not a reflection of awareness"
-        helperText="One would expect that individuals with high awareness would display healthier lifestyles, but this is not the case. The data shows that smokers, drinkers, and those with sedentary lifestyles are just as likely to be underinformed as those with healthier habits."
       >
+        <p style={{
+          margin: 0, lineHeight: 1.6, color: 'var(--text-secondary)', whiteSpace: 'pre-wrap', marginBottom: '1.25rem'
+        }}>
+        One would expect that individuals with high awareness would display healthier lifestyles, but this is not the case. The data shows that smokers, drinkers, and those with sedentary lifestyles are just as likely to be underinformed as those with healthier habits.
+        </p>
         <div className="who-grid who-grid--two">
           <ChartPanel
             title="Smoking × awareness level"
@@ -167,9 +172,9 @@ const Lifestyle = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
             </div>
           </ChartPanel>
         </div>
-        <p style={{ marginTop: '1rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+        <KeyInsight>
           Lifestyle choices such as smoking, alcohol consumption and lack of physical activity are not a reflection of awareness as a majority of respondents fall into the low awareness category regardless of their lifestyle choices. The similarity in the high awareness category for healthy lifestyle and unhealthy lifestyle shows that even after being informed about the risks of having unhealthy lifestyle choices, individuals are not taking action to improve.
-        </p>
+        </KeyInsight>
       </Section>
       <Section title="Medical Risks make you aware?">
         <p>One could expect that participants with a family history of stroke, hypertension, or diabetes or personal experience of TIA (mini stroke) would have higher awareness levels, but this is not the case. The distribution remains standard.</p>
@@ -188,9 +193,9 @@ const Lifestyle = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
                 selectedCategory={selected}
                 onSelectCategory={onSelect}
               />
-              <p style={{ marginTop: '1rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+              <KeyInsight>
                 Individuals with a family history of stroke, hypertension, or diabetes are at a higher risk of stroke, yet their awareness levels are not higher even after having a case in their family.
-              </p>
+              </KeyInsight>
             </div>
           </ChartPanel>
 
@@ -208,9 +213,9 @@ const Lifestyle = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
                 selectedCategory={selected}
                 onSelectCategory={onSelect}
               />
-              <p style={{ marginTop: '1rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+              <KeyInsight>
                 Participants who have already experienced a Transient Ischemic Attack (TIA) are at a higher risk of stroke, yet their awareness levels are not higher even after experiencing a TIA attack.
-              </p>
+              </KeyInsight>
             </div>
           </ChartPanel>
         </div>
@@ -229,9 +234,9 @@ const Lifestyle = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
               selectedCategory={selected}
               onSelectCategory={onSelect}
             />
-            <p style={{ marginTop: '1rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+            <KeyInsight>
               The awareness level distribution remains similar across all BMI ranges. This shows that no matter the risk of stroke caused by obesity, awareness does not get impacted.
-            </p>
+            </KeyInsight>
           </div>
         </ChartPanel>
       </Section>

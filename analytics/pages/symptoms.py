@@ -49,7 +49,7 @@ def generate(df: pd.DataFrame, out_dir: Path):
             })
 
     save_json(out_dir, "symptom-identification.json", identification_results)
-    print("✅ Symptom identification JSON generated")
+    print("Symptom identification JSON generated")
 
     # ======================================
     # 2️⃣ OPEN-ENDED STROKE SYMPTOMS ANALYSIS
@@ -137,4 +137,4 @@ def generate(df: pd.DataFrame, out_dir: Path):
 
         df.drop(columns=["_parsed_symptoms", "_recall_count"], inplace=True)
 
-        print("✅ Open-ended symptom recall JSONs generated")
+        print(" Open-ended symptom recall JSONs generated")

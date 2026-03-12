@@ -7,7 +7,6 @@ import pandas as pd
 
 
 def generate(df, out_dir: Path):
-    risks = df["risk_factors"].dropna().astype(str).str.split(",")
     # Clean and explode the list strings
     risks = df["risk_factors"].dropna().astype(str).str.split(",")
     valid_risks = risks.explode().astype(str).str.strip()
@@ -26,7 +25,7 @@ def generate(df, out_dir: Path):
         risk_identification_data.append({
             "risk": r,
             "count": int(count),
-            "percentage": round((count / total_participants) * 100, 2)
+            "percentage": float(f"{float(count) / float(total_participants) * 100.0:.2f}")
         })
         
     save_json(out_dir, "risk-identification.json", risk_identification_data)
@@ -35,22 +34,27 @@ def generate(df, out_dir: Path):
     for r, count in risk_counts.items():
         if r in ["no_response", "other", "unaware", ""]:
             continue
-        p = round((count / total_participants) * 100, 2)
+        p = float(f"{float(count) / float(total_participants) * 100.0:.2f}")
         risk_gap_data.append({
             "risk": r,
-            "identified_count": int(count),
+            "identified_count": int(float(count)),
             "identified_percent": p,
-            "not_identified_percent": round(100 - p, 2),
+            "not_identified_percent": float(f"{100.0 - float(p):.2f}"),
         })
         
     save_json(out_dir, "risk-gap.json", risk_gap_data)
 
     # -------- Depth of Recall --------
     def parse_risks(val):
-        if pd.isna(val) or str(val).lower() == "unaware":
+        if pd.isna(val):
             return []
-        # Filter out empty strings if any
-        return [r for r in str(val).split(",") if r.strip()]
+            
+        val = str(val).strip().lower()
+
+        if val in ["unaware", "no_response", ""]:
+            return []
+
+        return [r.strip() for r in val.split(",") if r.strip()]
 
     df["_parsed_risks"] = df["risk_factors"].apply(parse_risks)
     df["_risk_recall_count"] = df["_parsed_risks"].apply(len)
@@ -67,10 +71,10 @@ def generate(df, out_dir: Path):
         risk_depth_data.append({
             "risk_count": i,
             "count": int(count),
-            "percentage": round((count / total_participants) * 100, 2) if total_participants > 0 else 0
+            "percentage": float(f"{float(count) / float(total_participants) * 100.0:.2f}") if total_participants > 0 else 0.0
         })
 
     save_json(out_dir, "risk-recall-depth.json", risk_depth_data)
     
     df.drop(columns=["_parsed_risks", "_risk_recall_count"], inplace=True)
-    print("✅ Risk factors generated")
+    print(" Risk factors generated")

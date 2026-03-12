@@ -7,6 +7,8 @@ import Section from "../components/Section";
 import ChartPanel from "../components/ChartPanel";
 import PlaceholderChart from "../components/charts/PlaceholderChart";
 import useChartSelection from "../hooks/useChartSelection";
+import KeyInsight from "../components/KeyInsight";
+import { CHART_COLORS } from "../constants/colors";
 
 const Emergency = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
   const { selected, onSelect } = useChartSelection();
@@ -93,10 +95,11 @@ const Emergency = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
                 valueKey="percentage"
                 width={700}
                 height={350}
+                barColor={CHART_COLORS.palette[0]}
               />
-              <p style={{ marginTop: '1rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+              <KeyInsight>
                 The data reveals that a significant portion (26.09%) of respondents prioritize emergency hospital care, which is crucial for timely stroke treatment. But the 2nd highest majority of respondents (22.75%) are completely unaware on who they would consult in such a situation. This shows that majority of people who do have awareness know that they should contact emergency services or go to a hospital, but the rest of the people are either unaware or waste their time by consulting a friends/ family.
-              </p>
+              </KeyInsight>
             </div>
           </ChartPanel>
 
@@ -111,10 +114,11 @@ const Emergency = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
                 valueKey="percentage"
                 layout="vertical"
                 height={350}
+                barColor={CHART_COLORS.palette[1]}
               />
-              <p style={{ marginTop: '1rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+              <KeyInsight>
                 The data reveals a critical misconception: a significant portion of respondents believe medical intervention can be delayed by hours, missing the vital thrombolysis window (the window in which clot-dissolving stroke treatment works best i.e. 4.5 hours).
-              </p>
+              </KeyInsight>
             </div>
           </ChartPanel>
         </div>
@@ -135,9 +139,9 @@ const Emergency = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
                 selectedCategory={selected}
                 onSelectCategory={onSelect}
               />
-              <p style={{ marginTop: '1rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+              <KeyInsight>
                 Even individuals with high awareness scores often fail to prioritize emergency hospital care  showing a gap between knowledge and action. Further analysis of data shows that 42.5% of the high awareness individuals fail to prioritize emergency hospital care.
-              </p>
+              </KeyInsight>
             </div>
           </ChartPanel>
 
@@ -152,10 +156,11 @@ const Emergency = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
                 valueKey="percentage"
                 layout="vertical"
                 height={350}
+                barColor={CHART_COLORS.palette[0]}
               />
-              <p style={{ marginTop: '1rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+              <KeyInsight>
                 The lack of awareness about stroke leads to a heavy reliance on general practitioners instead of neurologists which may delay the treatment. This shows the tendency of people to treat symptoms of stroke as common ailments.
-              </p>
+              </KeyInsight>
             </div>
           </ChartPanel>
         </div>
@@ -178,10 +183,11 @@ const Emergency = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
                 valueKey="percentage"
                 layout="vertical"
                 height={350}
+                barColor={CHART_COLORS.palette[1]}
               />
-              <p style={{ marginTop: '1rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+              <KeyInsight>
                 The high frequency of 'no response' or non-specific advice highlights a critical need for standardized community emergency protocols (e.g., FAST awareness).
-              </p>
+              </KeyInsight>
             </div>
           </ChartPanel>
         </div>
@@ -203,10 +209,11 @@ const Emergency = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
                 valueKey="percentage"
                 layout="vertical"
                 height={350}
+                barColor={CHART_COLORS.palette[0]}
               />
-              <p style={{ marginTop: '1rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+              <KeyInsight>
                 Choosing local clinics over tertiary care centers can introduce fatal delays in receiving advanced diagnostics like CT scans or MRI. Thus, it is important to visit a tertiary care center to save critical time for advanced imaging and treatment.
-              </p>
+              </KeyInsight>
             </div>
           </ChartPanel>
 
@@ -221,10 +228,11 @@ const Emergency = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
                 valueKey="percentage"
                 layout="vertical"
                 height={350}
+                barColor={CHART_COLORS.palette[1]}
               />
-              <p style={{ marginTop: '1rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+              <KeyInsight>
                 The tendency to wait for scheduled appointments rather than seeking immediate ER care is a major barrier to effective stroke treatment.
-              </p>
+              </KeyInsight>
             </div>
           </ChartPanel>
         </div>
@@ -237,9 +245,9 @@ const Emergency = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
             helperText="Theoretical awareness does not reliably translate to life-saving behavioral intent."
             fullWidth
           >
-            <p style={{ margin: 0, lineHeight: 1.6, color: 'var(--text-secondary)' }}>
+            <KeyInsight>
               The data suggests that while participants may 'know' what a stroke is, their immediate instinct is often passive. Education must shift from 'definition' to 'deployment' of emergency actions.
-            </p>
+            </KeyInsight>
           </ChartPanel>
         </div>
       </Section>

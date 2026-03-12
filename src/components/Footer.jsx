@@ -1,25 +1,22 @@
 import React from 'react';
-import { LAYOUT_COLORS } from '../constants/colors';
 
-const Footer = () => {
+const Footer = ({ sidebarWidth }) => {
+  const year = new Date().getFullYear();
   return (
     <footer
       className="footer"
       style={{
-        backgroundColor: LAYOUT_COLORS.navbar,
-        color: LAYOUT_COLORS.textOnDark,
-        padding: '12px 24px',
-        textAlign: 'center',
-        fontSize: '13px'
+        /* Span full viewport width — sidebar is position:fixed so it overlays us */
+        width: '100%',
+        marginLeft: 0,
+        flexShrink: 0
       }}
     >
-      <div
-        className="footer-container"
-        style={{
-          opacity: 0.85
-        }}
-      >
-        © 2026 Stroke Awareness & Risk Patterns Dashboard
+      <div className="footer-container">
+        <p className="footer-text">
+          © {year} Stroke Awareness Dashboard. All rights reserved.
+        </p>
+        
       </div>
     </footer>
   );
