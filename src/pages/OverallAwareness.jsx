@@ -6,6 +6,7 @@ import GenericPieChart from '../components/charts/GenericPieChart';
 import GenericHistogram from '../components/charts/GenericHistogram';
 import Section from '../components/Section';
 import ChartPanel from '../components/ChartPanel';
+import KeyInsight from '../components/KeyInsight';
 import { CHART_COLORS } from '../constants/colors';
 
 const OverallAwareness = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
@@ -126,6 +127,10 @@ const OverallAwareness = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
               interaction="hover"
               showOuterLabels={false}
             />
+            <br></br>
+            <p>
+              The above chart shows the distribution of participants by low, medium, and high awareness based on the survey responses. This was judged on the basis of knowledge of stroke, risk factors, symptoms, and emergency response.
+            </p>
           </ChartPanel>
 
           <ChartPanel
@@ -142,6 +147,10 @@ const OverallAwareness = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
               interaction="hover"
               showOuterLabels={false}
             />
+            <br></br>
+            <p>
+              The above chart shows the distribution of participants by their self reported knowledge of stroke, when asked if they know what a brain stroke is.
+            </p>
           </ChartPanel>
         </div>
         <br></br>

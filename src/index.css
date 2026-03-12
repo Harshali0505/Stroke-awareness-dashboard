@@ -683,8 +683,14 @@ img, svg { display: block; max-width: 100%; }
 .who-panel__body {
   min-height: 300px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 100%;
+}
+
+.who-panel__body > *:not(:last-child) {
+  margin-bottom: 12px;
 }
 
 /* ——— Top color accent stripe on panel ——— */

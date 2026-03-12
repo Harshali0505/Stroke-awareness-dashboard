@@ -116,42 +116,37 @@ const Lifestyle = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
         <p style={{
           margin: 0, lineHeight: 1.6, color: 'var(--text-secondary)', whiteSpace: 'pre-wrap', marginBottom: '1.25rem'
         }}>
-        One would expect that individuals with high awareness would display healthier lifestyles, but this is not the case. The data shows that smokers, drinkers, and those with sedentary lifestyles are just as likely to be underinformed as those with healthier habits.
+          One would expect that individuals with high awareness would display healthier lifestyles, but this is not the case. The data shows that smokers, drinkers, and those with sedentary lifestyles are just as likely to be underinformed as those with healthier habits.
         </p>
         <div className="who-grid who-grid--two">
           <ChartPanel
             title="Smoking × awareness level"
             helperText="Smokers are at significantly higher risk for encountering a stroke, yet the data shows their awareness levels are consistently low."
           >
-            <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
-              <StackedAwarenessChart
-                title={null}
-                data={stackedSmokingData}
-                height={360}
-                widthScaling="adaptive"
-                valueMode="percent"
-                selectedCategory={selected}
-                onSelectCategory={onSelect}
-              />
-
-            </div>
+            <StackedAwarenessChart
+              title={null}
+              data={stackedSmokingData}
+              height={360}
+              widthScaling="adaptive"
+              valueMode="percent"
+              selectedCategory={selected}
+              onSelectCategory={onSelect}
+            />
           </ChartPanel>
 
           <ChartPanel
             title="Alcohol consumption × awareness level"
             helperText="High alcohol consumption is an indicator for stroke, but drinkers remain trapped within the low awareness boundaries alongside non-drinkers."
           >
-            <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
-              <StackedAwarenessChart
-                title={null}
-                data={stackedAlcoholData}
-                height={360}
-                widthScaling="adaptive"
-                valueMode="percent"
-                selectedCategory={selected}
-                onSelectCategory={onSelect}
-              />
-            </div>
+            <StackedAwarenessChart
+              title={null}
+              data={stackedAlcoholData}
+              height={360}
+              widthScaling="adaptive"
+              valueMode="percent"
+              selectedCategory={selected}
+              onSelectCategory={onSelect}
+            />
           </ChartPanel>
 
           <ChartPanel
@@ -159,17 +154,15 @@ const Lifestyle = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
             helperText="Participants reporting no regular activity are just as frequently underinformed as their exercising counterparts."
             fullWidth
           >
-            <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
-              <StackedAwarenessChart
-                title={null}
-                data={stackedActivityData}
-                height={360}
-                widthScaling="adaptive"
-                valueMode="percent"
-                selectedCategory={selected}
-                onSelectCategory={onSelect}
-              />
-            </div>
+            <StackedAwarenessChart
+              title={null}
+              data={stackedActivityData}
+              height={360}
+              widthScaling="adaptive"
+              valueMode="percent"
+              selectedCategory={selected}
+              onSelectCategory={onSelect}
+            />
           </ChartPanel>
         </div>
         <KeyInsight>
@@ -183,51 +176,9 @@ const Lifestyle = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
             title="Family History × awareness level"
             helperText="Comparing awareness distribution among participants with a family history of stroke, hypertension, or diabetes."
           >
-            <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
-              <StackedAwarenessChart
-                title={null}
-                data={stackedFamilyData}
-                height={360}
-                widthScaling="adaptive"
-                valueMode="percent"
-                selectedCategory={selected}
-                onSelectCategory={onSelect}
-              />
-              <KeyInsight>
-                Individuals with a family history of stroke, hypertension, or diabetes are at a higher risk of stroke, yet their awareness levels are not higher even after having a case in their family.
-              </KeyInsight>
-            </div>
-          </ChartPanel>
-
-          <ChartPanel
-            title="TIA (Mini-stroke) × awareness level"
-            helperText="Looking at awareness distributions of participants who have already experienced a Transient Ischemic Attack (TIA)."
-          >
-            <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
-              <StackedAwarenessChart
-                title={null}
-                data={stackedTiaData}
-                height={360}
-                widthScaling="adaptive"
-                valueMode="percent"
-                selectedCategory={selected}
-                onSelectCategory={onSelect}
-              />
-              <KeyInsight>
-                Participants who have already experienced a Transient Ischemic Attack (TIA) are at a higher risk of stroke, yet their awareness levels are not higher even after experiencing a TIA attack.
-              </KeyInsight>
-            </div>
-          </ChartPanel>
-        </div>
-        <ChartPanel
-          title="BMI range × awareness level"
-          helperText="Even for severely overweight participants facing greater stroke likelihoods, awareness does not increase. The distribution remains standard."
-          fullWidth
-        >
-          <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
             <StackedAwarenessChart
               title={null}
-              data={stackedBmiData}
+              data={stackedFamilyData}
               height={360}
               widthScaling="adaptive"
               valueMode="percent"
@@ -235,9 +186,45 @@ const Lifestyle = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
               onSelectCategory={onSelect}
             />
             <KeyInsight>
-              The awareness level distribution remains similar across all BMI ranges. This shows that no matter the risk of stroke caused by obesity, awareness does not get impacted.
+              Individuals with a family history of stroke, hypertension, or diabetes are at a higher risk of stroke, yet their awareness levels are not higher even after having a case in their family.
             </KeyInsight>
-          </div>
+          </ChartPanel>
+
+          <ChartPanel
+            title="TIA (Mini-stroke) × awareness level"
+            helperText="Looking at awareness distributions of participants who have already experienced a Transient Ischemic Attack (TIA)."
+          >
+            <StackedAwarenessChart
+              title={null}
+              data={stackedTiaData}
+              height={360}
+              widthScaling="adaptive"
+              valueMode="percent"
+              selectedCategory={selected}
+              onSelectCategory={onSelect}
+            />
+            <KeyInsight>
+              TIA (Transient Ischemic Attack) is a temporary blockage of blood flow to the brain that causes stroke-like symptoms lasting only a few minutes or hours without causing permanent damage. Participants who have already experienced a TIA are at a higher risk of stroke, yet their awareness levels are not higher even after experiencing an attack.
+            </KeyInsight>
+          </ChartPanel>
+        </div>
+        <ChartPanel
+          title="BMI range × awareness level"
+          helperText="Even for severely overweight participants facing greater stroke likelihoods, awareness does not increase. The distribution remains standard."
+          fullWidth
+        >
+          <StackedAwarenessChart
+            title={null}
+            data={stackedBmiData}
+            height={360}
+            widthScaling="adaptive"
+            valueMode="percent"
+            selectedCategory={selected}
+            onSelectCategory={onSelect}
+          />
+          <KeyInsight>
+            The awareness level distribution remains similar across all BMI ranges. This shows that no matter the risk of stroke caused by obesity, awareness does not get impacted.
+          </KeyInsight>
         </ChartPanel>
       </Section>
 

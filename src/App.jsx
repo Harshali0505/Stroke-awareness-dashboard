@@ -7,6 +7,7 @@ import KnowledgeGap from './pages/KnowledgeGap';
 import Emergency from './pages/Emergency';
 import Community from './pages/Community';
 import Personas from './pages/Personas';
+import ScrollToTop from './components/common/ScrollToTop';
 
 // ——— Theme Context ———
 export const ThemeContext = createContext({
@@ -90,6 +91,7 @@ function App() {
         )}
 
         <Router>
+          <ScrollToTop />
           <Routes>
             {/* Core pages */}
             <Route path="/"               element={<OverallAwareness {...sharedProps} />} />

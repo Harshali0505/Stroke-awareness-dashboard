@@ -113,38 +113,34 @@ const Community = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
             title="Stroke knowledge sources"
             helperText="What is the loudest voice in the room? This graph ranks the top channels where our community actually reports receiving stroke education."
           >
-            <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
-              <GenericBarChart
-                data={sourcesData}
-                xKey="source"
-                valueKey="percentage"
-                layout="vertical"
-                height={350}
-                barColor={CHART_COLORS.palette[0]}
-              />
-              <KeyInsight>
-                Identifying the most common sources of information helps in tailoring more effective communication strategies for stroke awareness. The majority of the respondents (29.98%) report receiving information from healthcare providers, which shows that people value legit sources of information.
-              </KeyInsight>
-            </div>
+            <GenericBarChart
+              data={sourcesData}
+              xKey="source"
+              valueKey="percentage"
+              layout="vertical"
+              height={350}
+              barColor={CHART_COLORS.palette[0]}
+            />
+            <KeyInsight>
+              Identifying the most common sources of information helps in tailoring more effective communication strategies for stroke awareness. The majority of the respondents (29.98%) report receiving information from healthcare providers, which shows that people value legit sources of information.
+            </KeyInsight>
           </ChartPanel>
 
           <ChartPanel
             title="Source effectiveness"
             helperText="Not all sources are equal. Notice how some information channels correlate strongly with low awareness, suggesting that the material taught there is ineffective."
           >
-            <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
-              <StackedAwarenessChart
-                data={stackedSourcesList}
-                height={410}
-                barSize={20}
-                valueMode="percent"
-                selectedCategory={selected}
-                onSelectCategory={onSelect}
-              />
-              <KeyInsight>
-                The effectiveness of information sources varies significantly, with some traditional channels struggling to impart high levels of awareness. High awareness individuals are only seen to obtain information from healthcare providers, while the low awareness individuals are seen to obtain information from social media and news channels. Thus, we can say that healthcare providers can act as a reliable source of information.
-              </KeyInsight>
-            </div>
+            <StackedAwarenessChart
+              data={stackedSourcesList}
+              height={410}
+              barSize={20}
+              valueMode="percent"
+              selectedCategory={selected}
+              onSelectCategory={onSelect}
+            />
+            <KeyInsight>
+              The effectiveness of information sources varies significantly, with some traditional channels struggling to impart high levels of awareness. High awareness individuals are only seen to obtain information from healthcare providers, while the low awareness individuals are seen to obtain information from social media and news channels. Thus, we can say that healthcare providers can act as a reliable source of information.
+            </KeyInsight>
           </ChartPanel>
         </div>
       </Section>
