@@ -76,16 +76,14 @@ const KnowledgeGap = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
                         title="Prompted recognition rate: Can people actually differentiate between stroke symptoms and other conditions?"
                         fullWidth
                     >
-                        <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
-                            <HorizontalStackedResponseChart
-                                data={recognitionChartData}
-                                highlightLabels={["Sudden nosebleed"]}
-                                height={350}
-                            />
-                            <KeyInsight>
-                                This analysis evaluates whether respondents can accurately distinguish stroke symptoms from unrelated conditions. Participants were asked to identify whether specific conditions were symptoms of stroke. While many respondents selected “yes,” incorrect identification of non-symptoms suggests limited understanding of actual stroke indicators, indicating that symptom recognition in real-world situations may be inadequate.
-                            </KeyInsight>
-                        </div>
+            <HorizontalStackedResponseChart
+              data={recognitionChartData}
+              highlightLabels={["Sudden nosebleed"]}
+              height={350}
+            />
+            <KeyInsight>
+              This analysis evaluates whether respondents can accurately distinguish stroke symptoms from unrelated conditions. Participants were asked to identify whether specific conditions were symptoms of stroke. While many respondents selected “yes,” incorrect identification of non-symptoms suggests limited understanding of actual stroke indicators, indicating that symptom recognition in real-world situations may be inadequate.
+            </KeyInsight>
                     </ChartPanel>
 
                 </div>
@@ -94,43 +92,39 @@ const KnowledgeGap = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
                     <ChartPanel
                         title="Unprompted Symptom Recall Rate (%)"
                     >
-                        <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
-                            <GenericBarChart
-                                data={recallFrequency && recallFrequency.filter(item => item.symptom !== "no_recall_or_unclear").map(item => ({
-                                    name: item.symptom.replace(/_/g, " "),
-                                    percentage: item.percentage
-                                }))}
-                                xKey="name"
-                                valueKey="percentage"
-                                layout="vertical"
-                                height={300}
-                                barColor={CHART_COLORS.palette[0]}
-                            />
-                            <KeyInsight>
-                                When asked to name symptoms , the results are deeply alarming. While vision and speech problems are somewhat known, critical symptoms like devastating headaches or loss of consciousness remain dangerously undocumented in the public mind.
-                            </KeyInsight>
-                        </div>
+            <GenericBarChart
+              data={recallFrequency && recallFrequency.filter(item => item.symptom !== "no_recall_or_unclear").map(item => ({
+                name: item.symptom.replace(/_/g, " "),
+                percentage: item.percentage
+              }))}
+              xKey="name"
+              valueKey="percentage"
+              layout="vertical"
+              height={300}
+              barColor={CHART_COLORS.palette[0]}
+            />
+            <KeyInsight>
+              When asked to name symptoms , the results are deeply alarming. While vision and speech problems are somewhat known, critical symptoms like devastating headaches or loss of consciousness remain dangerously undocumented in the public mind.
+            </KeyInsight>
                     </ChartPanel>
 
                     <ChartPanel
                         title="Number of Symptoms Recalled per Person"
                     >
-                        <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
-                            <GenericBarChart
-                                data={symptomDepth && symptomDepth.map(item => ({
-                                    name: item.symptom_count.toString(),
-                                    percentage: item.percentage
-                                }))}
-                                xKey="name"
-                                valueKey="percentage"
-                                layout="horizontal"
-                                height={300}
-                                barColor={CHART_COLORS.palette[1]}
-                            />
-                            <KeyInsight>
-                                A massive portion of the population literally could not name a single symptom without help. Being completely unable to recall symptoms means missing the crucial window for medical intervention.
-                            </KeyInsight>
-                        </div>
+            <GenericBarChart
+              data={symptomDepth && symptomDepth.map(item => ({
+                name: item.symptom_count.toString(),
+                percentage: item.percentage
+              }))}
+              xKey="name"
+              valueKey="percentage"
+              layout="horizontal"
+              height={300}
+              barColor={CHART_COLORS.palette[1]}
+            />
+            <KeyInsight>
+              A massive portion of the population literally could not name a single symptom without help. Being completely unable to recall symptoms means missing the crucial window for medical intervention.
+            </KeyInsight>
                     </ChartPanel>
                 </div>
             </Section>
@@ -140,43 +134,39 @@ const KnowledgeGap = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
                     <ChartPanel
                         title="Risk factor identification rate"
                     >
-                        <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
-                            <GenericBarChart
-                                data={riskIdentification && riskIdentification.map(item => ({
-                                    name: item.risk.replace(/_/g, " "),
-                                    percentage: item.percentage
-                                }))}
-                                xKey="name"
-                                valueKey="percentage"
-                                layout="vertical"
-                                height={380}
-                                barColor={CHART_COLORS.palette[0]}
-                            />
-                            <KeyInsight>
-                                If people don't know the risks, they can't prevent the disease. Here we see an alarming percentage of participants failing to link primary drivers like high blood pressure or smoking to stroke likelihood.
-                            </KeyInsight>
-                        </div>
+            <GenericBarChart
+              data={riskIdentification && riskIdentification.map(item => ({
+                name: item.risk.replace(/_/g, " "),
+                percentage: item.percentage
+              }))}
+              xKey="name"
+              valueKey="percentage"
+              layout="vertical"
+              height={380}
+              barColor={CHART_COLORS.palette[0]}
+            />
+            <KeyInsight>
+              If people don't know the risks, they can't prevent the disease. Here we see an alarming percentage of participants failing to link primary drivers like high blood pressure or smoking to stroke likelihood.
+            </KeyInsight>
                     </ChartPanel>
 
                     <ChartPanel
                         title="Number of Risk Factors Recalled per Person"
                     >
-                        <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
-                            <GenericBarChart
-                                data={riskDepth && riskDepth.map(item => ({
-                                    name: item.risk_count.toString(),
-                                    percentage: item.percentage
-                                }))}
-                                xKey="name"
-                                valueKey="percentage"
-                                layout="horizontal"
-                                height={380}
-                                barColor={CHART_COLORS.palette[1]}
-                            />
-                            <KeyInsight>
-                            A large number of participants could not recall atleast one risk factor, and only a few were able to name several. This indicates a serious lack of awareness about stroke risk factors, which may lead to poor prevention and unhealthy lifestyle choices.
-                            </KeyInsight>
-                        </div>
+            <GenericBarChart
+              data={riskDepth && riskDepth.map(item => ({
+                name: item.risk_count.toString(),
+                percentage: item.percentage
+              }))}
+              xKey="name"
+              valueKey="percentage"
+              layout="horizontal"
+              height={380}
+              barColor={CHART_COLORS.palette[1]}
+            />
+            <KeyInsight>
+              A large number of participants could not recall atleast one risk factor, and only a few were able to name several. This indicates a serious lack of awareness about stroke risk factors, which may lead to poor prevention and unhealthy lifestyle choices.
+            </KeyInsight>
                     </ChartPanel>
                 </div>
             </Section>

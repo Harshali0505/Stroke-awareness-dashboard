@@ -140,28 +140,24 @@ const Demographics = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
             title="Age group × awareness level"
             helperText="Awareness deficits exist evenly across every single age bracket, showing the problem is widespread."
           >
-            <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
-              <StackedAwarenessChart
-                data={stackedAgeData}
-                height={410}
-                barSize={22}
-                valueMode="percent"
-                selectedCategory={selected}
-                onSelectCategory={onSelect}
-              />
-              <KeyInsight>
-                The low awareness portion for each age group is seen to be the highest,
-                showing that not a single age group is adequately aware of stroke.
-              </KeyInsight>
-            </div>
+            <StackedAwarenessChart
+              data={stackedAgeData}
+              height={410}
+              barSize={22}
+              valueMode="percent"
+              selectedCategory={selected}
+              onSelectCategory={onSelect}
+            />
+            <KeyInsight>
+              The low awareness portion for each age group is seen to be the highest,
+              showing that not a single age group is adequately aware of stroke.
+            </KeyInsight>
           </ChartPanel>
 
           <ChartPanel
             title="Gender × awareness level"
             helperText="Both males and females reflect an similar distribution of low, medium, and high awareness."
           >
-            <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
-
               <StackedAwarenessChart
                 data={stackedGenderData}
                 height={410}
@@ -174,15 +170,12 @@ const Demographics = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
                 The low awareness portion for each gender is seen to be the highest,
                 showing that gender is not a factor of influence for awareness of stroke.
               </KeyInsight>
-            </div>
           </ChartPanel>
 
           <ChartPanel
             title="Education × awareness level"
             helperText="Higher education does not correlate strongly with health literacy. The majority of graduates still fall into the lowest awareness bracket."
           >
-            <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
-
               <StackedAwarenessChart
                 data={stackedEducationData}
                 height={410}
@@ -195,15 +188,12 @@ const Demographics = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
                 The low awareness portion for each education level is seen to be the highest,
                 showing that high education does not account for lack of awareness about stroke.
               </KeyInsight>
-            </div>
           </ChartPanel>
 
           <ChartPanel
             title="Income × awareness level"
             helperText="Regardless of reported salary, stroke awareness remains consistently low across all economic groups."
           >
-            <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
-
               <StackedAwarenessChart
                 data={stackedIncomeData}
                 height={410}
@@ -216,7 +206,6 @@ const Demographics = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
                 The low awareness portion for each income level is seen to be the highest,
                 showing that even those with higher income do not have a good awareness of stroke.
               </KeyInsight>
-            </div>
           </ChartPanel>
         </div>
       </Section>
