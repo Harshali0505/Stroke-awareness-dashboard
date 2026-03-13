@@ -102,6 +102,22 @@ const Emergency = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
           </ChartPanel>
 
           <ChartPanel
+            title="First Action by Awareness Profile"
+            helperText="Shows that low-awareness individuals tend to contact doctors, family, or remain unsure, while moderate awareness groups are more likely to call emergency services."
+          >
+            <StackedAwarenessChart
+              data={stackedFirstActionData}
+              height={410}
+              barSize={28}
+              valueMode="percent"
+              selectedCategory={selected}
+              onSelectCategory={onSelect}
+            />
+            <KeyInsight>
+              Higher awareness improves the likelihood of contacting emergency services, but many individuals—especially those with low awareness—still choose non-emergency actions, indicating a gap between recognizing stroke symptoms and taking the correct immediate action.
+            </KeyInsight>
+          </ChartPanel>
+          <ChartPanel
             title="Perceived Time-to-Treatment Urgency"
             helperText="Users were asked how soon they think medical intervention is needed after experiencing stroke symptoms."
           >
@@ -123,19 +139,19 @@ const Emergency = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
       <Section title="Behavioral and Awareness Alignment">
         <div className="who-grid who-grid--two">
           <ChartPanel
-            title="First Action by Awareness Profile"
-            helperText="Shows that low-awareness individuals tend to contact doctors, family, or remain unsure, while moderate awareness groups are more likely to call emergency services."
+            title="Timeline for Specialist Consultation"
+            helperText="Any delay beyond 'immediate' represents a failure in emergency recognition. Trends show a dangerous tendency to wait for scheduled consultations rather than ER visits."
           >
-            <StackedAwarenessChart
-              data={stackedFirstActionData}
-              height={410}
-              barSize={28}
-              valueMode="percent"
-              selectedCategory={selected}
-              onSelectCategory={onSelect}
+            <GenericBarChart
+              data={howSoonConsultData}
+              xKey="timeframe"
+              valueKey="percentage"
+              layout="vertical"
+              height={350}
+              barColor={CHART_COLORS.palette[1]}
             />
             <KeyInsight>
-              Higher awareness improves the likelihood of contacting emergency services, but many individuals—especially those with low awareness—still choose non-emergency actions, indicating a gap between recognizing stroke symptoms and taking the correct immediate action.
+              The tendency to wait for scheduled appointments rather than seeking immediate ER care is a major barrier to effective stroke treatment.
             </KeyInsight>
           </ChartPanel>
 
@@ -205,22 +221,7 @@ const Emergency = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
             </KeyInsight>
           </ChartPanel>
 
-          <ChartPanel
-            title="Timeline for Specialist Consultation"
-            helperText="Any delay beyond 'immediate' represents a failure in emergency recognition. Trends show a dangerous tendency to wait for scheduled consultations rather than ER visits."
-          >
-            <GenericBarChart
-              data={howSoonConsultData}
-              xKey="timeframe"
-              valueKey="percentage"
-              layout="vertical"
-              height={350}
-              barColor={CHART_COLORS.palette[1]}
-            />
-            <KeyInsight>
-              The tendency to wait for scheduled appointments rather than seeking immediate ER care is a major barrier to effective stroke treatment.
-            </KeyInsight>
-          </ChartPanel>
+          
         </div>
       </Section>
 
