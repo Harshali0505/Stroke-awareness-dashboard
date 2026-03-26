@@ -13,8 +13,7 @@ import {
 import { getAwarenessColor, CHART_COLORS } from "../../constants/colors";
 import ChartTooltip from "../common/ChartTooltip";
 
-const _AWARENESS_ORDER = ["Low Awareness", "Moderate Awareness", "High Awareness"];
-
+const DEFAULT_AWARENESS_ORDER = ["Low Awareness", "Moderate Awareness", "High Awareness"];
 const formatPercent = (value) => {
   if (value === null || value === undefined || Number.isNaN(Number(value))) return "-";
   return `${Number(value).toFixed(1)}%`;
@@ -84,7 +83,7 @@ const XAxisTick = ({ x, y, payload, angle = 0, maxChars = 14, maxLines = 2 }) =>
   );
 };
 
-const PercentAwarenessTooltip = ({ active, payload, label, isolatedLevel, totalIsolated }) => {
+const PercentAwarenessTooltip = ({ active, payload, label, isolatedLevel, totalIsolated, levels = DEFAULT_AWARENESS_ORDER, customColors }) => {
   if (!active || !payload || payload.length === 0) return null;
 
   const datum = payload?.[0]?.payload;
@@ -94,16 +93,18 @@ const PercentAwarenessTooltip = ({ active, payload, label, isolatedLevel, totalI
     .map((p) => {
       const category = p?.dataKey;
       if (!category) return null;
+      const mappedColor = customColors && customColors[category] ? customColors[category] : getAwarenessColor(category);
       return {
         key: String(category),
         category,
         percentValue: p?.value,
         countValue: datum?.[`${category}__count`],
-        color: p?.color
+        color: p?.color || mappedColor,
+        mappedColor
       };
     })
     .filter(Boolean)
-    .sort((a, b) => _AWARENESS_ORDER.indexOf(a.category) - _AWARENESS_ORDER.indexOf(b.category));
+    .sort((a, b) => levels.indexOf(a.category) - levels.indexOf(b.category));
 
   return (
     <div
@@ -158,7 +159,7 @@ const PercentAwarenessTooltip = ({ active, payload, label, isolatedLevel, totalI
               height: '10px',
               borderRadius: '2px',
               marginTop: '3px',
-              backgroundColor: row.color || getAwarenessColor(row.category)
+              backgroundColor: row.color || row.mappedColor
             }}
           />
           <span style={{ fontWeight: 600, color: 'var(--text-primary, #0f172a)' }}>{row.category}</span>
@@ -180,7 +181,9 @@ const StackedAwarenessChart = ({
   barSize = 18,
   widthScaling = 'standard',
   valueMode = 'count',
-  onSelectCategory = null
+  onSelectCategory = null,
+  levels = DEFAULT_AWARENESS_ORDER,
+  customColors = null
 }) => {
   const [viewportWidth, setViewportWidth] = React.useState(() =>
     typeof window !== "undefined" ? window.innerWidth : 1024
@@ -202,15 +205,15 @@ const StackedAwarenessChart = ({
   const awarenessLevels = React.useMemo(() => {
     const present = new Set();
     data.forEach((item) => {
-      _AWARENESS_ORDER.forEach((level) => {
+      levels.forEach((level) => {
         if (item && Object.prototype.hasOwnProperty.call(item, level)) {
           present.add(level);
         }
       });
     });
 
-    return _AWARENESS_ORDER.filter((l) => present.has(l));
-  }, [data]);
+    return levels.filter((l) => present.has(l));
+  }, [data, levels]);
 
   const effectiveBarSize = React.useMemo(() => {
     const groupCount = Array.isArray(data) ? data.length : 0;
@@ -424,7 +427,7 @@ const StackedAwarenessChart = ({
           <Tooltip
             content={
               valueMode === 'percent' ? (
-                <PercentAwarenessTooltip isolatedLevel={isolatedLevel} totalIsolated={totalIsolated} />
+                <PercentAwarenessTooltip isolatedLevel={isolatedLevel} totalIsolated={totalIsolated} levels={levels} customColors={customColors} />
               ) : (
                 <ChartTooltip />
               )
@@ -451,7 +454,7 @@ const StackedAwarenessChart = ({
                   {payload.map((entry) => {
                     const value = entry?.value;
                     const isHidden = value ? hiddenLevels.has(value) : false;
-                    const color = getAwarenessColor(value);
+                    const color = customColors && customColors[value] ? customColors[value] : getAwarenessColor(value);
                     return (
                       <button
                         key={String(value)}
@@ -533,7 +536,7 @@ const StackedAwarenessChart = ({
               <Bar
                 key={level}
                 dataKey={level}
-                fill={getAwarenessColor(level)}
+                fill={customColors && customColors[level] ? customColors[level] : getAwarenessColor(level)}
                 barSize={effectiveBarSize}
                 hide={hiddenLevels.has(level)}
                 opacity={1}

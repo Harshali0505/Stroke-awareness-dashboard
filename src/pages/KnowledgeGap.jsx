@@ -1,7 +1,7 @@
 import React from "react";
 import PageContainer from "../components/PageContainer";
 import { useStaticData } from "../data/useStaticData";
-import HorizontalStackedResponseChart from "../components/charts/HorizontalStackedResponseChart";
+import StackedAwarenessChart from "../components/charts/StackedAwarenessChart";
 import GenericBarChart from "../components/charts/GenericBarChart";
 import Section from "../components/Section";
 import ChartPanel from "../components/ChartPanel";
@@ -40,7 +40,21 @@ const KnowledgeGap = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
             grouped[item.symptom][item.response] = item.percentage;
             grouped[item.symptom][`${item.response}__count`] = item.count;
         });
-        return Object.values(grouped);
+        
+        // Transform for StackedAwarenessChart using the vertical grouped bar display
+        const highlightLabels = ["Sudden nosebleed"];
+        return Object.values(grouped).map(item => {
+            const isHighlighted = highlightLabels.includes(item.name);
+            return {
+                ...item,
+                "Correct Recognition": isHighlighted ? item["No"] : item["Yes"],
+                "Correct Recognition__count": isHighlighted ? item["No__count"] : item["Yes__count"],
+                "Uncertain": item["Maybe"],
+                "Uncertain__count": item["Maybe__count"],
+                "Incorrect Recognition": isHighlighted ? item["Yes"] : item["No"],
+                "Incorrect Recognition__count": isHighlighted ? item["Yes__count"] : item["No__count"]
+            };
+        });
     }, [identificationData]);
 
     if (loading) {
@@ -76,10 +90,17 @@ const KnowledgeGap = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
                         title="Prompted recognition rate: Can people actually differentiate between stroke symptoms and other conditions?"
                         fullWidth
                     >
-            <HorizontalStackedResponseChart
+            <StackedAwarenessChart
               data={recognitionChartData}
-              highlightLabels={["Sudden nosebleed"]}
-              height={350}
+              height={400}
+              barSize={20}
+              valueMode="percent"
+              levels={["Correct Recognition", "Uncertain", "Incorrect Recognition"]}
+              customColors={{
+                "Correct Recognition": "#2dd4bf",
+                "Uncertain": "#fbbf24",
+                "Incorrect Recognition": "#f87171"
+              }}
             />
             <KeyInsight>
               This analysis evaluates whether respondents can accurately distinguish stroke symptoms from unrelated conditions. Participants were asked to identify whether specific conditions were symptoms of stroke. While many respondents selected “yes,” incorrect identification of non-symptoms suggests limited understanding of actual stroke indicators, indicating that symptom recognition in real-world situations may be inadequate.
