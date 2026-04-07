@@ -15,12 +15,12 @@
     "percentage": 7.25
   },
   {
-    "specialist": "ENT (Ear, Nose, Throat) specialist",
+    "specialist": "ENT (Ear, Nose, and Throat specialist)",
     "count": 401,
     "percentage": 6.5
   },
   {
-    "specialist": "Unaware",
+    "specialist": "unaware",
     "count": 26,
     "percentage": 0.42
   }

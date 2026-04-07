@@ -30,7 +30,7 @@
     "percentage": 38.25
   },
   {
-    "risk": "heart_disease",
+    "risk": "heart_disease_or_af",
     "count": 1998,
     "percentage": 32.39
   },
@@ -55,7 +55,7 @@
     "percentage": 10.72
   },
   {
-    "risk": "previous_stroke_or_TIA",
+    "risk": "previous_stroke_or_tia",
     "count": 240,
     "percentage": 3.89
   }

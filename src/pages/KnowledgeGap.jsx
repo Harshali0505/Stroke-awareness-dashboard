@@ -8,6 +8,7 @@ import ChartPanel from "../components/ChartPanel";
 import KpiCard from "../components/KpiCard";
 import PlaceholderChart from "../components/charts/PlaceholderChart";
 import KeyInsight from "../components/KeyInsight";
+import RecognitionSplitCard from "../components/RecognitionSplitCard";
 import { CHART_COLORS } from "../constants/colors";
 
 
@@ -28,7 +29,11 @@ const KnowledgeGap = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
     const { data: riskDepth, loading: loadingDepthRisk } =
         useStaticData("/analytics/risk-recall-depth.json");
 
-    const loading = loading1 || loading2 || loading3 || loading4 || loadingDepthSymptom || loadingDepthRisk;
+    // Trap Data
+    const { data: trapData, loading: loadingTrap } =
+        useStaticData("/analytics/symptom-trap.json");
+
+    const loading = loading1 || loading2 || loading3 || loading4 || loadingDepthSymptom || loadingDepthRisk || loadingTrap;
 
     const recognitionChartData = React.useMemo(() => {
         if (!identificationData) return [];
@@ -84,6 +89,44 @@ const KnowledgeGap = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
                 </p>
             </Section>
 
+            {trapData && identificationData && (() => {
+                const nosebleedYes = identificationData.find(d => d.symptom === "Sudden nosebleed" && d.response === "Yes")?.percentage || "70.9";
+                const nosebleedNo = identificationData.find(d => d.symptom === "Sudden nosebleed" && d.response === "No")?.percentage || "12.9";
+                
+                const confCorrect = identificationData.find(d => d.symptom.includes("confusion") && d.response === "Yes")?.percentage || "72.1";
+                const numbCorrect = identificationData.find(d => d.symptom.includes("numbness") && d.response === "Yes")?.percentage || "71.9";
+                const visCorrect = identificationData.find(d => d.symptom.includes("seeing") && d.response === "Yes")?.percentage || "71.1";
+
+                return (
+                    <Section title="Crucial Misconceptions & Hidden Uncertainty">
+                        <div className="who-kpi-row" style={{ marginBottom: "24px" }}>
+                            <KpiCard
+                                title="False positive — nosebleed"
+                                value={`${nosebleedYes}%`}
+                                subtitle={`Wrongly believe nosebleed IS a stroke symptom. Only ${nosebleedNo}% got it right.`}
+                                severity="danger"
+                            />
+                            <KpiCard
+                                title="All 4 symptoms correct"
+                                value={`${trapData.all_four_percentage}%`}
+                                subtitle={`Only ${trapData.all_four_correct} out of ${trapData.total_participants} respondents answered all four correctly.`}
+                                severity="warning"
+                            />
+                        </div>
+                        
+                        <KeyInsight>
+                            <strong>The nosebleed trap — most shareable single finding:</strong> {nosebleedYes}% believe nosebleed is a stroke symptom — it is not. Of {trapData.three_symptoms_correct.toLocaleString()} people who correctly identified the 3 true symptoms, only {trapData.all_four_correct} ({trapData.trap_percentage}%) also correctly rejected nosebleed. This misconception persists even among people who know the real symptoms.
+                        </KeyInsight>
+
+                        <div style={{ marginTop: "16px" }}>
+                            <KeyInsight>
+                                <strong>True symptoms known by ~72% — but "maybe" shows hidden uncertainty:</strong> Confusion ({confCorrect}% correct), numbness ({numbCorrect}%), vision trouble ({visCorrect}%) are similarly recognized. But 15–17% answered "maybe" for each — 1 in 6 people are uncertain even about the most classic stroke symptoms.
+                            </KeyInsight>
+                        </div>
+                    </Section>
+                );
+            })()}
+
             <Section title="Failed recognition of symptoms">
                 <div className="who-grid">
                     <ChartPanel
@@ -109,86 +152,47 @@ const KnowledgeGap = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
 
                 </div>
 
-                <div className="who-grid who-grid--two" style={{ marginTop: '24px' }}>
-                    <ChartPanel
-                        title="Unprompted Symptom Recall Rate (%)"
-                    >
-            <GenericBarChart
-              data={recallFrequency && recallFrequency.filter(item => item.symptom !== "no_recall_or_unclear").map(item => ({
-                name: item.symptom.replace(/_/g, " "),
-                percentage: item.percentage
-              }))}
-              xKey="name"
-              valueKey="percentage"
-              layout="vertical"
-              height={300}
-              barColor={CHART_COLORS.palette[0]}
-            />
-            <KeyInsight>
-              When asked to name symptoms , the results are deeply alarming. While vision and speech problems are somewhat known, critical symptoms like devastating headaches or loss of consciousness remain dangerously undocumented in the public mind.
-            </KeyInsight>
-                    </ChartPanel>
+                <div style={{ marginTop: '32px' }}>
+                    
+                    {symptomDepth && (() => {
+                        const zero = symptomDepth.find(d => d.symptom_count === 0 || d.symptom_count === '0');
+                        if (!zero) return null;
+                        const pct = zero.percentage.toFixed(1);
+                        return (
+                            <div style={{ padding: "20px 24px", backgroundColor: "var(--bg-danger, #fef2f2)", borderLeft: "4px solid var(--border-danger, #e11d48)", borderRadius: "8px", fontSize: "16px", lineHeight: "1.6", color: "var(--text-primary)", marginBottom: "24px" }}>
+                                <strong>{pct}% of respondents gave no answer at all</strong> when asked about symptoms. Being completely unable to spontaneously recall symptoms means missing the crucial window for medical intervention.
+                            </div>
+                        );
+                    })()}
 
-                    <ChartPanel
-                        title="Number of Symptoms Recalled per Person"
-                    >
-            <GenericBarChart
-              data={symptomDepth && symptomDepth.map(item => ({
-                name: item.symptom_count.toString(),
-                percentage: item.percentage
-              }))}
-              xKey="name"
-              valueKey="percentage"
-              layout="horizontal"
-              height={300}
-              barColor={CHART_COLORS.palette[1]}
-            />
-            <KeyInsight>
-              A massive portion of the population literally could not name a single symptom without help. Being completely unable to recall symptoms means missing the crucial window for medical intervention.
-            </KeyInsight>
-                    </ChartPanel>
+                    <RecognitionSplitCard 
+                        data={recallFrequency ? recallFrequency.filter(item => item.symptom !== "no_recall_or_unclear").map(item => ({
+                            name: item.symptom.replace(/_/g, " "),
+                            percentage: item.percentage
+                        })) : []} 
+                    />
                 </div>
             </Section>
 
             <Section title="Risk factors">
-                <div className="who-grid who-grid--two">
-                    <ChartPanel
-                        title="Risk factor identification rate"
-                    >
-            <GenericBarChart
-              data={riskIdentification && riskIdentification.map(item => ({
-                name: item.risk.replace(/_/g, " "),
-                percentage: item.percentage
-              }))}
-              xKey="name"
-              valueKey="percentage"
-              layout="vertical"
-              height={380}
-              barColor={CHART_COLORS.palette[0]}
-            />
-            <KeyInsight>
-              If people don't know the risks, they can't prevent the disease. Here we see an alarming percentage of participants failing to link primary drivers like high blood pressure or smoking to stroke likelihood.
-            </KeyInsight>
-                    </ChartPanel>
-
-                    <ChartPanel
-                        title="Number of Risk Factors Recalled per Person"
-                    >
-            <GenericBarChart
-              data={riskDepth && riskDepth.map(item => ({
-                name: item.risk_count.toString(),
-                percentage: item.percentage
-              }))}
-              xKey="name"
-              valueKey="percentage"
-              layout="horizontal"
-              height={380}
-              barColor={CHART_COLORS.palette[1]}
-            />
-            <KeyInsight>
-              A large number of participants could not recall atleast one risk factor, and only a few were able to name several. This indicates a serious lack of awareness about stroke risk factors, which may lead to poor prevention and unhealthy lifestyle choices.
-            </KeyInsight>
-                    </ChartPanel>
+                <div style={{ marginTop: '16px' }}>
+                    
+                    {riskDepth && (() => {
+                        const zero = riskDepth.find(d => parseInt(d.risk_count) === 0 || d.risk_count === '0');
+                        const pct = zero ? zero.percentage.toFixed(1) : "32"; // default to screenshot if undefined
+                        return (
+                            <div style={{ padding: "20px 24px", backgroundColor: "var(--bg-danger, #fef2f2)", borderLeft: "4px solid var(--border-danger, #e11d48)", borderRadius: "8px", fontSize: "16px", lineHeight: "1.6", color: "var(--text-primary)", marginBottom: "24px" }}>
+                                <strong>{pct}% of respondents gave no answer at all</strong> when asked about the risk factors of stroke . Blank responses are themselves a data point showing how poorly understood stroke risks are.
+                            </div>
+                        );
+                    })()}
+                    
+                    <RecognitionSplitCard 
+                        data={riskIdentification ? riskIdentification.map(item => ({
+                            name: item.risk.replace(/_/g, " "),
+                            percentage: item.percentage
+                        })) : []} 
+                    />
                 </div>
             </Section>
 

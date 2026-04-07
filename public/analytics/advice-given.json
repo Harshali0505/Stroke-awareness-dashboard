@@ -1,41 +1,41 @@
 [
   {
-    "advice": "No_response",
+    "advice": "no_response",
     "count": 3681,
     "percentage": 59.68
   },
   {
-    "advice": "Seek_medical_help",
+    "advice": "seek_medical_help",
     "count": 751,
     "percentage": 12.18
   },
   {
-    "advice": "Call_emergency_services",
+    "advice": "call_emergency_services",
     "count": 529,
     "percentage": 8.58
   },
   {
-    "advice": "Keep_the_person_calm",
+    "advice": "keep_the_person_calm",
     "count": 511,
     "percentage": 8.28
   },
   {
-    "advice": "Other",
+    "advice": "other",
     "count": 436,
     "percentage": 7.07
   },
   {
-    "advice": "Avoid_food_or_drink_sleep",
+    "advice": "avoid_food_or_drink_sleep",
     "count": 222,
     "percentage": 3.6
   },
   {
-    "advice": "Ensure_rest_and_safety",
+    "advice": "ensure_rest_and_safety",
     "count": 29,
     "percentage": 0.47
   },
   {
-    "advice": "Observe_and_monitor_symptoms",
+    "advice": "observe_and_monitor_symptoms",
     "count": 9,
     "percentage": 0.15
   }

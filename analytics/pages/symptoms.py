@@ -138,3 +138,45 @@ def generate(df: pd.DataFrame, out_dir: Path):
         df.drop(columns=["_parsed_symptoms", "_recall_count"], inplace=True)
 
         print(" Open-ended symptom recall JSONs generated")
+
+    # ======================================
+    # 3️⃣ THE NOSEBLEED TRAP / CROSS-TAB INSIGHTS
+    # ======================================
+    
+    confusion_col = symptom_columns.get("Sudden confusion / trouble speaking")
+    numbness_col = symptom_columns.get("Sudden numbness or weakness of face/arm/leg")
+    vision_col = symptom_columns.get("Trouble seeing in one or both eyes")
+    nosebleed_col = symptom_columns.get("Sudden nosebleed")
+    
+    if all(col in df.columns for col in [confusion_col, numbness_col, vision_col, nosebleed_col]):
+        total_resp = len(df)
+        
+        c_conf = df[confusion_col].astype(str).str.strip().str.lower()
+        c_numb = df[numbness_col].astype(str).str.strip().str.lower()
+        c_vis = df[vision_col].astype(str).str.strip().str.lower()
+        c_nose = df[nosebleed_col].astype(str).str.strip().str.lower()
+        
+        # 3 True symptoms correct (Yes)
+        true_symptoms_mask = (c_conf == "yes") & (c_numb == "yes") & (c_vis == "yes")
+        true_symptoms_correct_count = int(true_symptoms_mask.sum())
+        
+        # All 4 correct (Yes to 3, No to nosebleed)
+        all_four_mask = true_symptoms_mask & (c_nose == "no")
+        all_four_correct_count = int(all_four_mask.sum())
+        
+        # False positive nosebleed
+        nosebleed_yes_mask = (c_nose == "yes")
+        nosebleed_yes_count = int(nosebleed_yes_mask.sum())
+        
+        trap_data = {
+            "total_participants": total_resp,
+            "three_symptoms_correct": true_symptoms_correct_count,
+            "all_four_correct": all_four_correct_count,
+            "all_four_percentage": round((all_four_correct_count / total_resp) * 100, 2) if total_resp else 0,
+            "trap_percentage": round((all_four_correct_count / true_symptoms_correct_count) * 100, 2) if true_symptoms_correct_count else 0,
+            "nosebleed_yes_count": nosebleed_yes_count,
+            "nosebleed_yes_percentage": round((nosebleed_yes_count / total_resp) * 100, 2) if total_resp else 0,
+        }
+        
+        save_json(out_dir, "symptom-trap.json", trap_data)
+        print("Symptom trap JSON generated")

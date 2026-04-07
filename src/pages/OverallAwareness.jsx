@@ -7,6 +7,7 @@ import GenericHistogram from '../components/charts/GenericHistogram';
 import Section from '../components/Section';
 import ChartPanel from '../components/ChartPanel';
 import KeyInsight from '../components/KeyInsight';
+import GenericBarChart from '../components/charts/GenericBarChart';
 import { CHART_COLORS } from '../constants/colors';
 
 const OverallAwareness = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
@@ -25,19 +26,41 @@ const OverallAwareness = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
   const { data: knowStrokeData, loading: knowStrokeLoading } =
     useStaticData('/analytics/know-stroke.json');
 
+  const { data: perceptionData, loading: perceptionLoading } =
+    useStaticData('/analytics/perception-reality.json');
+
+  const simpleComparisonData = React.useMemo(() => {
+    if (!analyticsData || !knowStrokeData) return [];
+    
+    const actualHigh = analyticsData.find(d => d.label === "High Awareness")?.percentage || 0;
+    const perceivedYes = knowStrokeData.find(d => d.response === "Yes")?.percentage || 0;
+
+    return [
+      {
+        name: "Claimed Knowledge (Said Yes)",
+        percentage: perceivedYes
+      },
+      {
+        name: "Demonstrated Knowledge (High Score)",
+        percentage: actualHigh
+      }
+    ];
+  }, [analyticsData, knowStrokeData]);
+
   if (
     kpiLoading ||
     analyticsLoading ||
     scoreLoading ||
     scoreSummaryLoading ||
-    knowStrokeLoading
+    knowStrokeLoading ||
+    perceptionLoading
   ) {
     return (
       <PageContainer
         title="The Big Picture: Stroke Awareness"
         description={
           <>
-            The dashboard presents a consolidated overview of stroke awareness levels across the surveyed population. It highlights overall knowledge distribution, self-reported familiarity, and readiness indicators to establish a baseline understanding.          </>
+            This dashboard presents a consolidated overview of stroke awareness levels across the surveyed population. It highlights overall knowledge distribution, self-reported familiarity, and readiness indicators to establish a baseline understanding.          </>
         }
         isMobileMenuOpen={isMobileMenuOpen}
         setIsMobileMenuOpen={setIsMobileMenuOpen}
@@ -52,7 +75,7 @@ const OverallAwareness = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
       title="The Big Picture: Stroke Awareness"
       description={
         <>
-          The dashboard presents a consolidated overview of stroke awareness levels across the surveyed population. It highlights overall knowledge distribution, self-reported familiarity, and readiness indicators to establish a baseline understanding.
+          This dashboard presents a consolidated overview of stroke awareness levels across the surveyed population. It highlights overall knowledge distribution, self-reported familiarity, and readiness indicators to establish a baseline understanding.
         </>
       }
       isMobileMenuOpen={isMobileMenuOpen}
@@ -108,14 +131,38 @@ const OverallAwareness = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
         </div>
       </Section>
 
+      <Section title="Glanceable Summary & Key Insights">
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "24px", marginTop: "12px", marginBottom: "32px" }}>
+
+          <div style={{ backgroundColor: "var(--bg-card)", padding: "24px", borderRadius: "8px", border: "1px solid var(--border-color)", borderTop: "4px solid #ef4444", boxShadow: "0 10px 25px -5px rgba(0,0,0,0.05)", transition: "all 0.2s ease" }} className="hover-lift">
+            <div style={{ fontSize: "12px", fontWeight: 700, color: "var(--text-tertiary)", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "12px" }}>THE ACTION GAP</div>
+            <div style={{ fontSize: "36px", fontWeight: 800, color: "var(--text-danger, #ef4444)", marginBottom: "12px", lineHeight: 1 }}>42.5%</div>
+            <div style={{ fontSize: "15px", color: "var(--text-secondary)", lineHeight: 1.6 }}>of individuals who actually <strong>know what a stroke is</strong> still fail to state they would seek immediate emergency medical help when noticing symptoms.</div>
+          </div>
+
+          <div style={{ backgroundColor: "var(--bg-card)", padding: "24px", borderRadius: "8px", border: "1px solid var(--border-color)", borderTop: "4px solid #3b82f6", boxShadow: "0 10px 25px -5px rgba(0,0,0,0.05)", transition: "all 0.2s ease" }} className="hover-lift">
+            <div style={{ fontSize: "12px", fontWeight: 700, color: "var(--text-tertiary)", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "12px" }}>LIFESTYLE CORRELATION</div>
+            <div style={{ fontSize: "36px", fontWeight: 800, color: "#3b82f6", marginBottom: "12px", lineHeight: 1 }}>None</div>
+            <div style={{ fontSize: "15px", color: "var(--text-secondary)", lineHeight: 1.6 }}>Statistical testing shows total independence. <strong>Healthy and unhealthy individuals</strong> are both equally misinformed about stroke risks and symptoms.</div>
+          </div>
+
+          <div style={{ backgroundColor: "var(--bg-card)", padding: "24px", borderRadius: "8px", border: "1px solid var(--border-color)", borderTop: "4px solid #10b981", boxShadow: "0 10px 25px -5px rgba(0,0,0,0.05)", transition: "all 0.2s ease" }} className="hover-lift">
+            <div style={{ fontSize: "12px", fontWeight: 700, color: "var(--text-tertiary)", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "12px" }}>DATA PROFILES</div>
+            <div style={{ fontSize: "36px", fontWeight: 800, color: "#10b981", marginBottom: "12px", lineHeight: 1 }}>4 Segments</div>
+            <div style={{ fontSize: "15px", color: "var(--text-secondary)", lineHeight: 1.6 }}>Cluster analysis identified exactly four distinct demographic profiles representing how stroke knowledge predictably distributes in the broader public.</div>
+          </div>
+
+        </div>
+      </Section>
+
       <Section
         title="Awareness Distribution"
         helperText="Hover over a category to see participant count and share."
       >
         <div className="who-grid who-grid--two">
           <ChartPanel
-            title="Awareness Category Distribution"
-            helperText="Share of participants by low, medium, and high awareness."
+            title="Awareness Category Distribution (Actual)"
+            helperText="Share of participants objectively scoring as low, medium, or high awareness."
           >
             <GenericPieChart
               data={analyticsData}
@@ -128,78 +175,54 @@ const OverallAwareness = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
               showOuterLabels={false}
             />
             <br></br>
-            <p>
-              The above chart shows the distribution of participants by low, medium, and high awareness based on the survey responses. This was judged on the basis of knowledge of stroke, risk factors, symptoms, and emergency response.
+            <p style={{ margin: 0, fontSize: '14px', color: 'var(--text-secondary)' }}>
+              This pie chart shows the reality of stroke awareness based on objective scoring across multiple different critical criteria.
             </p>
           </ChartPanel>
 
-          <ChartPanel
-            title="Self-reported knowledge of stroke"
-            helperText="Participants reporting whether they know what a brain stroke is."
-          >
-            <GenericPieChart
-              data={knowStrokeData}
-              labelKey="response"
-              valueKey="percentage"
-              innerRadius={0}
-              width={420}
-              height={360}
-              interaction="hover"
-              showOuterLabels={false}
-            />
-            <br></br>
-            <p>
-              The above chart shows the distribution of participants by their self reported knowledge of stroke, when asked if they know what a brain stroke is.
-            </p>
-          </ChartPanel>
-        </div>
-        <br></br>
-        <p style={{
-          margin: 0, lineHeight: 1.6, color: 'var(--text-secondary)', whiteSpace: 'pre-wrap'
-        }}>
-          The gap between the percieved awareness and the actual awareness is a cause for concern. It indicates that there is a disconnect between what people know and what they actually understand about stroke. This gap suggests that there is a need for better education and awareness campaigns to bridge this gap and improve public understanding of stroke.
-        </p>
-      </Section>
-
-      <Section title="Why stroke awareness is critical?">
-        <p style={{
-          margin: 0, lineHeight: 1.6, color: 'var(--text-secondary)', whiteSpace: 'pre-wrap'
-        }}>
-          Stroke outcomes are highly time-sensitive. Early recognition and immediate medical response significantly improve survival and recovery rates. Awareness directly influences response time, making public knowledge a critical determinant of health outcomes.        </p>
-      </Section>
-
-      <Section title="Explore deeper">
-        <div style={{ margin: 0, lineHeight: 1.6, color: 'var(--text-secondary)' }}>
-          Subsequent sections examine demographic variation, lifestyle associations, symptom recognition accuracy, and identified knowledge gaps to provide a multidimensional analysis.          <ul>
-            <li>the knowledge of stroke with respect to their demographic details</li>
-            <li>how awareness and lifestyle choices correlate (if they do at all)</li>
-            <li>knowledge gaps with respect to symptoms and risk factors</li>
-            <li>awareness and action gap</li>
-            <li>what is the source of knowledge</li>
-          </ul>
-        </div>
-      </Section>
-
-      <Section title="Key Analytical Insights">
-        <div className="who-kpi-row">
-          <KpiCard
-            title="Awareness and Action Gap"
-            value="42.5%"
-            subtitle="of AWARE individuals fail to seek immediate help"
-            severity="none"
-          />
-          <KpiCard
-            title="Awareness and Lifestyle Correlation"
-            value="Independent"
-            subtitle="No correlation found"
-            severity="none"
-          />
-          <KpiCard
-            title="Population Segments"
-            value="4"
-            subtitle="distinct profiles can be derived from the given data"
-            severity="none"
-          />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', justifyContent: 'center' }}>
+            {perceptionData && perceptionData.distribution && (
+              (() => {
+                const yesTotal = perceptionData.distribution.filter(d => d.know_stroke === "Yes").reduce((sum, d) => sum + d.count, 0);
+                const yesHigh = perceptionData.distribution.find(d => d.know_stroke === "Yes" && d.category === "High Awareness")?.count || 0;
+                const yesLowMod = yesTotal - yesHigh;
+    
+                const total = perceptionData.total_participants;
+                const percentSaidYes = ((yesTotal / total) * 100).toFixed(0);
+                const percentYesButLowMod = ((yesLowMod / yesTotal) * 100).toFixed(1);
+                const percentYesHigh = ((yesHigh / yesTotal) * 100).toFixed(1);
+    
+                return (
+                  <>
+                    <KeyInsight>
+                      <strong>The Perception–Reality Gap:</strong> {percentSaidYes}% of respondents proudly stated they understood stroke risks. However, when objectively scored, {percentYesButLowMod}% of those confident individuals fell directly into the Low or Moderate awareness categories. People dramatically overestimate how much they know.
+                    </KeyInsight>
+                    
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                      <KpiCard
+                        title="Claimed Awareness"
+                        value={`${percentSaidYes}%`}
+                        subtitle="claimed they know what a stroke is"
+                        severity="neutral"
+                      />
+                      <KpiCard
+                        title="Overestimated Reality"
+                        value={`${percentYesButLowMod}%`}
+                        subtitle="of those who said 'Yes' failed tests"
+                        severity="danger"
+                      />
+                      <KpiCard
+                        title="True Awareness"
+                        value={`${percentYesHigh}%`}
+                        subtitle="of those who said 'Yes' scored High"
+                        severity="success"
+                      />
+                    </div>
+                  </>
+                );
+              })()
+            )}
+          </div>
         </div>
       </Section>
     </PageContainer>

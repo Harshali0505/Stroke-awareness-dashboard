@@ -108,3 +108,19 @@ def generate(df, out_dir: Path):
             ],
         )
 
+        # Perception vs Reality Gap
+        cat_col = "awareness_category"
+        if cat_col in df.columns:
+            grouped = df.groupby([know_col, cat_col]).size().reset_index(name='count')
+            totals_df = df.groupby(know_col).size().reset_index(name='total')
+            merged = pd.merge(grouped, totals_df, on=know_col)
+            merged['percentage'] = (merged['count'] / merged['total'] * 100).round(2)
+            
+            data = {
+                "total_participants": total,
+                "distribution": merged.rename(columns={
+                    know_col: 'know_stroke', 
+                    cat_col: 'category'
+                }).to_dict(orient='records')
+            }
+            save_json(out_dir, "perception-reality.json", data)
