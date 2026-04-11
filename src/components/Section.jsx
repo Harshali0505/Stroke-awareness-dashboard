@@ -1,15 +1,15 @@
 import React from 'react';
 
-const Section = ({ title, helperText, children }) => {
+const Section = ({ title, helperText, children, zone = 'zone-c' }) => {
   return (
-    <section className="who-section">
+    <section className={`app-section ${zone}`}>
       {(title || helperText) && (
-        <header className="who-section__header">
-          {title && <h2 className="who-section__title">{title}</h2>}
-          {helperText && <p className="who-section__helper">{helperText}</p>}
+        <header style={{ marginBottom: '20px' }}>
+          {title && <h2 className="text-heading-1" style={{ marginBottom: '8px' }}>{title}</h2>}
+          {helperText && <p className="text-body-sm text-secondary">{helperText}</p>}
         </header>
       )}
-      <div className="who-section__content">{children}</div>
+      <div className="section-content">{children}</div>
     </section>
   );
 };

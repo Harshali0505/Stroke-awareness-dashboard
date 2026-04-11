@@ -55,7 +55,7 @@ const GenericPieChart = ({
           nameKey={labelKey}
           cx="50%"
           cy="50%"
-          outerRadius={Math.min(height / 2 - 30, 120)}
+          outerRadius="80%"
           innerRadius={innerRadius}
           labelLine={showOuterLabels}
           label={showOuterLabels ? renderOuterLabel : false}
@@ -83,6 +83,8 @@ const GenericPieChart = ({
                 fill={colors ? colors[index % colors.length] : getAwarenessColor(entry[labelKey])}
                 opacity={isActive ? 1 : CHART_COLORS.inactiveOpacity}
                 cursor={isHover ? "default" : (onSelect ? "pointer" : "default")}
+                stroke="var(--bg-surface)"
+                strokeWidth={2}
               />
             );
           })}

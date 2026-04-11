@@ -1,9 +1,5 @@
 import React from "react";
 
-/**
- * Universal chart tooltip — adapts to light/dark mode via CSS variables.
- * No logic changes; only visual styling.
- */
 const ChartTooltip = ({ active, payload, label }) => {
   if (!active || !payload || !payload.length) return null;
 
@@ -23,75 +19,89 @@ const ChartTooltip = ({ active, payload, label }) => {
   return (
     <div
       style={{
-        background: 'var(--tooltip-bg, #ffffff)',
-        border: '1px solid var(--tooltip-border, rgba(148,163,184,0.25))',
+        background: '#1a2332',
+        border: '1px solid rgba(255, 255, 255, 0.12)',
         borderRadius: '10px',
         padding: '10px 14px',
-        fontSize: '12px',
-        fontFamily: 'Inter, sans-serif',
-        color: 'var(--text-primary, #0f172a)',
-        boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
-        minWidth: '160px',
-        pointerEvents: 'none'
+        boxShadow: '0 8px 24px rgba(0,0,0,0.35)',
+        pointerEvents: 'none',
+        zIndex: 9999,
+        fontFamily: 'Inter, sans-serif'
       }}
     >
-      {/* X-axis / group label */}
-      {label && (
-        <div
-          style={{
-            fontWeight: 700,
-            marginBottom: '6px',
-            fontSize: '12px',
-            color: 'var(--text-primary, #0f172a)',
-            borderBottom: '1px solid var(--border, rgba(148,163,184,0.15))',
-            paddingBottom: '6px'
-          }}
-        >
-          {label}
-        </div>
-      )}
+      {/* Category label */}
+      <div style={{
+        fontSize: '11px',
+        textTransform: 'uppercase',
+        letterSpacing: '0.06em',
+        color: 'rgba(255,255,255,0.5)',
+        marginBottom: '4px'
+      }}>
+        {label || data.label || 'Value'}
+      </div>
 
-      {/* Category / slice label */}
-      {data.label && (
-        <div style={{ fontWeight: 500, marginBottom: '4px' }}>
-          {data.label}
-        </div>
-      )}
-
-      {/* Participant count */}
-      {data.count !== undefined && (
-        <div style={{ color: 'var(--text-secondary, #64748b)', marginBottom: '2px' }}>
-          Participants: <strong style={{ color: 'var(--text-primary, #0f172a)' }}>{data.count}</strong>
-        </div>
-      )}
-
-      {/* Percentage */}
+      {/* Recharts simple tooltip mode */}
       {data.percentage !== undefined && (
-        <div style={{ color: 'var(--text-secondary, #64748b)' }}>
-          Percentage: <strong style={{ color: 'var(--brand-primary, #0f766e)' }}>{data.percentage}%</strong>
-        </div>
+        <>
+          <div style={{
+            fontSize: '22px',
+            fontWeight: 700,
+            fontFamily: "'JetBrains Mono', monospace",
+            color: '#ffffff',
+            display: 'block'
+          }}>
+            {data.percentage}%
+          </div>
+          {data.count !== undefined && (
+            <div style={{
+              fontSize: '12px',
+              fontWeight: 400,
+              color: 'rgba(255,255,255,0.6)',
+              marginTop: '2px'
+            }}>
+              Participants: {data.count}
+            </div>
+          )}
+        </>
       )}
 
-      {/* Multi-series rows */}
+      {/* Multi-series Tooltip fallback */}
       {data.percentage === undefined && seriesRows.length > 0 && (
-        <div style={{ marginTop: '6px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+        <div style={{ marginTop: '0px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
           {seriesRows.map((row) => (
-            <div key={row.key} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span
-                style={{
-                  width: '9px',
-                  height: '9px',
-                  borderRadius: '2px',
-                  flexShrink: 0,
-                  backgroundColor: row.color || '#14b8a6'
-                }}
-              />
-              <span style={{ flex: 1, color: 'var(--text-secondary, #64748b)' }}>
-                {row.name}:
-              </span>
-              <strong style={{ color: 'var(--text-primary, #0f172a)' }}>
-                {typeof row.value === 'number' ? `${row.value.toFixed(1)}%` : row.value}
-              </strong>
+            <div key={row.key} style={{ display: 'flex', flexDirection: 'column' }}>
+              <div style={{
+                fontSize: '22px',
+                fontWeight: 700,
+                fontFamily: "'JetBrains Mono', monospace",
+                color: '#ffffff',
+                display: 'block'
+              }}>
+                <span
+                  style={{
+                    display: 'inline-block',
+                    width: '8px',
+                    height: '8px',
+                    borderRadius: '50%',
+                    backgroundColor: row.color || '#14b8a6',
+                    marginRight: '6px',
+                    verticalAlign: 'middle',
+                    marginBottom: '4px'
+                  }}
+                />
+                {typeof row.value === 'number' ? 
+                  (String(row.value).includes('.') ? `${row.value.toFixed(1)}%` : `${row.value}%`) 
+                  : row.value
+                }
+              </div>
+              <div style={{
+                fontSize: '12px',
+                fontWeight: 400,
+                color: 'rgba(255,255,255,0.6)',
+                marginTop: '0px'
+              }}>
+                {row.name}
+              </div>
             </div>
           ))}
         </div>

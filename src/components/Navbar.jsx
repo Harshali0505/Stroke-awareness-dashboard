@@ -1,17 +1,18 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import {
+  FiHome,
   FiBarChart2,
   FiUsers,
   FiActivity,
   FiAlertTriangle,
   FiZap,
   FiRadio,
+  FiTarget,
   FiChevronsLeft,
   FiChevronsRight,
   FiSun,
-  FiMoon,
-  FiTarget
+  FiMoon
 } from 'react-icons/fi';
 import { useTheme } from '../App';
 
@@ -19,7 +20,6 @@ const Navbar = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
   const location = useLocation();
   const { theme, toggleTheme } = useTheme();
 
-  // Sidebar starts expanded (false = not collapsed); localStorage persists user preference
   const [isCollapsed, setIsCollapsed] = React.useState(() => {
     const saved = window.localStorage.getItem('sidebarCollapsed');
     return saved === 'true';
@@ -29,7 +29,6 @@ const Navbar = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
   const mobileOpen = isMobileMenuOpen ?? internalMobileOpen;
   const setMobileOpen = setIsMobileMenuOpen ?? setInternalMobileOpen;
 
-  // Sync HTML class + localStorage whenever collapsed state changes
   React.useLayoutEffect(() => {
     if (isCollapsed) {
       document.documentElement.classList.add('sidebar-collapsed');
@@ -39,13 +38,14 @@ const Navbar = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
     window.localStorage.setItem('sidebarCollapsed', isCollapsed ? 'true' : 'false');
   }, [isCollapsed]);
 
-  const isActive = (path) =>
-    location.pathname === path || (path === '/' && location.pathname === '/overview');
+  const isActive = (path) => {
+    if (path === '/') return location.pathname === '/';
+    return location.pathname === path;
+  };
 
-  // Navigation items — labels match the exact page titles
   const navItems = [
     {
-      path: '/',
+      path: '/overview',
       label: 'The Big Picture: Stroke Awareness',
       icon: <FiBarChart2 />
     },
@@ -83,94 +83,90 @@ const Navbar = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
 
   const handleNavClick = () => {
     setMobileOpen(false);
-
-    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
-    document.documentElement.scrollTop = 0;
-    document.body.scrollTop = 0;
-
-    const main = document.querySelector('main.main-content');
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+    const main = document.querySelector('.main-content');
     if (main) {
-      main.scrollTo({ top: 0, left: 0, behavior: 'auto' });
-      main.scrollTop = 0;
+      main.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
     }
   };
-  const toggleCollapsed = () => setIsCollapsed((prev) => !prev);
 
   return (
-    <nav className={`navbar sidebar ${mobileOpen ? 'open' : ''}`}>
-      <div className="navbar-container">
-
-        {/* ——— Brand ——— */}
-        <div className="navbar-brand">
-          <div className="logo-placeholder" aria-hidden="true">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" strokeWidth="2.5"
-              strokeLinecap="round" strokeLinejoin="round">
-              <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
-            </svg>
-          </div>
-
+    <nav className={`sidebar ${mobileOpen ? 'open' : ''}`}>
+      <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+        
+        {/* Brand Area */}
+        <div style={{ padding: '24px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
           {!isCollapsed && (
-            <div style={{ flex: 1, minWidth: 0 }}>
-              <span className="brand-text">Stroke Analytics</span>
-              <span className="brand-subtitle">Awareness Dashboard</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <div style={{ padding: '8px', background: 'var(--brand-primary)', borderRadius: '8px', color: '#fff', display: 'flex' }}>
+                 <FiTarget size={18} />
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <span style={{ fontSize: '14px', fontWeight: 700, color: '#fff', letterSpacing: '-0.02em' }}>Stroke Analytics</span>
+                <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.5)' }}>Research Dashboard</span>
+              </div>
             </div>
           )}
-
-
           <button
-            type="button"
-            className="sidebar-collapse-toggle"
-            onClick={toggleCollapsed}
-            aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-            title={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+            onClick={() => setIsCollapsed(!isCollapsed)}
+            style={{ background: 'transparent', border: 'none', color: 'rgba(255,255,255,0.5)', cursor: 'pointer', padding: '4px' }}
           >
-            {isCollapsed
-              ? <FiChevronsRight size={14} />
-              : <FiChevronsLeft size={14} />}
+            {isCollapsed ? <FiChevronsRight size={18} /> : <FiChevronsLeft size={18} />}
           </button>
         </div>
 
-        {/* ——— Section label (hidden when collapsed) ——— */}
-        {!isCollapsed && (
-          <span className="nav-section-label">Navigation</span>
-        )}
+        {/* Nav Links */}
+        <div style={{ flex: 1, overflowY: 'auto', padding: '16px 0' }}>
+          <div style={{ padding: '0 16px' }}>
+            {navItems.map((item) => {
+              const active = isActive(item.path);
+              return (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  onClick={handleNavClick}
+                  className={`sidebar-nav-item ${active ? 'active' : ''}`}
+                  style={{ margin: '4px 0' }}
+                >
+                  <div className="sidebar-nav-icon">{item.icon}</div>
+                  {!isCollapsed && (
+                    <div className="sidebar-nav-label text-body-sm">{item.label}</div>
+                  )}
+                </Link>
+              );
+            })}
+          </div>
+        </div>
 
-        {/* ——— Nav links ——— */}
-        <nav className="navbar-nav" aria-label="Main navigation">
-          {navItems.map((item) => {
-            const active = isActive(item.path);
-            return (
-              <Link
-                key={item.path}
-                to={item.path}
-                onClick={handleNavClick}
-                className="nav-link"
-                data-active={active ? 'true' : 'false'}
-                title={item.label}
-                aria-current={active ? 'page' : undefined}
-              >
-                <span className="nav-icon" aria-hidden="true">
-                  {item.icon}
-                </span>
-                {/* Label shown in expanded state, hidden by CSS when collapsed */}
-                <span className="nav-label">{item.label}</span>
-              </Link>
-            );
-          })}
-        </nav>
+        {/* Footer Area */}
+        <div style={{ padding: '16px', borderTop: '1px solid rgba(255,255,255,0.05)', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <Link
+            to="/"
+            onClick={handleNavClick}
+            style={{ 
+              display: 'flex', alignItems: 'center', gap: '8px', 
+              background: 'rgba(255,255,255,0.05)', color: '#fff', 
+              padding: '10px 16px', borderRadius: '8px', textDecoration: 'none',
+              justifyContent: isCollapsed ? 'center' : 'flex-start'
+            }}
+          >
+            <FiChevronsLeft size={16} />
+            {!isCollapsed && <span style={{ fontSize: '13px', fontWeight: 500 }}>Back to Homepage</span>}
+          </Link>
+          <button 
+            onClick={toggleTheme}
+            style={{ 
+              display: 'flex', alignItems: 'center', gap: '8px', 
+              background: 'rgba(255,255,255,0.05)', border: 'none', color: '#fff', 
+              padding: '10px 16px', borderRadius: '8px', cursor: 'pointer', width: '100%',
+              justifyContent: isCollapsed ? 'center' : 'flex-start'
+            }}
+          >
+            {theme === 'dark' ? <FiSun size={16} /> : <FiMoon size={16} />}
+            {!isCollapsed && <span style={{ fontSize: '13px', fontWeight: 500 }}>{theme === 'dark' ? 'Light Mode' : 'Dark Mode'}</span>}
+          </button>
+        </div>
       </div>
-
-      {/* ——— Theme toggle floating button ——— */}
-      <button
-        type="button"
-        className="theme-toggle-floating"
-        onClick={toggleTheme}
-        title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-        aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-      >
-        {theme === 'dark' ? <FiSun size={20} /> : <FiMoon size={20} />}
-      </button>
     </nav>
   );
 };

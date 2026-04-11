@@ -43,11 +43,11 @@ const GenericHistogram = ({
           data={trendData || data}
           margin={{ top: 12, right: 16, left: 0, bottom: 8 }}
         >
-        <CartesianGrid strokeDasharray="4 4" stroke={CHART_COLORS.grid} vertical={false} />
+        <CartesianGrid strokeDasharray="4 4" stroke="var(--chart-grid)" vertical={false} />
         <XAxis
           dataKey={xKey}
           stroke="transparent"
-          tick={{ fill: CHART_COLORS.axis, fontSize: 11, fontFamily: 'Inter, sans-serif' }}
+          tick={{ fill: "var(--chart-tick)", fontSize: 11, fontFamily: 'Inter, sans-serif' }}
           tickLine={false}
           axisLine={false}
           tickFormatter={(v) => {
@@ -57,7 +57,7 @@ const GenericHistogram = ({
         />
         <YAxis
           stroke="transparent"
-          tick={{ fill: CHART_COLORS.axis, fontSize: 11, fontFamily: 'Inter, sans-serif' }}
+          tick={{ fill: "var(--chart-tick)", fontSize: 11, fontFamily: 'Inter, sans-serif' }}
           tickLine={false}
           axisLine={false}
           width={40}
@@ -70,13 +70,13 @@ const GenericHistogram = ({
               <ReferenceLine
                 key={l.key || `${l.label || "ref"}-${l.x}`}
                 x={l.x}
-                stroke={l.color || CHART_COLORS.axis}
+                stroke={l.color || "var(--chart-tick)"}
                 strokeDasharray={l.strokeDasharray || "4 4"}
                 label={
                   l.label
                     ? {
                       value: l.label,
-                      fill: l.color || CHART_COLORS.axis,
+                      fill: l.color || "var(--chart-tick)",
                       position: "top",
                       fontSize: 11,
                       fontFamily: 'Inter, sans-serif'

@@ -63,18 +63,18 @@ const GroupedComparisonChart = ({
           data={data}
           margin={{ top: 20, right: 30, left: 0, bottom: 5 }}
         >
-          <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={CHART_COLORS.grid || "#e2e8f0"} />
+          <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--chart-grid)" />
           <XAxis 
             dataKey="name" 
             axisLine={false} 
             tickLine={false} 
-            tick={{ fill: 'var(--text-secondary, #64748b)', fontSize: 12, fontFamily: 'Inter, sans-serif', fontWeight: 500 }}
+            tick={{ fill: 'var(--chart-tick)', fontSize: 12, fontFamily: 'Inter, sans-serif', fontWeight: 500 }}
             dy={10}
           />
           <YAxis 
             axisLine={false} 
             tickLine={false} 
-            tick={{ fill: 'var(--text-tertiary, #94a3b8)', fontSize: 11, fontFamily: 'Inter, sans-serif' }}
+            tick={{ fill: 'var(--chart-tick)', fontSize: 11, fontFamily: 'Inter, sans-serif' }}
             tickFormatter={(value) => `${value}%`}
             width={45}
             domain={[0, 'auto']}

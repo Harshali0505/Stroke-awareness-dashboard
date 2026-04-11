@@ -4,10 +4,10 @@ const DivergingComparison = ({ title, leftLabel, rightLabel, leftValue, rightVal
   return (
     <div style={{ 
       marginBottom: "2rem", 
-      backgroundColor: "#fff", 
+      backgroundColor: "var(--bg-surface)", 
       padding: "1.5rem", 
       borderRadius: "12px", 
-      border: "1px solid rgba(148,163,184,0.15)",
+      border: "1px solid var(--border)",
       width: fullWidth ? "100%" : "auto"
     }}>
       <h4 style={{ margin: "0 0 1.5rem 0", color: "var(--text-primary)", textAlign: "center", fontSize: "16px" }}>{title}</h4>
@@ -50,13 +50,13 @@ const DivergingComparison = ({ title, leftLabel, rightLabel, leftValue, rightVal
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            backgroundColor: "#fff",
+            backgroundColor: "var(--bg-surface)",
             padding: "4px 6px",
             fontSize: "11px",
             color: "var(--text-tertiary)",
             fontWeight: 700,
             borderRadius: "50%",
-            border: "1px solid rgba(148,163,184,0.3)"
+            border: "1px solid var(--border)"
           }}>VS</div>
         </div>
 

@@ -2,23 +2,31 @@ import React from 'react';
 import Navbar from './Navbar';
 import Footer from './Footer';
 
+/**
+ * pageHeaderMeta shape:
+ *   { sectionTag: 'SECTION 02', severity: 'critical'|'moderate'|'good'|'info', severityLabel: 'Critical' }
+ */
 const PageContainer = ({
   children,
   title,
   description,
   isMobileMenuOpen,
   setIsMobileMenuOpen,
-  hideNavbar = false
+  hideNavbar = false,
+  pageHeaderMeta = null,
 }) => {
+  const getSeverityClass = (sev) => {
+    if (sev === 'critical') return 'on-red';
+    if (sev === 'moderate') return 'on-amber';
+    if (sev === 'good') return 'on-green';
+    return 'on-blue';
+  };
+
+  const meta = pageHeaderMeta;
+  const sevClass = meta ? getSeverityClass(meta.severity) : 'on-blue';
+
   return (
-    <div
-      style={{
-        minHeight: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        background: 'var(--bg-app)'
-      }}
-    >
+    <div className="app-layout">
       {/* ——— Sidebar ——— */}
       {!hideNavbar && (
         <Navbar
@@ -27,26 +35,37 @@ const PageContainer = ({
         />
       )}
 
-      {/* ——— Main content area (flex: 1 so footer stays at bottom) ——— */}
-      <main
-        className={`main-content ${hideNavbar ? '' : 'with-sidebar'}`}
-        style={{ flex: 1 }}
-      >
+      {/* ——— Main content area ——— */}
+      <main className="main-content">
         <div className="content-max">
           {(title || description) && (
-            <header className="page-header">
-              {title && <h1 className="page-title">{title}</h1>}
+            <header className="zone-a">
+              {/* Top row: section tag + severity badge */}
+              {meta && (
+                <div className={`zone-a-meta ${sevClass}`}>
+                  {meta.sectionTag && (
+                    <span className="tag-pill text-label">{meta.sectionTag}</span>
+                  )}
+                  <span className="severity-pill text-label">
+                    {meta.severityLabel || 'Info'}
+                  </span>
+                </div>
+              )}
+
+              {/* Title */}
+              {title && <h1 className="text-hero" style={{ marginBottom: '12px' }}>{title}</h1>}
+
+              {/* Description / subtitle */}
               {description && (
-                <p className="page-description">{description}</p>
+                <p className="text-body" style={{ color: 'var(--text-muted)' }}>{description}</p>
               )}
             </header>
           )}
-          <div className="page-content">{children}</div>
+          
+          {children}
         </div>
       </main>
 
-      {/* ——— Full-width footer (outside main, below sidebar) ——— */}
-      <Footer sidebarWidth={hideNavbar ? 0 : true} />
     </div>
   );
 };

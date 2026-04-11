@@ -38,9 +38,9 @@ const GenericStackedBarChart = ({
 
   return (
     <BarChart width={width} height={height} data={chartData}>
-      <CartesianGrid strokeDasharray="3 3" stroke={CHART_COLORS.grid} />
-      <XAxis dataKey={groupKey} stroke={CHART_COLORS.axis} />
-      <YAxis stroke={CHART_COLORS.axis} />
+      <CartesianGrid strokeDasharray="3 3" stroke="var(--chart-grid)" />
+      <XAxis dataKey={groupKey} stroke="var(--chart-tick)" />
+      <YAxis stroke="var(--chart-tick)" />
       <Tooltip content={<ChartTooltip />} />
       <Legend
         onClick={(e) => {

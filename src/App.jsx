@@ -1,5 +1,6 @@
 import React, { useState, useEffect, createContext, useContext } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import Landing from './pages/Landing';
 import OverallAwareness from './pages/OverallAwareness';
 import Demographics from './pages/Demographics';
 import Lifestyle from './pages/Lifestyle';
@@ -93,8 +94,9 @@ function App() {
         <Router>
           <ScrollToTop />
           <Routes>
+            {/* Landing page */}
+            <Route path="/"               element={<Landing />} />
             {/* Core pages */}
-            <Route path="/"               element={<OverallAwareness {...sharedProps} />} />
             <Route path="/overview"       element={<OverallAwareness {...sharedProps} />} />
             <Route path="/demographics"   element={<Demographics     {...sharedProps} />} />
             <Route path="/lifestyle"      element={<Lifestyle        {...sharedProps} />} />

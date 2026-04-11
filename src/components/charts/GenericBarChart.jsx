@@ -38,7 +38,7 @@ const XAxisTick = ({ x, y, payload, angle = 0, maxChars = 14 }) => {
         y={0}
         dy={16}
         textAnchor={anchor}
-        fill={CHART_COLORS.axis}
+        fill={"var(--chart-tick)"}
         fontSize={11}
         fontFamily="Inter, sans-serif"
         transform={angle ? `rotate(${angle})` : undefined}
@@ -104,12 +104,25 @@ const GenericBarChart = ({
 
   const xAxisHeight = !isVerticalLayout ? (shouldRotate ? 62 : 36) : 32;
 
+  // For vertical layout, compute YAxis width based on longest label
+  const yAxisWidth = React.useMemo(() => {
+    if (!isVerticalLayout) return 52;
+    const longest = Array.isArray(data)
+      ? data.reduce((max, d) => {
+          const label = toLabelString(d?.[xKey]);
+          return label.length > max ? label.length : max;
+        }, 0)
+      : 0;
+    // ~7px per char, clamped between 120 and 220
+    return Math.min(220, Math.max(120, longest * 7));
+  }, [data, xKey, isVerticalLayout]);
+
   const margin = isVerticalLayout
-    ? { top: 8, right: 36, left: 8, bottom: 8 }
+    ? { top: 8, right: 40, left: 8, bottom: 8 }
     : { top: 12, right: 24, left: 0, bottom: shouldRotate ? 22 : 8 };
 
   return (
-    <div style={{ width: "100%" }}>
+    <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column" }}>
       <ResponsiveContainer width="100%" height={height}>
         <BarChart
           data={data}
@@ -119,7 +132,7 @@ const GenericBarChart = ({
         >
               <CartesianGrid
                 strokeDasharray="4 4"
-                stroke={CHART_COLORS.grid}
+                stroke="var(--chart-grid)"
                 vertical={!isVerticalLayout}
                 horizontal={isVerticalLayout}
               />
@@ -135,7 +148,7 @@ const GenericBarChart = ({
                 tick={
                   isVerticalLayout
                     ? {
-                        fill: CHART_COLORS.axis,
+                        fill: "var(--chart-tick)",
                         fontSize: 11,
                         fontFamily: "Inter, sans-serif"
                       }
@@ -154,9 +167,9 @@ const GenericBarChart = ({
                 type={isVerticalLayout ? "category" : "number"}
                 dataKey={isVerticalLayout ? xKey : undefined}
                 stroke="transparent"
-                width={isVerticalLayout ? 220 : 52}
+                width={yAxisWidth}
                 tick={{
-                  fill: CHART_COLORS.axis,
+                  fill: "var(--chart-tick)",
                   fontSize: 11,
                   fontFamily: "Inter, sans-serif",
                   textAnchor: isVerticalLayout ? "end" : "middle"
@@ -173,7 +186,7 @@ const GenericBarChart = ({
                         position: "insideLeft",
                         dx: -12,
                         style: {
-                          fill: CHART_COLORS.axis,
+                          fill: "var(--chart-tick)",
                           fontSize: 11,
                           fontWeight: 500,
                           fontFamily: "Inter, sans-serif",

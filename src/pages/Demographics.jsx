@@ -2,27 +2,17 @@ import React from "react";
 import PageContainer from "../components/PageContainer";
 import { useStaticData } from "../data/useStaticData";
 import StackedAwarenessChart from "../components/charts/StackedAwarenessChart";
-import Section from "../components/Section";
 import ChartPanel from "../components/ChartPanel";
-import PlaceholderChart from "../components/charts/PlaceholderChart";
 import useChartSelection from "../hooks/useChartSelection";
-import KeyInsight from "../components/KeyInsight";
+import InsightCard from "../components/InsightCard";
 
 const Demographics = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
-  // 🔹 Shared selection across all charts
   const { selected, onSelect } = useChartSelection();
 
-  const { data: ageData, loading: ageLoading } =
-    useStaticData("/analytics/age-awareness.json");
-
-  const { data: genderData, loading: genderLoading } =
-    useStaticData("/analytics/gender-awareness.json");
-
-  const { data: educationData, loading: educationLoading } =
-    useStaticData("/analytics/education-awareness.json");
-
-  const { data: incomeData, loading: incomeLoading } =
-    useStaticData("/analytics/income-awareness.json");
+  const { data: ageData, loading: ageLoading } = useStaticData("/analytics/age-awareness.json");
+  const { data: genderData, loading: genderLoading } = useStaticData("/analytics/gender-awareness.json");
+  const { data: educationData, loading: educationLoading } = useStaticData("/analytics/education-awareness.json");
+  const { data: incomeData, loading: incomeLoading } = useStaticData("/analytics/income-awareness.json");
 
   const formatSalaryLabel = React.useCallback((value) => {
     const s = String(value ?? "").trim().toLowerCase();
@@ -36,43 +26,24 @@ const Demographics = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
     return String(value);
   }, []);
 
-  // ✅ CORRECT transformer: row-based → stacked format
   const transformToStacked = React.useCallback((data, groupKey) => {
     if (!Array.isArray(data)) return [];
-
     const map = {};
-
     data.forEach(item => {
       const rawGroup = item[groupKey];
       const group = groupKey === "salary" ? formatSalaryLabel(rawGroup) : rawGroup;
-
-      // 🔴 REQUIRED for XAxis
-      if (!map[group]) {
-        map[group] = { name: group, total: item.total };
-      }
-
-      // Use within-group PERCENTAGE for grouped bar height
+      if (!map[group]) map[group] = { name: group, total: item.total };
       map[group][item.category] = item.percentage;
-      // Keep raw counts available for tooltip
       map[group][`${item.category}__count`] = item.count;
     });
-
     return Object.values(map);
   }, [formatSalaryLabel]);
 
-  const stackedAgeData = React.useMemo(
-    () => transformToStacked(ageData, "age"),
-    [ageData, transformToStacked]
-  );
-
-  const stackedGenderData = React.useMemo(
-    () => transformToStacked(genderData, "gender"),
-    [genderData, transformToStacked]
-  );
-
+  const stackedAgeData = React.useMemo(() => transformToStacked(ageData, "age"), [ageData, transformToStacked]);
+  const stackedGenderData = React.useMemo(() => transformToStacked(genderData, "gender"), [genderData, transformToStacked]);
+  
   const stackedEducationData = React.useMemo(() => {
     let data = transformToStacked(educationData, "educational_level");
-    // Change names for sorting and display
     const renameMap = {
       "high school": "High School",
       "high_school": "High School",
@@ -82,7 +53,6 @@ const Demographics = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
       "other": "Other"
     };
     data = data.map(item => ({ ...item, name: renameMap[item.name.toLowerCase()] || item.name }));
-
     const order = ["High School", "Undergraduate", "Graduate", "Speciality", "Other"];
     return data.sort((a, b) => {
       const idxA = order.indexOf(a.name);
@@ -108,8 +78,9 @@ const Demographics = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
         description="Analyzing how background factors like age, gender, and education influence stroke literacy."
         isMobileMenuOpen={isMobileMenuOpen}
         setIsMobileMenuOpen={setIsMobileMenuOpen}
+        pageHeaderMeta={{ sectionTag: 'SECTION 02', severity: 'moderate', severityLabel: 'MODERATE' }}
       >
-        <p>Loading demographic insights...</p>
+        <p className="text-body text-muted">Loading demographic insights...</p>
       </PageContainer>
     );
   }
@@ -120,95 +91,104 @@ const Demographics = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
       description="Analyzing how background factors like age, gender, and education influence stroke literacy."
       isMobileMenuOpen={isMobileMenuOpen}
       setIsMobileMenuOpen={setIsMobileMenuOpen}
+      pageHeaderMeta={{ sectionTag: 'SECTION 02', severity: 'moderate', severityLabel: 'MODERATE' }}
     >
-      <Section
-        title="Overview"
-      >
-        <p style={{
-          margin: 0, lineHeight: 1.6, color: 'var(--text-secondary)', whiteSpace: 'pre-wrap'
+      {/* ZONE B — universal finding banner */}
+      <div className="zone-b">
+        <div style={{
+          background: 'linear-gradient(135deg, var(--amber-bg, #fffbeb) 0%, var(--bg-surface) 100%)',
+          border: '1px solid var(--amber-border, #fde68a)',
+          borderLeft: '4px solid var(--amber, #f59e0b)',
+          borderRadius: '14px',
+          padding: '24px 32px',
+          position: 'relative', overflow: 'hidden',
         }}>
-        Majority of the population lies in the low awareness category irrespective of their age, gender, education level and income, showing that no demographic group is adequately prepared.
+          <div style={{ position: 'absolute', bottom: '-20px', right: '-20px', width: '120px', height: '120px', background: 'radial-gradient(circle, rgba(245,158,11,0.12) 0%, transparent 70%)', borderRadius: '50%', pointerEvents: 'none' }} />
+          <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '10px', fontWeight: 700,
+            textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--amber, #f59e0b)', marginBottom: '6px' }}>
+            DEMOGRAPHIC DISTRIBUTION · SECTION 02
+          </div>
+          <h3 style={{ margin: '0 0 8px', fontSize: '16px', fontWeight: 700, color: 'var(--text-primary)' }}>
+            Universal Lack of Preparedness — No Group Is Safe
+          </h3>
+          <p style={{ margin: 0, fontSize: '14px', lineHeight: 1.75, color: 'var(--text-secondary)' }}>
+            The majority of the population lies in the <strong>Low Awareness category irrespective of age, gender, education level, and income</strong>.
+            No demographic group is adequately prepared for stroke. The problem is systemic, not selective.
+          </p>
+        </div>
+      </div>
 
-        </p>
-      </Section>
-
-      <Section
-        title="Awareness by demographic group"
-      >
-        <div className="who-grid who-grid--two">
+      <div className="zone-c">
+        <div className="chart-grid-2">
+          {/* Chart 1 */}
           <ChartPanel
             title="Age group × awareness level"
-            helperText="Awareness deficits exist evenly across every single age bracket, showing the problem is widespread."
+            sectionTag="02.A"
+            severity="amber"
+            callout={<span>Awareness deficits exist evenly across every single age bracket, showing the problem is widespread. Not a single age group is adequately aware of stroke.</span>}
           >
             <StackedAwarenessChart
               data={stackedAgeData}
-              height={410}
+              height="100%"
               barSize={22}
               valueMode="percent"
               selectedCategory={selected}
               onSelectCategory={onSelect}
             />
-            <KeyInsight>
-              The low awareness portion for each age group is seen to be the highest,
-              showing that not a single age group is adequately aware of stroke.
-            </KeyInsight>
           </ChartPanel>
 
+          {/* Chart 2 */}
           <ChartPanel
             title="Gender × awareness level"
-            helperText="Both males and females reflect an similar distribution of low, medium, and high awareness."
+            sectionTag="02.B"
+            severity="amber"
+            callout={<span>Both males and females reflect a similar distribution. Gender is not a predictive factor of influence for awareness of stroke.</span>}
           >
-              <StackedAwarenessChart
-                data={stackedGenderData}
-                height={410}
-                barSize={28}
-                valueMode="percent"
-                selectedCategory={selected}
-                onSelectCategory={onSelect}
-              />
-              <KeyInsight>
-                The low awareness portion for each gender is seen to be the highest,
-                showing that gender is not a factor of influence for awareness of stroke.
-              </KeyInsight>
+            <StackedAwarenessChart
+              data={stackedGenderData}
+              height="100%"
+              barSize={28}
+              valueMode="percent"
+              selectedCategory={selected}
+              onSelectCategory={onSelect}
+            />
           </ChartPanel>
 
+          {/* Chart 3 */}
           <ChartPanel
             title="Education × awareness level"
-            helperText="Higher education does not correlate strongly with health literacy. The majority of graduates still fall into the lowest awareness bracket."
+            sectionTag="02.C"
+            severity="amber"
+            callout={<span>Higher education does not correlate strongly with health literacy. The majority of graduates still fall into the lowest awareness bracket.</span>}
           >
-              <StackedAwarenessChart
-                data={stackedEducationData}
-                height={410}
-                barSize={22}
-                valueMode="percent"
-                selectedCategory={selected}
-                onSelectCategory={onSelect}
-              />
-              <KeyInsight>
-                The low awareness portion for each education level is seen to be the highest,
-                showing that high education does not account for lack of awareness about stroke.
-              </KeyInsight>
+            <StackedAwarenessChart
+              data={stackedEducationData}
+              height="100%"
+              barSize={22}
+              valueMode="percent"
+              selectedCategory={selected}
+              onSelectCategory={onSelect}
+            />
           </ChartPanel>
 
+          {/* Chart 4 */}
           <ChartPanel
             title="Income × awareness level"
-            helperText="Regardless of reported salary, stroke awareness remains consistently low across all economic groups."
+            sectionTag="02.D"
+            severity="amber"
+            callout={<span>Regardless of reported salary, stroke awareness remains consistently low across all economic groups.</span>}
           >
-              <StackedAwarenessChart
-                data={stackedIncomeData}
-                height={410}
-                barSize={20}
-                valueMode="percent"
-                selectedCategory={selected}
-                onSelectCategory={onSelect}
-              />
-              <KeyInsight>
-                The low awareness portion for each income level is seen to be the highest,
-                showing that even those with higher income do not have a good awareness of stroke.
-              </KeyInsight>
+            <StackedAwarenessChart
+              data={stackedIncomeData}
+              height="100%"
+              barSize={20}
+              valueMode="percent"
+              selectedCategory={selected}
+              onSelectCategory={onSelect}
+            />
           </ChartPanel>
         </div>
-      </Section>
+      </div>
     </PageContainer>
   );
 };

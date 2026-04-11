@@ -55,27 +55,31 @@ const PercentResponseTooltip = ({ active, payload, label }) => {
   return (
     <div
       style={{
-        background: 'var(--tooltip-bg, #ffffff)',
-        border: '1px solid var(--tooltip-border, rgba(148,163,184,0.25))',
+        background: '#1a2332',
+        border: '1px solid rgba(255, 255, 255, 0.12)',
         borderRadius: '10px',
-        padding: '10px 14px',
+        padding: '12px 14px',
         fontSize: '12px',
         fontFamily: 'Inter, sans-serif',
-        color: 'var(--text-primary, #0f172a)',
-        boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
+        color: '#ffffff',
+        boxShadow: '0 8px 24px rgba(0,0,0,0.35)',
         minWidth: '220px',
-        pointerEvents: 'none'
+        pointerEvents: 'none',
+        zIndex: 9999
       }}
     >
       <div style={{
-        fontWeight: 700,
+        fontSize: '11px',
+        textTransform: 'uppercase',
+        letterSpacing: '0.06em',
+        color: 'rgba(255,255,255,0.5)',
         marginBottom: '8px',
-        paddingBottom: '6px',
-        borderBottom: '1px solid var(--border, rgba(148,163,184,0.15))'
+        paddingBottom: '8px',
+        borderBottom: '1px solid rgba(255,255,255,0.1)'
       }}>{label}</div>
 
-      <div style={{ marginBottom: '8px', color: 'var(--text-secondary, #64748b)', fontSize: '11px' }}>
-        Total N: <strong style={{ color: 'var(--text-primary, #0f172a)' }}>{formatCount(totalN)}</strong>
+      <div style={{ marginBottom: '12px', color: 'rgba(255,255,255,0.6)', fontSize: '12px' }}>
+        Total N: <strong style={{ color: '#ffffff' }}>{formatCount(totalN)}</strong>
       </div>
 
       {rows.map((row) => (
@@ -83,29 +87,30 @@ const PercentResponseTooltip = ({ active, payload, label }) => {
           key={row.key}
           style={{
             display: 'grid',
-            gridTemplateColumns: '10px 1fr auto',
+            gridTemplateColumns: 'min-content 1fr auto',
             columnGap: '8px',
-            alignItems: 'start',
-            marginTop: '6px'
+            alignItems: 'center',
+            marginTop: '8px'
           }}
         >
           <span
             style={{
-              width: '10px',
-              height: '10px',
-              borderRadius: '2px',
-              marginTop: '3px',
-              backgroundColor: row.color
+              width: '8px',
+              height: '8px',
+              borderRadius: '50%',
+              backgroundColor: row.color,
+              marginTop: '2px',
+              alignSelf: 'start'
             }}
           />
-          <span style={{ fontWeight: 600, color: 'var(--text-primary, #0f172a)' }}>{row.category}</span>
-          <span style={{ fontWeight: 700, color: 'var(--brand-primary, #0f766e)' }}>
+          <span style={{ fontWeight: 600, color: '#ffffff', alignSelf: 'start', lineHeight: 1.2 }}>{row.category}</span>
+          <span style={{ fontWeight: 700, color: row.color, fontFamily: "'JetBrains Mono', monospace", fontSize: '14px', alignSelf: 'start', lineHeight: 1 }}>
             {formatPercent(row.percentValue)}
           </span>
 
           <span />
-          <span style={{ opacity: 0.7, fontSize: '11px', color: 'var(--text-secondary, #64748b)' }}>Count</span>
-          <span style={{ fontWeight: 600, fontSize: '11px', color: 'var(--text-secondary, #64748b)' }}>
+          <span style={{ opacity: 0.6, fontSize: '11px', color: '#ffffff' }}>Count</span>
+          <span style={{ fontWeight: 400, fontSize: '11px', color: 'rgba(255,255,255,0.6)' }}>
             {formatCount(row.countValue)} participants
           </span>
         </div>
@@ -183,14 +188,14 @@ const HorizontalStackedResponseChart = ({
       >
         <CartesianGrid
           strokeDasharray="4 4"
-          stroke={CHART_COLORS.grid}
+          stroke="var(--chart-grid)"
           vertical={false}
         />
 
         <XAxis
           type="number"
           domain={[0, 100]}
-          tick={{ fill: CHART_COLORS.axis, fontSize: 11, fontFamily: 'Inter, sans-serif' }}
+          tick={{ fill: "var(--chart-tick)", fontSize: 11, fontFamily: 'Inter, sans-serif' }}
           tickFormatter={(value) => `${value}%`}
           axisLine={false}
           tickLine={false}
@@ -213,7 +218,7 @@ const HorizontalStackedResponseChart = ({
                   y={0}
                   dy={4}
                   textAnchor="end"
-                  fill={isHighlighted ? "#f87171" : CHART_COLORS.axis}
+                  fill={isHighlighted ? "#f87171" : "var(--chart-tick)"}
                   fontSize={11}
                   fontFamily="Inter, sans-serif"
                   fontWeight={isHighlighted ? 600 : 400}
@@ -258,6 +263,8 @@ const HorizontalStackedResponseChart = ({
             opacity={1}
             animationDuration={600}
             radius={level === "Incorrect" ? [0, 4, 4, 0] : [0, 0, 0, 0]}
+            stroke="var(--bg-surface)"
+            strokeWidth={1}
           />
         ))}
       </BarChart>

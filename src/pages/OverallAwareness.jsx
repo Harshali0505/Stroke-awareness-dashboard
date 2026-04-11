@@ -3,12 +3,9 @@ import PageContainer from '../components/PageContainer';
 import { useStaticData } from '../data/useStaticData';
 import KpiCard from '../components/KpiCard';
 import GenericPieChart from '../components/charts/GenericPieChart';
-import GenericHistogram from '../components/charts/GenericHistogram';
 import Section from '../components/Section';
 import ChartPanel from '../components/ChartPanel';
-import KeyInsight from '../components/KeyInsight';
-import GenericBarChart from '../components/charts/GenericBarChart';
-import { CHART_COLORS } from '../constants/colors';
+import InsightCard from '../components/InsightCard';
 
 const OverallAwareness = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
   const { data: kpiData, loading: kpiLoading } =
@@ -17,214 +14,156 @@ const OverallAwareness = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
   const { data: analyticsData, loading: analyticsLoading } =
     useStaticData("/analytics/overall-awareness.json");
 
-  const { data: scoreData, loading: scoreLoading } =
-    useStaticData('/analytics/awareness-score-distribution.json');
-
-  const { data: scoreSummary, loading: scoreSummaryLoading } =
-    useStaticData('/analytics/awareness-score-summary.json');
-
-  const { data: knowStrokeData, loading: knowStrokeLoading } =
-    useStaticData('/analytics/know-stroke.json');
-
   const { data: perceptionData, loading: perceptionLoading } =
     useStaticData('/analytics/perception-reality.json');
 
-  const simpleComparisonData = React.useMemo(() => {
-    if (!analyticsData || !knowStrokeData) return [];
-    
-    const actualHigh = analyticsData.find(d => d.label === "High Awareness")?.percentage || 0;
-    const perceivedYes = knowStrokeData.find(d => d.response === "Yes")?.percentage || 0;
-
-    return [
-      {
-        name: "Claimed Knowledge (Said Yes)",
-        percentage: perceivedYes
-      },
-      {
-        name: "Demonstrated Knowledge (High Score)",
-        percentage: actualHigh
-      }
-    ];
-  }, [analyticsData, knowStrokeData]);
-
-  if (
-    kpiLoading ||
-    analyticsLoading ||
-    scoreLoading ||
-    scoreSummaryLoading ||
-    knowStrokeLoading ||
-    perceptionLoading
-  ) {
+  if (kpiLoading || analyticsLoading || perceptionLoading) {
     return (
       <PageContainer
         title="The Big Picture: Stroke Awareness"
-        description={
-          <>
-            This dashboard presents a consolidated overview of stroke awareness levels across the surveyed population. It highlights overall knowledge distribution, self-reported familiarity, and readiness indicators to establish a baseline understanding.          </>
-        }
+        description="This dashboard presents a consolidated overview of stroke awareness levels across the surveyed population."
         isMobileMenuOpen={isMobileMenuOpen}
         setIsMobileMenuOpen={setIsMobileMenuOpen}
+        pageHeaderMeta={{ sectionTag: 'SECTION 01', severity: 'critical', severityLabel: 'CRITICAL' }}
       >
-        <p>Loading overview insights...</p>
+        <p className="text-body text-muted">Loading overview insights...</p>
       </PageContainer>
     );
+  }
+
+  // Pre-calculate perception reality numbers
+  let percentSaidYes = '63';
+  let percentYesButLowMod = '97.4';
+  let percentYesHigh = '2.6';
+  
+  if (perceptionData && perceptionData.distribution) {
+    const yesTotal = perceptionData.distribution.filter(d => d.know_stroke === "Yes").reduce((sum, d) => sum + d.count, 0);
+    const yesHigh = perceptionData.distribution.find(d => d.know_stroke === "Yes" && d.category === "High Awareness")?.count || 0;
+    const yesLowMod = yesTotal - yesHigh;
+
+    const total = perceptionData.total_participants;
+    if (yesTotal > 0 && total > 0) {
+      percentSaidYes = ((yesTotal / total) * 100).toFixed(0);
+      percentYesButLowMod = ((yesLowMod / yesTotal) * 100).toFixed(1);
+      percentYesHigh = ((yesHigh / yesTotal) * 100).toFixed(1);
+    }
   }
 
   return (
     <PageContainer
       title="The Big Picture: Stroke Awareness"
-      description={
-        <>
-          This dashboard presents a consolidated overview of stroke awareness levels across the surveyed population. It highlights overall knowledge distribution, self-reported familiarity, and readiness indicators to establish a baseline understanding.
-        </>
-      }
+      description="This dashboard presents a consolidated overview of stroke awareness levels across the surveyed population. It highlights overall knowledge distribution, self-reported familiarity, and readiness indicators to establish a baseline understanding."
       isMobileMenuOpen={isMobileMenuOpen}
       setIsMobileMenuOpen={setIsMobileMenuOpen}
+      pageHeaderMeta={{ sectionTag: 'SECTION 01', severity: 'critical', severityLabel: 'CRITICAL' }}
     >
-      <Section title="Key indicators">
-        <p style={{
-          margin: 0, lineHeight: 1.6, color: 'var(--text-secondary)', whiteSpace: 'pre-wrap'
-        }}>
-          The awareness is judged across factors like knowledge of stroke, risk factors, symptoms, and emergency response. A huge section of the respondents have low awareness about stroke and only a select few have high awareness, indicating substantial room for public health improvement.
-        </p>
-        <div className="who-kpi-row">
+      
+      {/* ZERO B + TOP STATS */}
+      <div className="zone-b">
+        <div className="grid-4-col" style={{ marginBottom: '24px' }}>
           <KpiCard
-            title="Total Participants"
-            value={kpiData?.totalRespondents}
-            subtitle="Total survey participants"
-            severity="neutral"
+            topLabel="TOTAL PARTICIPANTS"
+            value={kpiData?.totalRespondents?.toLocaleString() || "6,168"}
+            subtitle="Total surveyed population"
+            severity="blue"
           />
-
           <KpiCard
-            title="Percentage of people with low awareness"
-            value={
-              typeof kpiData?.lowPercent === 'number'
-                ? `${kpiData.lowPercent}%`
-                : '—'
-            }
+            topLabel="CRITICAL · LOW AWARENESS"
+            value={typeof kpiData?.lowPercent === 'number' ? `${kpiData.lowPercent}%` : '—'}
             subtitle="Limited stroke awareness"
-            severity="danger"
+            severity="red"
           />
-
           <KpiCard
-            title="Percentage of people with medium awareness"
-            value={
-              typeof kpiData?.moderatePercent === 'number'
-                ? `${kpiData.moderatePercent}%`
-                : '—'
-            }
+            topLabel="MODERATE AWARENESS"
+            value={typeof kpiData?.moderatePercent === 'number' ? `${kpiData.moderatePercent}%` : '—'}
             subtitle="Partial stroke awareness"
-            severity="warning"
+            severity="amber"
           />
-
           <KpiCard
-            title="Percentage of people with high awareness"
-            value={
-              typeof kpiData?.highPercent === 'number'
-                ? `${kpiData.highPercent}%`
-                : '—'
-            }
+            topLabel="HIGH AWARENESS"
+            value={typeof kpiData?.highPercent === 'number' ? `${kpiData.highPercent}%` : '—'}
             subtitle="Good stroke awareness"
-            severity="success"
+            severity="green"
           />
-
         </div>
-      </Section>
 
-      <Section title="Glanceable Summary & Key Insights">
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "24px", marginTop: "12px", marginBottom: "32px" }}>
+        {/* ── PERCEPTION REALITY GAP — EYE CATCHING CALLOUT ── */}
+        <div style={{
+          position: 'relative', overflow: 'hidden',
+          background: 'linear-gradient(135deg, var(--red-bg) 0%, var(--bg-surface) 60%)',
+          border: '1px solid var(--red-border)',
+          borderLeft: '5px solid var(--red)',
+          borderRadius: '16px',
+          padding: '28px 32px',
+          display: 'flex', gap: '32px', alignItems: 'center', flexWrap: 'wrap',
+        }}>
+          {/* Decorative glow */}
+          <div style={{ position: 'absolute', top: '-30px', right: '-30px', width: '160px', height: '160px', background: 'radial-gradient(circle, rgba(229,62,62,0.15) 0%, transparent 70%)', borderRadius: '50%', pointerEvents: 'none' }} />
 
-          <div style={{ backgroundColor: "var(--bg-card)", padding: "24px", borderRadius: "8px", border: "1px solid var(--border-color)", borderTop: "4px solid #ef4444", boxShadow: "0 10px 25px -5px rgba(0,0,0,0.05)", transition: "all 0.2s ease" }} className="hover-lift">
-            <div style={{ fontSize: "12px", fontWeight: 700, color: "var(--text-tertiary)", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "12px" }}>THE ACTION GAP</div>
-            <div style={{ fontSize: "36px", fontWeight: 800, color: "var(--text-danger, #ef4444)", marginBottom: "12px", lineHeight: 1 }}>42.5%</div>
-            <div style={{ fontSize: "15px", color: "var(--text-secondary)", lineHeight: 1.6 }}>of individuals who actually <strong>know what a stroke is</strong> still fail to state they would seek immediate emergency medical help when noticing symptoms.</div>
+          {/* Big stat */}
+          <div style={{ textAlign: 'center', flexShrink: 0 }}>
+            <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '64px', fontWeight: 800, color: 'var(--red)', lineHeight: 1, letterSpacing: '-0.04em' }}>{percentYesButLowMod}%</div>
+            <div style={{ fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--red)', marginTop: '4px', opacity: 0.8 }}>Overestimate Their Knowledge</div>
           </div>
 
-          <div style={{ backgroundColor: "var(--bg-card)", padding: "24px", borderRadius: "8px", border: "1px solid var(--border-color)", borderTop: "4px solid #3b82f6", boxShadow: "0 10px 25px -5px rgba(0,0,0,0.05)", transition: "all 0.2s ease" }} className="hover-lift">
-            <div style={{ fontSize: "12px", fontWeight: 700, color: "var(--text-tertiary)", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "12px" }}>LIFESTYLE CORRELATION</div>
-            <div style={{ fontSize: "36px", fontWeight: 800, color: "#3b82f6", marginBottom: "12px", lineHeight: 1 }}>None</div>
-            <div style={{ fontSize: "15px", color: "var(--text-secondary)", lineHeight: 1.6 }}>Statistical testing shows total independence. <strong>Healthy and unhealthy individuals</strong> are both equally misinformed about stroke risks and symptoms.</div>
-          </div>
+          {/* Vertical divider */}
+          <div style={{ width: '1px', alignSelf: 'stretch', background: 'var(--red-border)', flexShrink: 0, minHeight: '60px' }} />
 
-          <div style={{ backgroundColor: "var(--bg-card)", padding: "24px", borderRadius: "8px", border: "1px solid var(--border-color)", borderTop: "4px solid #10b981", boxShadow: "0 10px 25px -5px rgba(0,0,0,0.05)", transition: "all 0.2s ease" }} className="hover-lift">
-            <div style={{ fontSize: "12px", fontWeight: 700, color: "var(--text-tertiary)", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "12px" }}>DATA PROFILES</div>
-            <div style={{ fontSize: "36px", fontWeight: 800, color: "#10b981", marginBottom: "12px", lineHeight: 1 }}>4 Segments</div>
-            <div style={{ fontSize: "15px", color: "var(--text-secondary)", lineHeight: 1.6 }}>Cluster analysis identified exactly four distinct demographic profiles representing how stroke knowledge predictably distributes in the broader public.</div>
+          {/* Text */}
+          <div style={{ flex: 1, minWidth: '240px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
+              <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--red)', display: 'inline-block', flexShrink: 0 }} />
+              <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--red)' }}>THE PERCEPTION–REALITY GAP</span>
+            </div>
+            <p style={{ margin: 0, fontSize: '15px', lineHeight: 1.75, color: 'var(--text-secondary)' }}>
+              <span style={{ fontWeight: 700, color: 'var(--text-primary)' }}>{percentSaidYes}% of respondents</span> proudly stated they understood stroke risks. But when objectively scored, <span style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, color: 'var(--red)' }}>{percentYesButLowMod}%</span> of those confident individuals fell directly into the <strong>Low or Moderate</strong> awareness categories. Only <span style={{ fontFamily: "'JetBrains Mono', monospace", color: 'var(--green)', fontWeight: 700 }}>{percentYesHigh}%</span> proved to have actual High Awareness.
+            </p>
           </div>
-
         </div>
-      </Section>
+      </div>
 
-      <Section
-        title="Awareness Distribution"
-        helperText="Hover over a category to see participant count and share."
-      >
-        <div className="who-grid who-grid--two">
+      {/* ZONE C: CHARTS */}
+      <div className="zone-c">
+        <div className="chart-grid-1">
           <ChartPanel
             title="Awareness Category Distribution (Actual)"
-            helperText="Share of participants objectively scoring as low, medium, or high awareness."
+            sectionTag="01.A"
+            severityLabel="INFO"
+            severity="blue"
+            callout={
+              <span>When scored objectively across symptoms, signs, and actions, the majority of the population drops into the <strong>Low</strong> category.</span>
+            }
           >
             <GenericPieChart
               data={analyticsData}
               labelKey="label"
               valueKey="percentage"
               innerRadius={0}
-              width={420}
-              height={360}
-              interaction="hover"
-              showOuterLabels={false}
             />
-            <br></br>
-            <p style={{ margin: 0, fontSize: '14px', color: 'var(--text-secondary)' }}>
-              This pie chart shows the reality of stroke awareness based on objective scoring across multiple different critical criteria.
-            </p>
           </ChartPanel>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', justifyContent: 'center' }}>
-            {perceptionData && perceptionData.distribution && (
-              (() => {
-                const yesTotal = perceptionData.distribution.filter(d => d.know_stroke === "Yes").reduce((sum, d) => sum + d.count, 0);
-                const yesHigh = perceptionData.distribution.find(d => d.know_stroke === "Yes" && d.category === "High Awareness")?.count || 0;
-                const yesLowMod = yesTotal - yesHigh;
-    
-                const total = perceptionData.total_participants;
-                const percentSaidYes = ((yesTotal / total) * 100).toFixed(0);
-                const percentYesButLowMod = ((yesLowMod / yesTotal) * 100).toFixed(1);
-                const percentYesHigh = ((yesHigh / yesTotal) * 100).toFixed(1);
-    
-                return (
-                  <>
-                    <KeyInsight>
-                      <strong>The Perception–Reality Gap:</strong> {percentSaidYes}% of respondents proudly stated they understood stroke risks. However, when objectively scored, {percentYesButLowMod}% of those confident individuals fell directly into the Low or Moderate awareness categories. People dramatically overestimate how much they know.
-                    </KeyInsight>
-                    
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                      <KpiCard
-                        title="Claimed Awareness"
-                        value={`${percentSaidYes}%`}
-                        subtitle="claimed they know what a stroke is"
-                        severity="neutral"
-                      />
-                      <KpiCard
-                        title="Overestimated Reality"
-                        value={`${percentYesButLowMod}%`}
-                        subtitle="of those who said 'Yes' failed tests"
-                        severity="danger"
-                      />
-                      <KpiCard
-                        title="True Awareness"
-                        value={`${percentYesHigh}%`}
-                        subtitle="of those who said 'Yes' scored High"
-                        severity="success"
-                      />
-                    </div>
-                  </>
-                );
-              })()
-            )}
-          </div>
         </div>
-      </Section>
+      </div>
+
+      {/* ZONE D: SUPPORTING INSIGHTS */}
+      <div className="zone-d-divider text-label">
+        ── ADDITIONAL FINDINGS ──
+      </div>
+      <div className="zone-d">
+        <div className="grid-3-col">
+          <InsightCard type="secondary" title="The Action Gap" severity="amber">
+            <span className="highlight-span amber">42.5%</span> of individuals who actually know what a stroke is still fail to state they would seek immediate emergency medical help.
+          </InsightCard>
+          
+          <InsightCard type="secondary" title="Lifestyle Correlation" severity="blue">
+            Statistical testing shows total independence. Healthy and unhealthy individuals are both equally misinformed about stroke risks and symptoms.
+          </InsightCard>
+          
+          <InsightCard type="secondary" title="Data Profiles" severity="green">
+            Cluster analysis successfully isolated <span className="highlight-span blue">4 segments</span> representing how stroke knowledge predictably distributes in the public.
+          </InsightCard>
+        </div>
+      </div>
+
     </PageContainer>
   );
 };
