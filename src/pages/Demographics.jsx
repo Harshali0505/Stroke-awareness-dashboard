@@ -1,18 +1,20 @@
 import React from "react";
 import PageContainer from "../components/PageContainer";
-import { useStaticData } from "../data/useStaticData";
 import StackedAwarenessChart from "../components/charts/StackedAwarenessChart";
 import ChartPanel from "../components/ChartPanel";
 import useChartSelection from "../hooks/useChartSelection";
 import InsightCard from "../components/InsightCard";
 
+// Direct import from clustering directory
+import dashboardData from '../../../../models/clustering_v2/phase5_outputs/dashboard_stats.json';
+
 const Demographics = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
   const { selected, onSelect } = useChartSelection();
 
-  const { data: ageData, loading: ageLoading } = useStaticData("/analytics/age-awareness.json");
-  const { data: genderData, loading: genderLoading } = useStaticData("/analytics/gender-awareness.json");
-  const { data: educationData, loading: educationLoading } = useStaticData("/analytics/education-awareness.json");
-  const { data: incomeData, loading: incomeLoading } = useStaticData("/analytics/income-awareness.json");
+  const ageData = dashboardData.demographics.age;
+  const genderData = dashboardData.demographics.gender;
+  const educationData = dashboardData.demographics.educational_level;
+  const incomeData = dashboardData.demographics.salary;
 
   const formatSalaryLabel = React.useCallback((value) => {
     const s = String(value ?? "").trim().toLowerCase();
@@ -71,19 +73,6 @@ const Demographics = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
     });
   }, [incomeData, transformToStacked]);
 
-  if (ageLoading || genderLoading || educationLoading || incomeLoading) {
-    return (
-      <PageContainer
-        title="Demographic Awareness Distribution"
-        description="Analyzing how background factors like age, gender, and education influence stroke literacy."
-        isMobileMenuOpen={isMobileMenuOpen}
-        setIsMobileMenuOpen={setIsMobileMenuOpen}
-        pageHeaderMeta={{ sectionTag: 'SECTION 02', severity: 'moderate', severityLabel: 'MODERATE' }}
-      >
-        <p className="text-body text-muted">Loading demographic insights...</p>
-      </PageContainer>
-    );
-  }
 
   return (
     <PageContainer

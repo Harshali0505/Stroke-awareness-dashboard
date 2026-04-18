@@ -19,8 +19,8 @@ const ChartTooltip = ({ active, payload, label }) => {
   return (
     <div
       style={{
-        background: '#1a2332',
-        border: '1px solid rgba(255, 255, 255, 0.12)',
+        background: 'var(--tooltip-bg, #1a2332)',
+        border: '1px solid var(--tooltip-border, rgba(255, 255, 255, 0.12))',
         borderRadius: '10px',
         padding: '10px 14px',
         boxShadow: '0 8px 24px rgba(0,0,0,0.35)',
@@ -34,7 +34,8 @@ const ChartTooltip = ({ active, payload, label }) => {
         fontSize: '11px',
         textTransform: 'uppercase',
         letterSpacing: '0.06em',
-        color: 'rgba(255,255,255,0.5)',
+        color: 'var(--tooltip-text, rgba(255,255,255,0.5))',
+        opacity: 0.6,
         marginBottom: '4px'
       }}>
         {label || data.label || 'Value'}
@@ -47,7 +48,7 @@ const ChartTooltip = ({ active, payload, label }) => {
             fontSize: '22px',
             fontWeight: 700,
             fontFamily: "'JetBrains Mono', monospace",
-            color: '#ffffff',
+            color: 'var(--tooltip-text, #ffffff)',
             display: 'block'
           }}>
             {data.percentage}%

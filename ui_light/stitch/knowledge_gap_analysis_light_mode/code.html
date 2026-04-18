@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Knowledge Gap Analysis - InsightEngine</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0b2d2a",
+                        "background-light": "#f6f8f8",
+                        "background-dark": "#131f1e",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display">
+<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<!-- Header / Navigation -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-primary/10 px-6 md:px-10 py-3 bg-white dark:bg-background-dark">
+<div class="flex items-center gap-4 text-primary dark:text-slate-100">
+<div class="size-8 flex items-center justify-center bg-primary rounded-lg text-white">
+<span class="material-symbols-outlined">analytics</span>
+</div>
+<h2 class="text-lg font-bold leading-tight tracking-[-0.015em]">InsightEngine</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8 items-center">
+<nav class="hidden md:flex items-center gap-9">
+<a class="text-slate-900 dark:text-slate-100 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Dashboard</a>
+<a class="text-primary text-sm font-bold leading-normal border-b-2 border-primary" href="#">Reports</a>
+<a class="text-slate-900 dark:text-slate-100 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Settings</a>
+</nav>
+<div class="flex gap-2">
+<button class="flex cursor-pointer items-center justify-center rounded-lg h-10 bg-primary/10 text-primary dark:bg-primary/20 dark:text-slate-100 px-3">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+</button>
+<button class="flex cursor-pointer items-center justify-center rounded-lg h-10 bg-primary/10 text-primary dark:bg-primary/20 dark:text-slate-100 px-3">
+<span class="material-symbols-outlined text-[20px]">account_circle</span>
+</button>
+</div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border border-primary/20" data-alt="User profile avatar placeholder" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAH-PIh8m5V6qeFjtj0W8guLyY-QEi0yVSKPuI06GaK_kwuPT7XeoxUagqon5H5HIj-n15VX2qFfv8FS87sk5nS-tXZArJWP1ERzvxKS2dOkzL0RKRc5py7NsTxT_h0pM-MQNoQypllvFrNS-oB9iVbCvtr7GOLSSccNfJSCAjZZIzHKawnNCKUc4GLzrxOB-Ml5ZMRpD15nKTjImQvB7p005kkwlsoQ937fYlGc6z8hH3Lhtxa5-7yFa_A1RGPRzuq-Ot8sd7m34U")'></div>
+</div>
+</header>
+<main class="flex-1 flex flex-col md:flex-row">
+<!-- Sidebar Navigation -->
+<aside class="w-full md:w-64 border-r border-primary/10 bg-white dark:bg-background-dark p-4 flex flex-col gap-4">
+<div class="flex flex-col mb-4">
+<p class="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider px-3 mb-2">Main Menu</p>
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-primary/5" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="text-sm font-medium">Overview</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary text-white shadow-sm" href="#">
+<span class="material-symbols-outlined">insert_chart</span>
+<span class="text-sm font-medium">Gap Analysis</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-primary/5" href="#">
+<span class="material-symbols-outlined">database</span>
+<span class="text-sm font-medium">Data Sources</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-primary/5" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="text-sm font-medium">Demographics</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-primary/5" href="#">
+<span class="material-symbols-outlined">archive</span>
+<span class="text-sm font-medium">Historical</span>
+</a>
+</div>
+</div>
+<div class="mt-auto border-t border-primary/10 pt-4 px-3">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-full bg-primary/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]">bolt</span>
+</div>
+<div>
+<p class="text-xs font-bold text-primary">Pro Version</p>
+<p class="text-[10px] text-slate-500">Advanced AI Insights</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Content Area -->
+<div class="flex-1 overflow-y-auto">
+<!-- Secondary Nav / Tabs -->
+<div class="bg-white dark:bg-background-dark border-b border-primary/10 px-4 md:px-8">
+<div class="flex gap-8">
+<a class="border-b-2 border-primary text-primary py-4 text-sm font-bold" href="#">Summary View</a>
+<a class="border-b-2 border-transparent text-slate-500 hover:text-primary py-4 text-sm font-medium" href="#">By Topic</a>
+<a class="border-b-2 border-transparent text-slate-500 hover:text-primary py-4 text-sm font-medium" href="#">By Region</a>
+</div>
+</div>
+<div class="p-6 md:p-10 max-w-6xl mx-auto space-y-8">
+<!-- Page Heading -->
+<div class="flex flex-col gap-2">
+<h1 class="text-3xl font-bold tracking-tight text-primary">Knowledge Gap Analysis</h1>
+<p class="text-slate-600 dark:text-slate-400">Comparing factual knowledge (green) against prevalent misinformation (red) across core demographics.</p>
+</div>
+<!-- Key Metrics -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="bg-white dark:bg-slate-800 p-6 rounded-xl border border-primary/10 shadow-sm">
+<div class="flex justify-between items-start mb-2">
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Factual Accuracy</p>
+<span class="text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded text-xs font-bold">+5.2%</span>
+</div>
+<p class="text-3xl font-bold text-primary">68.4%</p>
+<div class="mt-4 h-2 bg-slate-100 rounded-full overflow-hidden">
+<div class="bg-emerald-500 h-full rounded-full" style="width: 68.4%"></div>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-800 p-6 rounded-xl border border-primary/10 shadow-sm">
+<div class="flex justify-between items-start mb-2">
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Misinformation Reach</p>
+<span class="text-rose-600 bg-rose-50 px-2 py-0.5 rounded text-xs font-bold">-2.1%</span>
+</div>
+<p class="text-3xl font-bold text-primary">24.2%</p>
+<div class="mt-4 h-2 bg-slate-100 rounded-full overflow-hidden">
+<div class="bg-rose-500 h-full rounded-full" style="width: 24.2%"></div>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-800 p-6 rounded-xl border border-primary/10 shadow-sm">
+<div class="flex justify-between items-start mb-2">
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Knowledge Gap</p>
+<span class="text-rose-600 bg-rose-50 px-2 py-0.5 rounded text-xs font-bold">-1.0%</span>
+</div>
+<p class="text-3xl font-bold text-primary">-12.5%</p>
+<div class="mt-4 h-2 bg-slate-100 rounded-full overflow-hidden">
+<div class="bg-rose-400 h-full rounded-full" style="width: 12.5%"></div>
+</div>
+</div>
+</div>
+<!-- Analysis Charts Section -->
+<div class="grid grid-cols-1 gap-8">
+<!-- Knowledge vs Misinformation by Topic -->
+<div class="bg-white dark:bg-slate-800 p-6 rounded-xl border border-primary/10 shadow-sm">
+<div class="flex items-center justify-between mb-8">
+<h3 class="text-lg font-bold text-primary">Performance by Topic Area</h3>
+<div class="flex items-center gap-4 text-xs font-bold uppercase tracking-widest">
+<div class="flex items-center gap-2">
+<div class="size-3 bg-emerald-500 rounded-full"></div>
+<span class="text-slate-500">Correct Knowledge</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="size-3 bg-rose-500 rounded-full"></div>
+<span class="text-slate-500">Misinformation</span>
+</div>
+</div>
+</div>
+<div class="space-y-6">
+<!-- Topic 1 -->
+<div class="space-y-2">
+<div class="flex justify-between text-sm">
+<span class="font-bold text-slate-700">Healthcare Policy</span>
+<span class="text-slate-500">Gap: 14%</span>
+</div>
+<div class="relative h-10 w-full flex rounded-lg overflow-hidden border border-slate-100">
+<div class="bg-emerald-500 h-full flex items-center px-3 text-white text-[10px] font-bold" style="width: 55%">55% Correct</div>
+<div class="bg-rose-500 h-full flex items-center px-3 text-white text-[10px] font-bold" style="width: 32%">32% Misinfo</div>
+<div class="bg-slate-100 h-full flex-1"></div>
+</div>
+</div>
+<!-- Topic 2 -->
+<div class="space-y-2">
+<div class="flex justify-between text-sm">
+<span class="font-bold text-slate-700">Climate Science</span>
+<span class="text-slate-500">Gap: 8%</span>
+</div>
+<div class="relative h-10 w-full flex rounded-lg overflow-hidden border border-slate-100">
+<div class="bg-emerald-500 h-full flex items-center px-3 text-white text-[10px] font-bold" style="width: 72%">72% Correct</div>
+<div class="bg-rose-500 h-full flex items-center px-3 text-white text-[10px] font-bold" style="width: 18%">18% Misinfo</div>
+<div class="bg-slate-100 h-full flex-1"></div>
+</div>
+</div>
+<!-- Topic 3 -->
+<div class="space-y-2">
+<div class="flex justify-between text-sm">
+<span class="font-bold text-slate-700">Financial Literacy</span>
+<span class="text-slate-500">Gap: 22%</span>
+</div>
+<div class="relative h-10 w-full flex rounded-lg overflow-hidden border border-slate-100">
+<div class="bg-emerald-500 h-full flex items-center px-3 text-white text-[10px] font-bold" style="width: 42%">42% Correct</div>
+<div class="bg-rose-500 h-full flex items-center px-3 text-white text-[10px] font-bold" style="width: 48%">48% Misinfo</div>
+<div class="bg-slate-100 h-full flex-1"></div>
+</div>
+</div>
+<!-- Topic 4 -->
+<div class="space-y-2">
+<div class="flex justify-between text-sm">
+<span class="font-bold text-slate-700">Global History</span>
+<span class="text-slate-500">Gap: 5%</span>
+</div>
+<div class="relative h-10 w-full flex rounded-lg overflow-hidden border border-slate-100">
+<div class="bg-emerald-500 h-full flex items-center px-3 text-white text-[10px] font-bold" style="width: 81%">81% Correct</div>
+<div class="bg-rose-500 h-full flex items-center px-3 text-white text-[10px] font-bold" style="width: 12%">12% Misinfo</div>
+<div class="bg-slate-100 h-full flex-1"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Comparison Table -->
+<div class="bg-white dark:bg-slate-800 p-6 rounded-xl border border-primary/10 shadow-sm overflow-hidden">
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-lg font-bold text-primary">Top Misinformation Drivers</h3>
+<button class="text-sm font-bold text-primary flex items-center gap-1">
+                                View Full Report <span class="material-symbols-outlined text-[18px]">arrow_right_alt</span>
+</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="border-b border-primary/10">
+<tr>
+<th class="py-3 px-2 text-xs font-bold uppercase text-slate-500">Source/Category</th>
+<th class="py-3 px-2 text-xs font-bold uppercase text-slate-500">Belief Rate</th>
+<th class="py-3 px-2 text-xs font-bold uppercase text-slate-500">Impact Score</th>
+<th class="py-3 px-2 text-xs font-bold uppercase text-slate-500">Trend</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-primary/5">
+<tr>
+<td class="py-4 px-2">
+<div class="flex items-center gap-3">
+<div class="size-2 rounded-full bg-rose-500"></div>
+<span class="text-sm font-medium">Social Media Algorithms</span>
+</div>
+</td>
+<td class="py-4 px-2 text-sm text-slate-600">42.5%</td>
+<td class="py-4 px-2">
+<div class="flex items-center gap-2">
+<div class="w-24 h-1.5 bg-slate-100 rounded-full overflow-hidden">
+<div class="bg-rose-500 h-full" style="width: 85%"></div>
+</div>
+<span class="text-xs font-bold text-rose-600">High</span>
+</div>
+</td>
+<td class="py-4 px-2">
+<span class="material-symbols-outlined text-rose-500">trending_up</span>
+</td>
+</tr>
+<tr>
+<td class="py-4 px-2">
+<div class="flex items-center gap-3">
+<div class="size-2 rounded-full bg-rose-400"></div>
+<span class="text-sm font-medium">Echo Chambers</span>
+</div>
+</td>
+<td class="py-4 px-2 text-sm text-slate-600">31.2%</td>
+<td class="py-4 px-2">
+<div class="flex items-center gap-2">
+<div class="w-24 h-1.5 bg-slate-100 rounded-full overflow-hidden">
+<div class="bg-rose-400 h-full" style="width: 60%"></div>
+</div>
+<span class="text-xs font-bold text-rose-400">Medium</span>
+</div>
+</td>
+<td class="py-4 px-2">
+<span class="material-symbols-outlined text-slate-400">horizontal_rule</span>
+</td>
+</tr>
+<tr>
+<td class="py-4 px-2">
+<div class="flex items-center gap-3">
+<div class="size-2 rounded-full bg-emerald-400"></div>
+<span class="text-sm font-medium">Direct Education</span>
+</div>
+</td>
+<td class="py-4 px-2 text-sm text-slate-600">12.8%</td>
+<td class="py-4 px-2">
+<div class="flex items-center gap-2">
+<div class="w-24 h-1.5 bg-slate-100 rounded-full overflow-hidden">
+<div class="bg-emerald-400 h-full" style="width: 25%"></div>
+</div>
+<span class="text-xs font-bold text-emerald-600">Low</span>
+</div>
+</td>
+<td class="py-4 px-2">
+<span class="material-symbols-outlined text-emerald-500">trending_down</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</div>
+</body></html>

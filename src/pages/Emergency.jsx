@@ -10,6 +10,9 @@ import KpiCard from "../components/KpiCard";
 import ActionFunnel from "../components/ActionFunnel";
 import { CHART_COLORS } from "../constants/colors";
 
+// Direct import from clustering directory
+import dashboardData from '../../../../models/clustering_v2/phase5_outputs/dashboard_stats.json';
+
 /* ── Fixed progress bar: labels left-anchored, bars fill naturally ── */
 const SimpleProgressBar = ({ label, percentage, color }) => (
   <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "14px" }}>
@@ -84,9 +87,9 @@ const Emergency = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
       {/* ZONE B — CRITICAL INSIGHTS */}
       <div className="zone-b">
         <div className="grid-3-col" style={{ marginBottom: "24px" }}>
-           <KpiCard topLabel="WRONG FIRST ACTION" value="74%" subtitle="Would not take correct first action" severity="red" />
-           <KpiCard topLabel="CORRECT RESPONSE" value="26.1%" subtitle="Would call emergency services" severity="red" />
-           <KpiCard topLabel="CORRECT ADVICE" value="29.0%" subtitle="Gave actionable correct advice (seek help / call emergency / keep calm)" severity="red" />
+           <KpiCard topLabel="WRONG FIRST ACTION" value={`${dashboardData.emergency.wrong_action_percent}%`} subtitle="Would not take correct first action" severity="red" />
+           <KpiCard topLabel="CORRECT RESPONSE" value={`${dashboardData.emergency.correct_action_percent}%`} subtitle="Would call emergency services" severity="red" />
+           <KpiCard topLabel="CORRECT ADVICE" value={`${dashboardData.emergency.correct_advice_percent}%`} subtitle="Gave actionable correct advice (seek help / call emergency / keep calm)" severity="red" />
         </div>
         <div style={{
           background: 'linear-gradient(135deg, var(--red-bg, #fff1f2) 0%, var(--bg-surface) 100%)',
@@ -126,7 +129,7 @@ const Emergency = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
             callout={<span>Observe how theoretical knowledge severely decays at every action touchpoint.</span>}
           >
             <div style={{ padding: '16px 0 8px' }}>
-              <ActionFunnel />
+              <ActionFunnel stats={dashboardData.emergency.funnel} />
             </div>
           </ChartPanel>
         </div>
@@ -153,7 +156,7 @@ const Emergency = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
 
           {/* Big stat */}
           <div style={{ textAlign: 'center', flexShrink: 0 }}>
-            <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '64px', fontWeight: 800, color: 'var(--red)', lineHeight: 1, letterSpacing: '-0.04em' }}>6/10</div>
+            <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '64px', fontWeight: 800, color: 'var(--red)', lineHeight: 1, letterSpacing: '-0.04em' }}>{dashboardData.emergency.no_advice_ratio}</div>
             <div style={{ fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--red)', marginTop: '4px', opacity: 0.8 }}>Drew a Complete Blank</div>
           </div>
 
@@ -167,7 +170,7 @@ const Emergency = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
               <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--red)' }}>COMMUNITY GUIDANCE PROTOCOLS</span>
             </div>
             <p style={{ margin: 0, fontSize: '15px', lineHeight: 1.75, color: 'var(--text-secondary)' }}>
-              <span style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, color: 'var(--red)' }}>{noResponsePct}%</span> of the public would give <strong>absolutely no response or advice</strong>. When asked what advice they would give during a stroke emergency, 6 out of 10 people drew a complete blank. This silent majority highlights a profound lack of community preparedness.
+              <span style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, color: 'var(--red)' }}>{dashboardData.emergency.no_advice_percent}%</span> of the public would give <strong>absolutely no response or advice</strong>. When asked what advice they would give during a stroke emergency, {dashboardData.emergency.no_advice_ratio} people drew a complete blank. This silent majority highlights a profound lack of community preparedness.
             </p>
           </div>
         </div>
@@ -175,7 +178,7 @@ const Emergency = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
         {/* "What the remaining 40% advise" */}
         <div className="chart-grid-1" style={{ marginBottom: '32px' }}>
           <ChartPanel
-            title="What the remaining 40% advise: Actionable vs Vague"
+            title="What the remaining 40% Advice: Actionable vs Vague"
             sectionTag="05.B"
             severity="amber"
             callout={<span>Excluding those who gave no response, here is how the actual advice breaks down.</span>}
@@ -220,7 +223,7 @@ const Emergency = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
                 <span className="tag-pill text-label">05.C</span>
               </div>
               <div className="card-type-4 on-red text-body">
-                <strong>74% would not take the correct first action.</strong> Only 26.1% would call emergency services.
+                <strong>{dashboardData.emergency.wrong_action_percent}% would not take the correct first action.</strong> Only {dashboardData.emergency.correct_action_percent}% would call emergency services.
               </div>
               <div className="chart-wrapper" style={{ height: '340px', minHeight: '340px' }}>
                 <div style={{ marginTop: '16px', flex: 1 }}>
@@ -233,9 +236,9 @@ const Emergency = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
             {/* Joined insight */}
             <div className="card-type-2 on-red animate-card" style={{ borderTopLeftRadius: 0, borderTopRightRadius: 0, borderTop: '1px dashed var(--red-border)', marginTop: 0, boxShadow: 'none' }}>
               <div className="t2-icon"><span style={{ fontSize: '13px' }}>⚡</span></div>
-              <h3 className="t2-heading text-heading-2" style={{ marginLeft: '12px' }}>74% Can't Take the Right First Action</h3>
+              <h3 className="t2-heading text-heading-2" style={{ marginLeft: '12px' }}>{dashboardData.emergency.wrong_action_percent}% Can't Take the Right First Action</h3>
               <div className="t2-body text-body-sm" style={{ marginLeft: '12px' }}>
-                Only <span className="highlight-span red">26.1%</span> would call emergency services. <span className="highlight-span red">20.3%</span> call a general doctor, <span className="highlight-span amber">22.1%</span> call family or a friend, and <span className="highlight-span red">22.7%</span> have no idea what to do. In stroke, every minute of delay causes irreversible brain damage.
+                Only <span className="highlight-span red">{dashboardData.emergency.correct_action_percent}%</span> would call emergency services.
               </div>
             </div>
           </div>
@@ -264,7 +267,7 @@ const Emergency = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
               <div className="t2-icon"><span style={{ fontSize: '13px' }}>⏱</span></div>
               <h3 className="t2-heading text-heading-2" style={{ marginLeft: '12px' }}>48.4% Don't Understand Stroke Urgency</h3>
               <div className="t2-body text-body-sm" style={{ marginLeft: '12px' }}>
-                While <span className="highlight-span green">51.6%</span> correctly say 'immediately', <span className="highlight-span red">16.8%</span> would wait 2–3 days, <span className="highlight-span red">3%</span> would get tests first, and <span className="highlight-span red">25.2%</span> gave no response at all. Nearly half the population does not understand stroke urgency.
+                While <span className="highlight-span green">{dashboardData.emergency.funnel[0].percentage}%</span> correctly say 'immediately', the rest would wait or gave no response. Nearly half the population does not understand stroke urgency.
               </div>
             </div>
           </div>
@@ -302,7 +305,7 @@ const Emergency = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
               <div className="t2-icon"><span style={{ fontSize: '13px' }}>🧠</span></div>
               <h3 className="t2-heading text-heading-2" style={{ marginLeft: '12px' }}>Only 23.9% Know a Neurologist Is Needed</h3>
               <div className="t2-body text-body-sm" style={{ marginLeft: '12px' }}>
-                A massive <span className="highlight-span red">81.8%</span> would consult a general Physician first. Treating an acute stroke like a common ailment at a general practitioner substantially obstructs damage triage and life-saving intervention.
+                A massive majority would consult a general Physician first. Treating an acute stroke like a common ailment at a general practitioner substantially obstructs damage triage and life-saving intervention.
               </div>
             </div>
           </div>

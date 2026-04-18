@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Emergency &amp; Symptoms Readiness - Stroke Awareness</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0b2d2a",
+                        "background-light": "#f6f8f8",
+                        "background-dark": "#131f1e",
+                        "accent-red": "#ef4444",
+                        "accent-green": "#34d399",
+                        "accent-yellow": "#f59e0b",
+                        "off-white": "#f8fafc",
+                        "teal-accent": "#2dd4bf"
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .chart-bar-container {
+            display: flex;
+            align-items: flex-end;
+            gap: 8px;
+            height: 200px;
+        }
+        .chart-bar {
+            width: 100%;
+            border-radius: 4px 4px 0 0;
+            transition: height 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display">
+<div class="flex min-h-screen">
+<!-- Sidebar -->
+<aside class="w-64 border-r border-slate-200 dark:border-primary/30 bg-white dark:bg-background-dark flex flex-col shrink-0">
+<div class="p-6 flex items-center gap-3">
+<div class="bg-primary rounded-lg p-2 text-white">
+<span class="material-symbols-outlined">health_and_safety</span>
+</div>
+<div>
+<h1 class="text-sm font-bold leading-tight">Stroke Awareness</h1>
+<p class="text-xs text-slate-500 dark:text-slate-400">Admin Portal</p>
+</div>
+</div>
+<nav class="flex-1 px-4 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-primary/20 transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary text-white" href="#">
+<span class="material-symbols-outlined font-fill">emergency_home</span>
+<span class="text-sm font-medium">Emergency</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-primary/20 transition-colors" href="#">
+<span class="material-symbols-outlined">stethoscope</span>
+<span class="text-sm font-medium">Symptom Checker</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-primary/20 transition-colors" href="#">
+<span class="material-symbols-outlined">verified_user</span>
+<span class="text-sm font-medium">Prevention</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-primary/20 transition-colors" href="#">
+<span class="material-symbols-outlined">bar_chart</span>
+<span class="text-sm font-medium">Reports</span>
+</a>
+</nav>
+<div class="p-4 mt-auto border-t border-slate-200 dark:border-primary/30">
+<div class="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-primary/20 cursor-pointer">
+<div class="size-8 rounded-full bg-slate-300 dark:bg-primary/50 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Profile picture of a medical administrator" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTwF2DnnV_Q6A_EHnjcgtnlzzM-nILB08q0NmHKVB8vl2q097Dqw8erX8pTSTb8pWNrIwKQwpFqmWLG1uVjUU7ryMe_W-gHVKMpn3TDMR7vcXh97bjXDQKiUNr7khLNCZhJ0jw501icPjl1qyWewuKdvm3fSC14lpvBBONHluHMvFy4GZPOXah_76c0AOaD_2D0L2EBe2ajqf76D0l5OezVcay7rP69ONW7jPZN5EdY1NeMezJ4lBPZTIamTu7vBvuGFDjbdQvPnk"/>
+</div>
+<div>
+<p class="text-xs font-bold">Dr. Sarah Miller</p>
+<p class="text-[10px] text-slate-500">Chief Officer</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col min-w-0 overflow-y-auto">
+<!-- Header -->
+<header class="h-16 border-b border-slate-200 dark:border-primary/30 bg-white/80 dark:bg-background-dark/80 backdrop-blur-md flex items-center justify-between px-8 sticky top-0 z-10">
+<h2 class="text-lg font-bold tracking-tight">Emergency &amp; Symptoms Readiness</h2>
+<div class="flex items-center gap-4">
+<div class="relative max-w-xs">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">search</span>
+<input class="pl-10 pr-4 py-1.5 rounded-lg border-slate-200 dark:border-primary/30 bg-slate-50 dark:bg-primary/10 focus:ring-2 focus:ring-primary text-sm w-64" placeholder="Search analytics..." type="text"/>
+</div>
+<button class="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-primary/20 rounded-lg relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 size-2 bg-accent-red rounded-full ring-2 ring-white dark:ring-background-dark"></span>
+</button>
+<button class="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-primary/20 rounded-lg">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+</header>
+<!-- Dashboard Content -->
+<div class="p-8 space-y-8 max-w-7xl mx-auto w-full">
+<!-- Hero Stats -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="p-6 rounded-xl border border-slate-200 dark:border-primary/30 bg-white dark:bg-primary/5 shadow-sm">
+<div class="flex justify-between items-start mb-4">
+<p class="text-sm font-medium text-slate-500 dark:text-slate-400">Avg. Response Time</p>
+<span class="material-symbols-outlined text-primary">timer</span>
+</div>
+<h3 class="text-3xl font-black mb-1">8.2 mins</h3>
+<div class="flex items-center gap-1.5 text-accent-red text-sm font-bold">
+<span class="material-symbols-outlined text-[18px]">trending_down</span>
+<span>2.5% vs last month</span>
+</div>
+</div>
+<div class="p-6 rounded-xl border border-slate-200 dark:border-primary/30 bg-white dark:bg-primary/5 shadow-sm">
+<div class="flex justify-between items-start mb-4">
+<p class="text-sm font-medium text-slate-500 dark:text-slate-400">Readiness Score</p>
+<span class="material-symbols-outlined text-primary">analytics</span>
+</div>
+<h3 class="text-3xl font-black mb-1">74%</h3>
+<div class="flex items-center gap-1.5 text-accent-red text-sm font-bold">
+<span class="material-symbols-outlined text-[18px]">trending_down</span>
+<span>1.2% variance</span>
+</div>
+</div>
+<div class="p-6 rounded-xl border border-slate-200 dark:border-primary/30 bg-white dark:bg-primary/5 shadow-sm">
+<div class="flex justify-between items-start mb-4">
+<p class="text-sm font-medium text-slate-500 dark:text-slate-400">Urgency Alignment</p>
+<span class="material-symbols-outlined text-primary">bolt</span>
+</div>
+<h3 class="text-3xl font-black mb-1">+12%</h3>
+<div class="flex items-center gap-1.5 text-sm font-bold">
+<span class="material-symbols-outlined text-[18px]">trending_up</span>
+<span class="text-emerald-400">4.8% improved awareness</span>
+</div>
+</div>
+</div>
+<!-- Main Charts Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+<!-- First Action for Symptoms (Stacked Bar) -->
+<div class="p-6 rounded-xl border border-slate-200 dark:border-primary/30 bg-white dark:bg-background-dark shadow-sm flex flex-col">
+<div class="mb-6">
+<h4 class="text-lg font-bold">First Action for Symptoms</h4>
+<p class="text-xs text-slate-500">Distribution of initial responses to stroke symptoms</p>
+</div>
+<div class="flex-1 flex flex-col justify-end space-y-4">
+<div class="flex items-center gap-4">
+<span class="text-xs font-bold w-28 text-right">Face Drooping</span>
+<div class="flex-1 flex h-8 rounded-lg overflow-hidden">
+<div class="bg-emerald-500 w-[65%] h-full" title="Call Emergency"></div>
+<div class="bg-yellow-500/60 w-[20%] h-full" title="Call Doctor"></div>
+<div class="bg-red-500/60 w-[15%] h-full" title="Wait &amp; See"></div>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<span class="text-xs font-bold w-28 text-right">Arm Weakness</span>
+<div class="flex-1 flex h-8 rounded-lg overflow-hidden">
+<div class="bg-emerald-500 w-[55%] h-full"></div>
+<div class="bg-yellow-500/60 w-[25%] h-full"></div>
+<div class="bg-red-500/60 w-[20%] h-full"></div>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<span class="text-xs font-bold w-28 text-right">Speech Difficulty</span>
+<div class="flex-1 flex h-8 rounded-lg overflow-hidden">
+<div class="bg-emerald-500 w-[80%] h-full"></div>
+<div class="bg-yellow-500/60 w-[10%] h-full"></div>
+<div class="bg-red-500/60 w-[10%] h-full"></div>
+</div>
+</div>
+<div class="mt-4 pt-4 border-t border-slate-100 dark:border-primary/10 flex flex-wrap gap-4 justify-center">
+<div class="flex items-center gap-2">
+<div class="size-3 rounded-full bg-emerald-500"></div>
+<span class="text-[10px] font-medium uppercase tracking-wider text-slate-500">Call Emergency</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="size-3 rounded-full bg-yellow-500/60"></div>
+<span class="text-[10px] font-medium uppercase tracking-wider text-slate-500">Call Doctor</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="size-3 rounded-full bg-red-500/60"></div>
+<span class="text-[10px] font-medium uppercase tracking-wider text-slate-500">Wait &amp; See</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Golden Hour Awareness (Pie/Donut Concept) -->
+<div class="p-6 rounded-xl border border-slate-200 dark:border-primary/30 bg-white dark:bg-background-dark shadow-sm flex flex-col">
+<div class="mb-6">
+<h4 class="text-lg font-bold">Golden Hour Awareness</h4>
+<p class="text-xs text-slate-500">Percentage of public aware of the 60-min critical window</p>
+</div>
+<div class="flex-1 flex items-center justify-around">
+<div class="relative size-48">
+<svg class="w-full h-full -rotate-90" viewbox="0 0 36 36">
+<circle class="stroke-slate-100 dark:stroke-primary/10" cx="18" cy="18" fill="none" r="16" stroke-width="3"></circle>
+<circle class="stroke-emerald-400" cx="18" cy="18" fill="none" r="16" stroke-dasharray="68, 100" stroke-width="3"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="text-3xl font-black">68%</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter text-slate-500">Aware</span>
+</div>
+</div>
+<div class="space-y-4 max-w-xs"><div class="p-3 bg-slate-50 dark:bg-primary/10 rounded-lg">
+<p class="text-[10px] font-bold text-slate-500 uppercase">Insight</p>
+<p class="text-sm leading-snug dark:text-slate-100">Awareness increased by <span class="text-emerald-400 font-bold">5%</span> following the <span class="text-teal-400">regional campaign</span>.</p>
+</div>
+<div class="p-3 border border-slate-100 dark:border-primary/20 rounded-lg">
+<p class="text-[10px] font-bold text-slate-500 uppercase">Target</p>
+<p class="text-sm leading-snug dark:text-slate-100">Goal is <span class="font-bold text-teal-400">85%</span> by Q4 2024.</p>
+</div></div>
+</div>
+</div>
+</div>
+<!-- Perceived Time-to-Treatment (Bar Chart) -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<div class="lg:col-span-2 p-6 rounded-xl border border-slate-200 dark:border-primary/30 bg-white dark:bg-background-dark shadow-sm">
+<div class="mb-8 flex justify-between items-end">
+<div>
+<h4 class="text-lg font-bold">Perceived Time-to-Treatment Urgency</h4>
+<p class="text-xs text-slate-500">Public perception of "safe" window before calling 911</p>
+</div>
+<div class="flex gap-2">
+<div class="px-2 py-1 bg-primary/10 rounded text-[10px] font-bold">2023 Data</div>
+<div class="px-2 py-1 bg-slate-100 dark:bg-primary/20 rounded text-[10px] font-bold">Regional</div>
+</div>
+</div>
+<div class="chart-bar-container px-4">
+<div class="flex-1 flex flex-col justify-end items-center gap-2">
+<div class="chart-bar bg-primary" style="height: 100%;"></div>
+<span class="text-[10px] font-bold text-slate-400">Immediate</span>
+</div>
+<div class="flex-1 flex flex-col justify-end items-center gap-2">
+<div class="chart-bar bg-primary/80" style="height: 45%;"></div>
+<span class="text-[10px] font-bold text-slate-400">&lt;30 min</span>
+</div>
+<div class="flex-1 flex flex-col justify-end items-center gap-2">
+<div class="chart-bar bg-primary/60" style="height: 30%;"></div>
+<span class="text-[10px] font-bold text-slate-400">1-2 hrs</span>
+</div>
+<div class="flex-1 flex flex-col justify-end items-center gap-2">
+<div class="chart-bar bg-primary/40" style="height: 15%;"></div>
+<span class="text-[10px] font-bold text-slate-400">4-6 hrs</span>
+</div>
+<div class="flex-1 flex flex-col justify-end items-center gap-2">
+<div class="chart-bar bg-red-500/40" style="height: 8%;"></div>
+<span class="text-[10px] font-bold text-slate-400">Overnight</span>
+</div>
+</div>
+</div>
+<!-- Alignment Sections -->
+<div class="space-y-6">
+<div class="p-6 rounded-xl border border-slate-200 dark:border-primary/30 bg-white dark:bg-background-dark shadow-sm">
+<h4 class="text-sm font-bold uppercase tracking-wider text-slate-500 mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">psychology</span>
+                                Behavioral Alignment
+                            </h4>
+<div class="space-y-4"><div class="flex justify-between items-center">
+<span class="text-sm font-medium">Symptom Accuracy</span>
+<span class="text-sm font-bold text-emerald-400">High</span>
+</div>
+<div class="w-full bg-slate-100 dark:bg-primary/10 h-1.5 rounded-full overflow-hidden">
+<div class="bg-emerald-400 h-full w-[88%]"></div>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-sm font-medium">Bystander Action</span>
+<span class="text-sm font-bold text-yellow-500">Moderate</span>
+</div>
+<div class="w-full bg-slate-100 dark:bg-primary/10 h-1.5 rounded-full overflow-hidden">
+<div class="bg-yellow-500 h-full w-[54%]"></div>
+</div></div>
+</div>
+<div class="p-6 rounded-xl border border-slate-200 dark:border-primary/30 bg-white dark:bg-background-dark shadow-sm">
+<h4 class="text-sm font-bold uppercase tracking-wider text-slate-500 mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-red-500">visibility</span>
+                                Awareness Gaps
+                            </h4>
+<ul class="space-y-3">
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-sm mt-0.5 text-red-500">warning</span>
+<p class="text-xs">Transient Ischemic Attack (TIA) recognition remains low (&lt;30%).</p>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-sm mt-0.5 text-red-500">warning</span>
+<p class="text-xs">Rural response time is 18% higher than urban average.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- Footer Summary -->
+<footer class="p-6 rounded-xl bg-primary text-white flex flex-col md:flex-row items-center justify-between gap-6 overflow-hidden relative">
+<div class="relative z-10 flex flex-col md:flex-row items-center gap-6">
+<div class="size-16 rounded-full bg-white/20 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-3xl">verified</span>
+</div>
+<div>
+<h4 class="text-xl font-bold">Overall Community Readiness Status: ACTIVE</h4>
+<p class="text-sm text-white/80">Regional awareness campaigns are yielding positive results. Next review in 14 days.</p>
+</div>
+</div>
+<button class="relative z-10 px-6 py-2.5 bg-white text-primary rounded-lg font-bold text-sm whitespace-nowrap hover:bg-slate-100 transition-colors">
+                        Export Full Report
+                    </button>
+<!-- Abstract pattern background -->
+<div class="absolute inset-0 opacity-10 pointer-events-none">
+<svg height="100%" width="100%" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<pattern height="40" id="grid" patternunits="userSpaceOnUse" width="40">
+<path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" stroke-width="1"></path>
+</pattern>
+</defs>
+<rect fill="url(#grid)" height="100%" width="100%"></rect>
+</svg>
+</div>
+</footer>
+</div>
+</main>
+</div>
+</body></html>

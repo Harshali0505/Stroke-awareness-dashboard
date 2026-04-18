@@ -4,7 +4,7 @@ const ProgressBar = ({ value, color }) => (
   <div style={{
     width: "100%",
     height: "6px",
-    backgroundColor: "#e2e8f0",
+    backgroundColor: "var(--bg-surface-3)",
     borderRadius: "3px",
     marginTop: "8px",
     marginBottom: "16px",
@@ -26,7 +26,7 @@ const StatColumn = ({ title, titleColor, data, isLeft = true }) => {
       flex: 1, 
       paddingRight: isLeft ? "20px" : "0", 
       paddingLeft: isLeft ? "0" : "20px",
-      borderRight: isLeft ? "1px solid #e2e8f0" : "none"
+      borderRight: isLeft ? "1px solid var(--border)" : "none"
     }}>
       <div style={{
         fontSize: "12px",
@@ -80,11 +80,11 @@ const StatColumn = ({ title, titleColor, data, isLeft = true }) => {
 const LifestyleComparisonCard = ({ title, leftTitle, leftData, rightTitle, rightData }) => {
   return (
     <div style={{
-      backgroundColor: "#ffffff",
+      backgroundColor: "var(--bg-surface)",
       borderRadius: "8px",
       boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)",
-      border: "1px solid #e2e8f0",
-      borderTop: "4px solid #f59e0b",
+      border: "1px solid var(--border)",
+      borderTop: "4px solid var(--amber)",
       padding: "24px",
       display: "flex",
       flexDirection: "column",
@@ -93,7 +93,7 @@ const LifestyleComparisonCard = ({ title, leftTitle, leftData, rightTitle, right
       <div style={{
         fontSize: "12px",
         fontWeight: 700,
-        color: "#94a3b8",
+        color: "var(--text-muted)",
         textTransform: "uppercase",
         letterSpacing: "0.05em",
         marginBottom: "4px"
@@ -103,15 +103,15 @@ const LifestyleComparisonCard = ({ title, leftTitle, leftData, rightTitle, right
       <div style={{
         fontSize: "20px",
         fontWeight: 800,
-        color: "#0f172a",
+        color: "var(--text-primary)",
         marginBottom: "24px"
       }}>
         {title}
       </div>
 
       <div style={{ display: "flex" }}>
-        <StatColumn title={leftTitle} titleColor="#ef4444" data={leftData} isLeft={true} />
-        <StatColumn title={rightTitle} titleColor="#94a3b8" data={rightData} isLeft={false} />
+        <StatColumn title={leftTitle} titleColor="var(--red)" data={leftData} isLeft={true} />
+        <StatColumn title={rightTitle} titleColor="var(--text-muted)" data={rightData} isLeft={false} />
       </div>
     </div>
   );

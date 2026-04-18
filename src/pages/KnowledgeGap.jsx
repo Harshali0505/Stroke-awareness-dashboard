@@ -7,6 +7,9 @@ import KpiCard from "../components/KpiCard";
 import InsightCard from "../components/InsightCard";
 import RecognitionSplitCard from "../components/RecognitionSplitCard";
 
+// Direct import from clustering directory
+import dashboardData from '../../../../models/clustering_v2/phase5_outputs/dashboard_stats.json';
+
 const KnowledgeGap = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
     const { data: identificationData, loading: loading1 } = useStaticData("/analytics/symptom-identification.json");
     const { data: recallFrequency, loading: loading2 } = useStaticData("/analytics/symptom-recall-frequency.json");
@@ -14,9 +17,9 @@ const KnowledgeGap = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
     const { data: riskIdentification, loading: loading3 } = useStaticData("/analytics/risk-identification.json");
     const { data: riskGapData, loading: loading4 } = useStaticData("/analytics/risk-gap.json");
     const { data: riskDepth, loading: loadingDepthRisk } = useStaticData("/analytics/risk-recall-depth.json");
-    const { data: trapData, loading: loadingTrap } = useStaticData("/analytics/symptom-trap.json");
 
-    const loading = loading1 || loading2 || loading3 || loading4 || loadingDepthSymptom || loadingDepthRisk || loadingTrap;
+    const trapData = dashboardData.mastery;
+    const loading = loading1 || loading2 || loading3 || loading4 || loadingDepthSymptom || loadingDepthRisk;
 
     const recognitionChartData = React.useMemo(() => {
         if (!identificationData) return [];

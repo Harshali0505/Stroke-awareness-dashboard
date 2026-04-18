@@ -33,8 +33,8 @@ const ActionFunnel = ({ stats = funnelSteps }) => {
           return (
             <div key={index} style={{ flex: 1, position: "relative", display: "flex", flexDirection: "column" }}>
               <div style={{ 
-                backgroundColor: "#fff", 
-                border: "1px solid #e2e8f0", 
+                backgroundColor: "var(--bg-surface)", 
+                border: "1px solid var(--border)", 
                 borderRadius: "8px", 
                 padding: "20px",
                 flex: 1,
@@ -44,7 +44,7 @@ const ActionFunnel = ({ stats = funnelSteps }) => {
                 boxShadow: "0 4px 6px -1px rgba(0,0,0,0.05)",
                 zIndex: 2
               }}>
-                 <div style={{ fontSize: "14px", fontWeight: 700, color: "#64748b", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "8px" }}>
+                 <div style={{ fontSize: "14px", fontWeight: 700, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "8px" }}>
                    Step {index + 1}
                  </div>
                  <div style={{ fontSize: "16px", fontWeight: 700, color: "var(--text-primary)", marginBottom: "4px" }}>
@@ -72,7 +72,7 @@ const ActionFunnel = ({ stats = funnelSteps }) => {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  color: "#cbd5e1"
+                  color: "var(--text-disabled)"
                 }}>
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M5 12h14M12 5l7 7-7 7"/>

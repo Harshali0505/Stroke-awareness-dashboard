@@ -109,13 +109,13 @@ const PercentAwarenessTooltip = ({ active, payload, label, isolatedLevel, totalI
   return (
     <div
       style={{
-        background: '#1a2332',
-        border: '1px solid rgba(255, 255, 255, 0.12)',
+        background: 'var(--tooltip-bg, #1a2332)',
+        border: '1px solid var(--tooltip-border, rgba(255, 255, 255, 0.12))',
         borderRadius: '10px',
         padding: '12px 14px',
         fontSize: '12px',
         fontFamily: 'Inter, sans-serif',
-        color: '#ffffff',
+        color: 'var(--tooltip-text, #ffffff)',
         boxShadow: '0 8px 24px rgba(0,0,0,0.35)',
         minWidth: '220px',
         pointerEvents: 'none',
@@ -127,22 +127,23 @@ const PercentAwarenessTooltip = ({ active, payload, label, isolatedLevel, totalI
           fontSize: '11px',
           textTransform: 'uppercase',
           letterSpacing: '0.06em',
-          color: 'rgba(255,255,255,0.5)',
+          color: 'var(--tooltip-text, rgba(255,255,255,0.5))',
+          opacity: 0.5,
           marginBottom: '8px',
           paddingBottom: '8px',
-          borderBottom: '1px solid rgba(255,255,255,0.1)'
+          borderBottom: '1px solid var(--tooltip-border, rgba(255,255,255,0.1))'
         }}>
           {label}
         </div>
       )}
 
       {isolatedLevel && totalIsolated !== undefined && totalIsolated !== null ? (
-        <div style={{ marginBottom: '12px', color: 'rgba(255,255,255,0.6)', fontSize: '12px' }}>
+        <div style={{ marginBottom: '12px', color: 'var(--tooltip-text, rgba(255,255,255,0.6))', opacity: 0.6, fontSize: '12px' }}>
           Share of total {isolatedLevel} ({formatCount(totalIsolated)})
         </div>
       ) : totalN !== undefined && (
-        <div style={{ marginBottom: '12px', color: 'rgba(255,255,255,0.6)', fontSize: '12px' }}>
-          Total N: <strong style={{ color: '#ffffff' }}>{formatCount(totalN)}</strong>
+        <div style={{ marginBottom: '12px', color: 'var(--tooltip-text, rgba(255,255,255,0.6))', opacity: 0.6, fontSize: '12px' }}>
+          Total N: <strong style={{ color: 'var(--tooltip-text, #ffffff)' }}>{formatCount(totalN)}</strong>
         </div>
       )}
 
@@ -167,12 +168,12 @@ const PercentAwarenessTooltip = ({ active, payload, label, isolatedLevel, totalI
               alignSelf: 'start'
             }}
           />
-          <span style={{ fontWeight: 600, color: '#ffffff', alignSelf: 'start', lineHeight: 1.2 }}>{row.category}</span>
+          <span style={{ fontWeight: 600, color: 'var(--tooltip-text, #ffffff)', alignSelf: 'start', lineHeight: 1.2 }}>{row.category}</span>
           <span style={{ fontWeight: 700, color: row.color || row.mappedColor, fontFamily: "'JetBrains Mono', monospace", fontSize: '14px', alignSelf: 'start', lineHeight: 1 }}>{formatPercent(row.percentValue)}</span>
 
           <span />
-          <span style={{ opacity: 0.6, fontSize: '11px', color: '#ffffff' }}>Count</span>
-          <span style={{ fontWeight: 400, fontSize: '11px', color: 'rgba(255,255,255,0.6)' }}>{formatCount(row.countValue)} participants</span>
+          <span style={{ opacity: 0.6, fontSize: '11px', color: 'var(--tooltip-text, #ffffff)' }}>Count</span>
+          <span style={{ fontWeight: 400, fontSize: '11px', color: 'var(--tooltip-text, rgba(255,255,255,0.6))', opacity: 0.6 }}>{formatCount(row.countValue)} participants</span>
         </div>
       ))}
     </div>

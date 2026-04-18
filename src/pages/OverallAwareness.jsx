@@ -1,35 +1,20 @@
 import React from 'react';
 import PageContainer from '../components/PageContainer';
-import { useStaticData } from '../data/useStaticData';
 import KpiCard from '../components/KpiCard';
 import GenericPieChart from '../components/charts/GenericPieChart';
 import Section from '../components/Section';
 import ChartPanel from '../components/ChartPanel';
 import InsightCard from '../components/InsightCard';
 
+// Directly importing numerical data from clustering directory
+import dashboardData from '../../../../models/clustering_v2/phase5_outputs/dashboard_stats.json';
+
 const OverallAwareness = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
-  const { data: kpiData, loading: kpiLoading } =
-    useStaticData('/analytics/home-analytics.json');
-
-  const { data: analyticsData, loading: analyticsLoading } =
-    useStaticData("/analytics/overall-awareness.json");
-
-  const { data: perceptionData, loading: perceptionLoading } =
-    useStaticData('/analytics/perception-reality.json');
-
-  if (kpiLoading || analyticsLoading || perceptionLoading) {
-    return (
-      <PageContainer
-        title="The Big Picture: Stroke Awareness"
-        description="This dashboard presents a consolidated overview of stroke awareness levels across the surveyed population."
-        isMobileMenuOpen={isMobileMenuOpen}
-        setIsMobileMenuOpen={setIsMobileMenuOpen}
-        pageHeaderMeta={{ sectionTag: 'SECTION 01', severity: 'critical', severityLabel: 'CRITICAL' }}
-      >
-        <p className="text-body text-muted">Loading overview insights...</p>
-      </PageContainer>
-    );
-  }
+  const kpiData = dashboardData.kpi;
+  const analyticsData = dashboardData.overall_awareness;
+  const perceptionData = dashboardData.perception_reality;
+  const actionGapPercent = dashboardData.action_gap_percent;
+  const numClusters = dashboardData.num_clusters;
 
   // Pre-calculate perception reality numbers
   let percentSaidYes = '63';
@@ -151,7 +136,7 @@ const OverallAwareness = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
       <div className="zone-d">
         <div className="grid-3-col">
           <InsightCard type="secondary" title="The Action Gap" severity="amber">
-            <span className="highlight-span amber">42.5%</span> of individuals who actually know what a stroke is still fail to state they would seek immediate emergency medical help.
+            <span className="highlight-span amber">{actionGapPercent}%</span> of individuals who actually know what a stroke is still fail to state they would seek immediate emergency medical help.
           </InsightCard>
           
           <InsightCard type="secondary" title="Lifestyle Correlation" severity="blue">
@@ -159,7 +144,7 @@ const OverallAwareness = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
           </InsightCard>
           
           <InsightCard type="secondary" title="Data Profiles" severity="green">
-            Cluster analysis successfully isolated <span className="highlight-span blue">4 segments</span> representing how stroke knowledge predictably distributes in the public.
+            Cluster analysis successfully isolated <span className="highlight-span blue">{numClusters} segments</span> representing how stroke knowledge predictably distributes in the public.
           </InsightCard>
         </div>
       </div>

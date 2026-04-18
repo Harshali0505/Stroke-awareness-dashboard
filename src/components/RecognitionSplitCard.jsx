@@ -43,8 +43,8 @@ const RecognitionSplitCard = ({ data = [], topCount = 4, bottomCount = 4 }) => {
       <div style={{ 
         flex: 1, 
         minWidth: "300px",
-        backgroundColor: "#fff", 
-        border: "1px solid var(--border-color, #e2e8f0)", 
+        backgroundColor: "var(--bg-surface)", 
+        border: "1px solid var(--border)", 
         borderRadius: "12px", 
         padding: "24px" 
       }}>
@@ -64,7 +64,7 @@ const RecognitionSplitCard = ({ data = [], topCount = 4, bottomCount = 4 }) => {
             key={i} 
             label={item.name} 
             percentage={item.percentage} 
-            trackColor="#f1f5f9" 
+            trackColor="var(--bg-surface-3)" 
             barColor="var(--brand-primary, #0f766e)" 
           />
         ))}
@@ -74,8 +74,8 @@ const RecognitionSplitCard = ({ data = [], topCount = 4, bottomCount = 4 }) => {
       <div style={{ 
         flex: 1, 
         minWidth: "300px",
-        backgroundColor: "var(--bg-danger, #fef2f2)", 
-        border: "1px solid var(--border-danger, #fecaca)", 
+        backgroundColor: "var(--red-bg)", 
+        border: "1px solid var(--red-border)", 
         borderRadius: "12px", 
         padding: "24px" 
       }}>
@@ -95,8 +95,8 @@ const RecognitionSplitCard = ({ data = [], topCount = 4, bottomCount = 4 }) => {
             key={i} 
             label={item.name} 
             percentage={item.percentage} 
-            trackColor="#fee2e2" 
-            barColor="var(--text-danger, #e11d48)" 
+            trackColor="var(--bg-surface-2)" 
+            barColor="var(--red)" 
           />
         ))}
       </div>

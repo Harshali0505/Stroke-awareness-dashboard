@@ -93,17 +93,17 @@ const Navbar = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
   return (
     <nav className={`sidebar ${mobileOpen ? 'open' : ''}`}>
       <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-        
+
         {/* Brand Area */}
         <div style={{ padding: '24px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
           {!isCollapsed && (
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
               <div style={{ padding: '8px', background: 'var(--brand-primary)', borderRadius: '8px', color: '#fff', display: 'flex' }}>
-                 <FiTarget size={18} />
+                <FiTarget size={18} />
               </div>
               <div style={{ display: 'flex', flexDirection: 'column' }}>
-                <span style={{ fontSize: '14px', fontWeight: 700, color: '#fff', letterSpacing: '-0.02em' }}>Stroke Analytics</span>
-                <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.5)' }}>Research Dashboard</span>
+                <span style={{ fontSize: '14px', fontWeight: 700, color: '#fff', letterSpacing: '-0.02em' }}>BrainLine</span>
+                <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.5)' }}>Stroke Awareness Research Dashboard</span>
               </div>
             </div>
           )}
@@ -143,9 +143,9 @@ const Navbar = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
           <Link
             to="/"
             onClick={handleNavClick}
-            style={{ 
-              display: 'flex', alignItems: 'center', gap: '8px', 
-              background: 'rgba(255,255,255,0.05)', color: '#fff', 
+            style={{
+              display: 'flex', alignItems: 'center', gap: '8px',
+              background: 'rgba(255,255,255,0.05)', color: '#fff',
               padding: '10px 16px', borderRadius: '8px', textDecoration: 'none',
               justifyContent: isCollapsed ? 'center' : 'flex-start'
             }}
@@ -153,11 +153,11 @@ const Navbar = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
             <FiChevronsLeft size={16} />
             {!isCollapsed && <span style={{ fontSize: '13px', fontWeight: 500 }}>Back to Homepage</span>}
           </Link>
-          <button 
+          <button
             onClick={toggleTheme}
-            style={{ 
-              display: 'flex', alignItems: 'center', gap: '8px', 
-              background: 'rgba(255,255,255,0.05)', border: 'none', color: '#fff', 
+            style={{
+              display: 'flex', alignItems: 'center', gap: '8px',
+              background: 'rgba(255,255,255,0.05)', border: 'none', color: '#fff',
               padding: '10px 16px', borderRadius: '8px', cursor: 'pointer', width: '100%',
               justifyContent: isCollapsed ? 'center' : 'flex-start'
             }}
