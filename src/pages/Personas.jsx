@@ -2,11 +2,13 @@ import React from "react";
 import PageContainer from "../components/PageContainer";
 import ChartPanel from "../components/ChartPanel";
 import InsightCard from "../components/InsightCard";
-
-// Direct import from clustering directory
-import dashboardData from '../../../../models/clustering_v2/phase5_outputs/dashboard_stats.json';
+import { useStaticData } from "../data/useStaticData";
 
 const Personas = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
+  const { data: dashboardData } = useStaticData('/dashboard');
+
+  if (!dashboardData) return <div style={{ padding: '40px', textAlign: 'center', color: 'var(--text-secondary)', fontFamily: 'inherit' }}>Loading Personas...</div>;
+
   const dataPersonas = dashboardData.personas;
 
   // Existing descriptions and strategies from original file

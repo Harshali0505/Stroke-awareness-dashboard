@@ -28,7 +28,7 @@ const STYLE = `
 `;
 
 /* ─── Brain SVG Icon ─── */
-import dashboardData from '../../../../models/clustering_v2/phase5_outputs/dashboard_stats.json';
+import { useStaticData } from '../data/useStaticData';
 
 const BrainIcon = ({ size = 40, color = 'var(--red)' }) => (
   <svg width={size} height={size} viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -46,12 +46,6 @@ const COVERAGE = [
   { icon: '👥', color: '#8b5cf6', hov: 'rgba(139,92,246,0.35)', label: 'Demographic Breakdown', desc: 'Analysis across age groups, gender, education levels, and income categories.' },
 ];
 
-const SCORE_TIERS = [
-  { dot: 'var(--red)', bg: 'var(--red-bg)', border: 'var(--red-border)', label: 'Low Awareness', sub: 'Limited knowledge, high risk', value: `${dashboardData.kpi.lowPercent}%` },
-  { dot: 'var(--amber)', bg: 'var(--amber-bg)', border: 'var(--amber-border)', label: 'Moderate Awareness', sub: 'Partial understanding', value: `${dashboardData.kpi.moderatePercent}%` },
-  { dot: 'var(--green)', bg: 'var(--green-bg)', border: 'var(--green-border)', label: 'High Awareness', sub: 'Well-informed and responsive', value: `${dashboardData.kpi.highPercent}%` },
-];
-
 const DIMENSIONS = [
   'Recognition of stroke symptoms',
   'Knowledge of risk factors',
@@ -66,6 +60,8 @@ const Landing = () => {
   const heroRef = useRef(null);
   const { theme, toggleTheme } = useTheme();
 
+  const { data: dashboardData, loading, error } = useStaticData('/dashboard');
+
   /* Smooth fade-in for each animated section on scroll */
   useEffect(() => {
     const els = document.querySelectorAll('.land-anim');
@@ -77,13 +73,23 @@ const Landing = () => {
     return () => io.disconnect();
   }, []);
 
+  if (loading) return <div style={{ padding: '40px', textAlign: 'center', color: 'var(--text-secondary)', fontFamily: 'inherit' }}>Loading...</div>;
+  if (error) return <div style={{ padding: '40px', textAlign: 'center', color: 'var(--red)', fontFamily: 'inherit' }}>Error: Backend Not Found. Please start the backend server.</div>;
+  if (!dashboardData) return null;
+
+  const SCORE_TIERS = [
+    { dot: 'var(--red)', bg: 'var(--red-bg)', border: 'var(--red-border)', label: 'Low Awareness', sub: 'Limited knowledge, high risk', value: `${dashboardData.kpi.lowPercent}%` },
+    { dot: 'var(--amber)', bg: 'var(--amber-bg)', border: 'var(--amber-border)', label: 'Moderate Awareness', sub: 'Partial understanding', value: `${dashboardData.kpi.moderatePercent}%` },
+    { dot: 'var(--green)', bg: 'var(--green-bg)', border: 'var(--green-border)', label: 'High Awareness', sub: 'Well-informed and responsive', value: `${dashboardData.kpi.highPercent}%` },
+  ];
+
   const scrollTo = (id) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
 
   return (
     <>
       <style>{STYLE}</style>
       <style>{`
-        .land-anim { opacity: 0; transform: translateY(24px); transition: opacity 0.65s ease, transform 0.65s ease; }
+        .land-anim { opacity: 1; transform: translateY(24px); transition: opacity 0.65s ease, transform 0.65s ease; }
         .land-anim.land-visible { opacity: 1; transform: translateY(0); }
         .land-anim:nth-child(2) { transition-delay: 0.1s; }
         .land-anim:nth-child(3) { transition-delay: 0.18s; }
@@ -238,7 +244,7 @@ const Landing = () => {
             <h1 className="landing-hero-h1" style={{
               fontSize: 'clamp(36px, 6vw, 64px)', fontWeight: 800, lineHeight: 1.05,
               letterSpacing: '-0.04em', marginBottom: '24px',
-              backgroundImage: theme === 'dark' 
+              backgroundImage: theme === 'dark'
                 ? 'linear-gradient(135deg, #ffffff 30%, #94a3b8 100%)'
                 : 'linear-gradient(135deg, #111827 30%, #4b5563 100%)',
               WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',

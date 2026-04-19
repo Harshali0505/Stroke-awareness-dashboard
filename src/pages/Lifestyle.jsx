@@ -10,11 +10,11 @@ import LifestyleComparisonCard from "../components/LifestyleComparisonCard";
 const Lifestyle = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
   const { selected, onSelect } = useChartSelection();
 
-  const { data: familyData, loading: familyLoading } = useStaticData("/analytics/family-history-awareness.json");
-  const { data: tiaData, loading: tiaLoading } = useStaticData("/analytics/tia-awareness.json");
-  const { data: smokingData, loading: smokingLoading } = useStaticData("/analytics/smoking-awareness.json");
-  const { data: alcoholData, loading: alcoholLoading } = useStaticData("/analytics/alcohol_consumption-awareness.json");
-  const { data: activityData, loading: activityLoading } = useStaticData("/analytics/regular_physical_activity-awareness.json");
+  const { data: familyData, loading: familyLoading } = useStaticData("/analytics/family-history-awareness");
+  const { data: tiaData, loading: tiaLoading } = useStaticData("/analytics/tia-awareness");
+  const { data: smokingData, loading: smokingLoading } = useStaticData("/analytics/smoking-awareness");
+  const { data: alcoholData, loading: alcoholLoading } = useStaticData("/analytics/alcohol_consumption-awareness");
+  const { data: activityData, loading: activityLoading } = useStaticData("/analytics/regular_physical_activity-awareness");
 
   const formatGroupedData = React.useCallback((data, groupKey, labelMap) => {
     if (!data) return [];

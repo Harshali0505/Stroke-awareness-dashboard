@@ -5,11 +5,13 @@ import GenericPieChart from '../components/charts/GenericPieChart';
 import Section from '../components/Section';
 import ChartPanel from '../components/ChartPanel';
 import InsightCard from '../components/InsightCard';
-
-// Directly importing numerical data from clustering directory
-import dashboardData from '../../../../models/clustering_v2/phase5_outputs/dashboard_stats.json';
+import { useStaticData } from '../data/useStaticData';
 
 const OverallAwareness = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
+  const { data: dashboardData } = useStaticData('/dashboard');
+
+  if (!dashboardData) return <div style={{ padding: '40px', textAlign: 'center', color: 'var(--text-secondary)', fontFamily: 'inherit' }}>Loading Dashboard Data...</div>;
+
   const kpiData = dashboardData.kpi;
   const analyticsData = dashboardData.overall_awareness;
   const perceptionData = dashboardData.perception_reality;

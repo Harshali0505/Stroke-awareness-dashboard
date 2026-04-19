@@ -4,17 +4,11 @@ import StackedAwarenessChart from "../components/charts/StackedAwarenessChart";
 import ChartPanel from "../components/ChartPanel";
 import useChartSelection from "../hooks/useChartSelection";
 import InsightCard from "../components/InsightCard";
-
-// Direct import from clustering directory
-import dashboardData from '../../../../models/clustering_v2/phase5_outputs/dashboard_stats.json';
+import { useStaticData } from "../data/useStaticData";
 
 const Demographics = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
   const { selected, onSelect } = useChartSelection();
-
-  const ageData = dashboardData.demographics.age;
-  const genderData = dashboardData.demographics.gender;
-  const educationData = dashboardData.demographics.educational_level;
-  const incomeData = dashboardData.demographics.salary;
+  const { data: dashboardData } = useStaticData('/dashboard');
 
   const formatSalaryLabel = React.useCallback((value) => {
     const s = String(value ?? "").trim().toLowerCase();
@@ -40,6 +34,11 @@ const Demographics = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
     });
     return Object.values(map);
   }, [formatSalaryLabel]);
+
+  const ageData = dashboardData?.demographics?.age;
+  const genderData = dashboardData?.demographics?.gender;
+  const educationData = dashboardData?.demographics?.educational_level;
+  const incomeData = dashboardData?.demographics?.salary;
 
   const stackedAgeData = React.useMemo(() => transformToStacked(ageData, "age"), [ageData, transformToStacked]);
   const stackedGenderData = React.useMemo(() => transformToStacked(genderData, "gender"), [genderData, transformToStacked]);
@@ -72,6 +71,8 @@ const Demographics = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
       return (idxA > -1 ? idxA : 99) - (idxB > -1 ? idxB : 99);
     });
   }, [incomeData, transformToStacked]);
+
+  if (!dashboardData) return <div style={{ padding: '40px', textAlign: 'center', color: 'var(--text-secondary)', fontFamily: 'inherit' }}>Loading Demographics...</div>;
 
 
   return (

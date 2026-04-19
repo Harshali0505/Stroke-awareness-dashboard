@@ -10,9 +10,6 @@ import KpiCard from "../components/KpiCard";
 import ActionFunnel from "../components/ActionFunnel";
 import { CHART_COLORS } from "../constants/colors";
 
-// Direct import from clustering directory
-import dashboardData from '../../../../models/clustering_v2/phase5_outputs/dashboard_stats.json';
-
 /* ── Fixed progress bar: labels left-anchored, bars fill naturally ── */
 const SimpleProgressBar = ({ label, percentage, color }) => (
   <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "14px" }}>
@@ -36,13 +33,14 @@ const SimpleProgressBar = ({ label, percentage, color }) => (
 const Emergency = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
   const { selected, onSelect } = useChartSelection();
 
-  const { data: firstActionData, loading: firstActionLoading } = useStaticData("/analytics/first-action.json");
-  const { data: firstActionAwarenessData, loading: firstActionAwarenessLoading } = useStaticData("/analytics/first-action-awareness.json");
-  const { data: treatmentData, loading: treatmentLoading } = useStaticData("/analytics/time-to-treatment.json");
-  const { data: specialistData, loading: specialistLoading } = useStaticData("/analytics/specialist-consultation.json");
-  const { data: adviceData, loading: adviceLoading } = useStaticData("/analytics/advice-given.json");
-  const { data: whereToGoData, loading: whereToGoLoading } = useStaticData("/analytics/where-to-go.json");
-  const { data: howSoonConsultData, loading: howSoonConsultLoading } = useStaticData("/analytics/how-soon-consult.json");
+  const { data: dashboardData } = useStaticData('/dashboard');
+  const { data: firstActionData, loading: firstActionLoading } = useStaticData("/analytics/first-action");
+  const { data: firstActionAwarenessData, loading: firstActionAwarenessLoading } = useStaticData("/analytics/first-action-awareness");
+  const { data: treatmentData, loading: treatmentLoading } = useStaticData("/analytics/time-to-treatment");
+  const { data: specialistData, loading: specialistLoading } = useStaticData("/analytics/specialist-consultation");
+  const { data: adviceData, loading: adviceLoading } = useStaticData("/analytics/advice-given");
+  const { data: whereToGoData, loading: whereToGoLoading } = useStaticData("/analytics/where-to-go");
+  const { data: howSoonConsultData, loading: howSoonConsultLoading } = useStaticData("/analytics/how-soon-consult");
 
   const stackedFirstActionData = React.useMemo(() => {
     if (!firstActionAwarenessData || !Array.isArray(firstActionAwarenessData)) return [];
@@ -58,7 +56,7 @@ const Emergency = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
     return Object.values(map);
   }, [firstActionAwarenessData]);
 
-  if (firstActionLoading || treatmentLoading || specialistLoading || firstActionAwarenessLoading || adviceLoading || whereToGoLoading || howSoonConsultLoading) {
+  if (!dashboardData || firstActionLoading || treatmentLoading || specialistLoading || firstActionAwarenessLoading || adviceLoading || whereToGoLoading || howSoonConsultLoading) {
     return (
       <PageContainer
         title="Time-Critical Awareness"

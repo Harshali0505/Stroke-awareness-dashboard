@@ -12,8 +12,8 @@ import { CHART_COLORS } from "../constants/colors";
 const Community = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
   const { selected, onSelect } = useChartSelection();
 
-  const { data: sourcesData, loading: sourcesLoading } = useStaticData("/analytics/awareness-sources.json");
-  const { data: sourcesStackedData, loading: sourcesStackedLoading } = useStaticData("/analytics/awareness-sources-stacked.json");
+  const { data: sourcesData, loading: sourcesLoading } = useStaticData("/analytics/awareness-sources");
+  const { data: sourcesStackedData, loading: sourcesStackedLoading } = useStaticData("/analytics/awareness-sources-stacked");
 
   const stackedSourcesList = React.useMemo(() => {
     if (!sourcesStackedData || !Array.isArray(sourcesStackedData)) return [];
