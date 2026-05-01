@@ -63,7 +63,7 @@ export default function PatientRiskPredictor() {
             const v = f.shap_value;
             let fName = k;
             let opted = "";
-            
+
             if (k === 'age') { fName = 'Age'; opted = inputs.age + ' yrs'; }
             else if (k === 'bmi') { fName = 'BMI'; opted = inputs.bmi; }
             else if (k === 'avg_glucose_level') { fName = 'Avg Glucose'; opted = inputs.avg_glucose_level + ' mg/dL'; }
@@ -97,7 +97,7 @@ export default function PatientRiskPredictor() {
 
             return { featureName: fName, optedValue: opted, shap_value: v };
           }).filter(f => !f.optedValue.toString().startsWith('Not ') && f.shap_value !== 0);
-          
+
           // Re-sort just to be safe, though backend already sorts
           formattedFactors.sort((a, b) => Math.abs(b.shap_value) - Math.abs(a.shap_value));
           setShapData(formattedFactors);
@@ -147,15 +147,15 @@ export default function PatientRiskPredictor() {
                     <label style={S.sliderLabel} htmlFor={f.key}>{f.label}</label>
                     <span style={{ fontSize: 12, color: '#94a3b8', fontWeight: 500 }}>{f.unit}</span>
                   </div>
-                  <input 
+                  <input
                     id={f.key}
-                    type="number" 
-                    min={f.min} 
-                    max={f.max} 
-                    step={f.key === 'bmi' ? 0.1 : 1} 
+                    type="number"
+                    min={f.min}
+                    max={f.max}
+                    step={f.key === 'bmi' ? 0.1 : 1}
                     value={inputs[f.key]}
                     onChange={e => set(f.key, e.target.value === '' ? '' : parseFloat(e.target.value))}
-                    style={{ width: '100%', padding: '10px 12px', border: '1px solid #cbd5e1', borderRadius: 8, fontSize: 14, color: '#334155', outline: 'none', transition: 'border-color 0.2s', backgroundColor: '#f8fafc' }} 
+                    style={{ width: '100%', padding: '10px 12px', border: '1px solid #cbd5e1', borderRadius: 8, fontSize: 14, color: '#334155', outline: 'none', transition: 'border-color 0.2s', backgroundColor: '#f8fafc' }}
                   />
                 </div>
               ))}
@@ -209,14 +209,14 @@ export default function PatientRiskPredictor() {
 
       {/* Second Row: 2 Panels Horizontally Aligned */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32, alignItems: 'stretch' }}>
-        
+
         {/* Risk Score Panel */}
         <div style={{ ...S.card, background: risk.bg, borderColor: risk.border, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <div style={{ alignSelf: 'flex-start', width: '100%' }}>
             <div style={S.cardTitle}>Stroke Risk Prediction</div>
             <div style={{ ...S.cardSub, marginBottom: 0 }}>Real-time output from the XGBoost model</div>
           </div>
-          
+
           <div style={{ ...S.gauge, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '40px 0' }}>
             <div style={S.gaugeCircle}>
               <svg viewBox="0 0 120 120" style={{ width: 220, height: 220, filter: 'drop-shadow(0px 4px 12px rgba(0,0,0,0.08))' }}>
@@ -250,9 +250,9 @@ export default function PatientRiskPredictor() {
 
         {/* Explanation Panel */}
         <div style={{ ...S.card, display: 'flex', flexDirection: 'column' }}>
-          <div style={{...S.cardTitle}}>Key Contributing Factors</div>
-          <div style={{...S.cardSub, marginBottom: 20}}>Live SHAP values explaining this prediction</div>
-          
+          <div style={{ ...S.cardTitle }}>Key Contributing Factors</div>
+          <div style={{ ...S.cardSub, marginBottom: 20 }}>Live SHAP values explaining this prediction</div>
+
           {explanationText && (
             <div style={{ marginBottom: 20, padding: 16, background: '#f8fafc', borderRadius: 8, fontSize: 13, color: '#475569', lineHeight: 1.6, border: '1px solid #e2e8f0', borderLeft: '4px solid #14b8a6' }}>
               {explanationText}
@@ -269,7 +269,7 @@ export default function PatientRiskPredictor() {
               return (
                 <div key={i} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 13, background: '#fff', padding: '10px 16px', borderRadius: 8, boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
                   <span style={{ fontWeight: 600, color: '#334155', textTransform: 'capitalize' }}>
-                     {d.featureName || (d.feature ? d.feature.replace(/_/g, ' ') : 'Factor')}: <span style={{ color: '#64748b', fontWeight: 400 }}>{d.optedValue || ''}</span>
+                    {d.featureName || (d.feature ? d.feature.replace(/_/g, ' ') : 'Factor')}: <span style={{ color: '#64748b', fontWeight: 400 }}>{d.optedValue || ''}</span>
                   </span>
                   <span style={{ fontWeight: 700, color: isZero ? '#64748b' : (isPos ? '#e11d48' : '#10b981'), display: 'flex', alignItems: 'center', gap: 6 }}>
                     {isZero ? '− Neutral Impact' : (isPos ? '↑ Increases Risk' : '↓ Decreases Risk')}
