@@ -79,6 +79,11 @@ const Navbar = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
       label: 'Behavioral Personas',
       icon: <FiTarget />
     },
+    {
+      path: '/predict',
+      label: 'Patient Risk Predictor (ML)',
+      icon: <FiRadio />
+    },
   ];
 
   const handleNavClick = () => {

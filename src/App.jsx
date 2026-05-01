@@ -8,6 +8,7 @@ import KnowledgeGap from './pages/KnowledgeGap';
 import Emergency from './pages/Emergency';
 import Community from './pages/Community';
 import Personas from './pages/Personas';
+import PatientRiskPredictor from './pages/PatientRiskPredictor';
 import ScrollToTop from './components/common/ScrollToTop';
 
 // ——— Theme Context ———
@@ -106,6 +107,7 @@ function AppContent() {
           <Route path="/emergency"      element={<Emergency        {...sharedProps} />} />
           <Route path="/community"      element={<Community        {...sharedProps} />} />
           <Route path="/personas"       element={<Personas         {...sharedProps} />} />
+          <Route path="/predict"        element={<PatientRiskPredictor {...sharedProps} />} />
         </Routes>
 
       </div>

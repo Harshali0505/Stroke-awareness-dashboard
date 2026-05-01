@@ -180,7 +180,7 @@ const Landing = () => {
                 backdropFilter: 'blur(4px)'
               }}>{n.label}</button>
             ))}
-            <a href={import.meta.env.VITE_PREDICTION_URL || "https://stroke-prediction-placeholder.vercel.app"} target="_blank" rel="noopener noreferrer" className="landing-nav-btn" style={{
+            <button onClick={() => navigate('/predict')} className="landing-nav-btn" style={{
               background: 'rgba(139,92,246,0.15)', border: '1px solid rgba(139,92,246,0.4)',
               color: '#ffffff', padding: '7px 14px', borderRadius: '8px',
               fontSize: '13px', fontWeight: 600, cursor: 'pointer', transition: 'all 0.2s ease',
@@ -188,7 +188,7 @@ const Landing = () => {
             }}>
               Risk Predictor
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-            </a>
+            </button>
           </div>
         </nav>
 
@@ -284,7 +284,7 @@ const Landing = () => {
               onMouseOut={(e) => { e.currentTarget.style.background = 'transparent'; }}>
                 View Research Goals
               </button>
-              <a href={import.meta.env.VITE_PREDICTION_URL || "https://stroke-prediction-placeholder.vercel.app"} target="_blank" rel="noopener noreferrer" className="cta-secondary" style={{
+              <button onClick={() => navigate('/predict')} className="cta-secondary" style={{
                 background: 'rgba(139,92,246,0.1)', color: '#ffffff', border: '1px solid rgba(139,92,246,0.4)',
                 padding: '14px 32px', fontSize: '15px', fontWeight: 600, borderRadius: '8px',
                 cursor: 'pointer', transition: 'all 0.2s ease', backdropFilter: 'blur(8px)', textDecoration: 'none',
@@ -294,7 +294,7 @@ const Landing = () => {
               onMouseOut={(e) => { e.currentTarget.style.background = 'rgba(139,92,246,0.1)'; e.currentTarget.style.borderColor = 'rgba(139,92,246,0.4)'; }}>
                 Try Risk Predictor
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-              </a>
+              </button>
             </div>
 
             {/* Professional Stat chips (Moved down and compacted) */}
