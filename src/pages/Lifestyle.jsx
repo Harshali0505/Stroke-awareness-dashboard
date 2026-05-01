@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PageContainer from "../components/PageContainer";
 import { useStaticData } from "../data/useStaticData";
 import StackedAwarenessChart from "../components/charts/StackedAwarenessChart";
@@ -10,11 +10,11 @@ import LifestyleComparisonCard from "../components/LifestyleComparisonCard";
 const Lifestyle = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
   const { selected, onSelect } = useChartSelection();
 
-  const { data: familyData, loading: familyLoading } = useStaticData("/analytics/family-history-awareness");
-  const { data: tiaData, loading: tiaLoading } = useStaticData("/analytics/tia-awareness");
-  const { data: smokingData, loading: smokingLoading } = useStaticData("/analytics/smoking-awareness");
-  const { data: alcoholData, loading: alcoholLoading } = useStaticData("/analytics/alcohol_consumption-awareness");
-  const { data: activityData, loading: activityLoading } = useStaticData("/analytics/regular_physical_activity-awareness");
+  const { data: familyData, loading: familyLoading } = useStaticData("/analytics/family-history-awareness.json");
+  const { data: tiaData, loading: tiaLoading } = useStaticData("/analytics/tia-awareness.json");
+  const { data: smokingData, loading: smokingLoading } = useStaticData("/analytics/smoking-awareness.json");
+  const { data: alcoholData, loading: alcoholLoading } = useStaticData("/analytics/alcohol_consumption-awareness.json");
+  const { data: activityData, loading: activityLoading } = useStaticData("/analytics/regular_physical_activity-awareness.json");
 
   const formatGroupedData = React.useCallback((data, groupKey, labelMap) => {
     if (!data) return [];
@@ -65,7 +65,11 @@ const Lifestyle = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
     if (!data || !Array.isArray(data)) return [];
     const map = {};
     data.forEach(item => {
-      const group = item[groupKey];
+      let group = item[groupKey];
+      if (groupKey === "tia") {
+        if (group === "0" || group === 0) group = "No";
+        if (group === "1" || group === 1) group = "Yes";
+      }
       if (!map[group]) map[group] = { name: group, total: item.total };
       map[group][item.category] = item.percentage;
       map[group][`${item.category}__count`] = item.count;
@@ -75,6 +79,8 @@ const Lifestyle = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
 
   const stackedFamilyData = React.useMemo(() => transformToStacked(familyData, "do_you_have_a_family_history_of_brain_or_heart_stroke,_of_hypertension_or_diabetes_?"), [familyData]);
   const stackedTiaData = React.useMemo(() => transformToStacked(tiaData, "tia"), [tiaData]);
+
+  useEffect(() => { document.title = 'Lifestyle Patterns | BrainLine Dashboard'; }, []);
 
   if (familyLoading || tiaLoading || smokingLoading || alcoholLoading || activityLoading) {
     return (

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PageContainer from "../components/PageContainer";
 import { useStaticData } from "../data/useStaticData";
 import GenericBarChart from "../components/charts/GenericBarChart";
@@ -33,14 +33,14 @@ const SimpleProgressBar = ({ label, percentage, color }) => (
 const Emergency = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
   const { selected, onSelect } = useChartSelection();
 
-  const { data: dashboardData } = useStaticData('/dashboard');
-  const { data: firstActionData, loading: firstActionLoading } = useStaticData("/analytics/first-action");
-  const { data: firstActionAwarenessData, loading: firstActionAwarenessLoading } = useStaticData("/analytics/first-action-awareness");
-  const { data: treatmentData, loading: treatmentLoading } = useStaticData("/analytics/time-to-treatment");
-  const { data: specialistData, loading: specialistLoading } = useStaticData("/analytics/specialist-consultation");
-  const { data: adviceData, loading: adviceLoading } = useStaticData("/analytics/advice-given");
-  const { data: whereToGoData, loading: whereToGoLoading } = useStaticData("/analytics/where-to-go");
-  const { data: howSoonConsultData, loading: howSoonConsultLoading } = useStaticData("/analytics/how-soon-consult");
+  const { data: dashboardData, loading: dashboardLoading } = useStaticData("/analytics/dashboard-stats.json");
+  const { data: firstActionData, loading: firstActionLoading } = useStaticData("/analytics/first-action.json");
+  const { data: firstActionAwarenessData, loading: firstActionAwarenessLoading } = useStaticData("/analytics/first-action-awareness.json");
+  const { data: treatmentData, loading: treatmentLoading } = useStaticData("/analytics/time-to-treatment.json");
+  const { data: specialistData, loading: specialistLoading } = useStaticData("/analytics/specialist-consultation.json");
+  const { data: adviceData, loading: adviceLoading } = useStaticData("/analytics/advice-given.json");
+  const { data: whereToGoData, loading: whereToGoLoading } = useStaticData("/analytics/where-to-go.json");
+  const { data: howSoonConsultData, loading: howSoonConsultLoading } = useStaticData("/analytics/how-soon-consult.json");
 
   const stackedFirstActionData = React.useMemo(() => {
     if (!firstActionAwarenessData || !Array.isArray(firstActionAwarenessData)) return [];
@@ -56,7 +56,9 @@ const Emergency = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
     return Object.values(map);
   }, [firstActionAwarenessData]);
 
-  if (!dashboardData || firstActionLoading || treatmentLoading || specialistLoading || firstActionAwarenessLoading || adviceLoading || whereToGoLoading || howSoonConsultLoading) {
+  useEffect(() => { document.title = 'Emergency Response | BrainLine Dashboard'; }, []);
+
+  if (dashboardLoading || !dashboardData || firstActionLoading || treatmentLoading || specialistLoading || firstActionAwarenessLoading || adviceLoading || whereToGoLoading || howSoonConsultLoading) {
     return (
       <PageContainer
         title="Time-Critical Awareness"
@@ -73,6 +75,20 @@ const Emergency = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
   const noResponseData = adviceData?.find(d => d.advice === "no_response");
   const noResponsePct = noResponseData ? noResponseData.percentage : 59.68;
 
+  const emergencyPctRaw = firstActionData?.find(d => d.action === "emergency_services")?.percentage || 26.1;
+  const emergencyPct = Number(emergencyPctRaw).toFixed(1);
+  const wrongPct = (100 - Number(emergencyPctRaw)).toFixed(1);
+
+  const formattedTreatmentData = treatmentData?.map(d => {
+    let shortTime = d.time_category?.replace(/_/g, " ");
+    if (shortTime?.includes("after few days")) shortTime = "After few days";
+    else if (shortTime?.includes("after checkup")) shortTime = "After checkup";
+    else if (shortTime === "no response") shortTime = "No response";
+    else if (shortTime === "immediately") shortTime = "Immediately";
+    else if (shortTime === "unaware") shortTime = "Unaware";
+    return { ...d, time_category: shortTime };
+  }) || [];
+
   return (
     <PageContainer
       title="Time-Critical Awareness"
@@ -85,8 +101,8 @@ const Emergency = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
       {/* ZONE B — CRITICAL INSIGHTS */}
       <div className="zone-b">
         <div className="grid-3-col" style={{ marginBottom: "24px" }}>
-           <KpiCard topLabel="WRONG FIRST ACTION" value={`${dashboardData.emergency.wrong_action_percent}%`} subtitle="Would not take correct first action" severity="red" />
-           <KpiCard topLabel="CORRECT RESPONSE" value={`${dashboardData.emergency.correct_action_percent}%`} subtitle="Would call emergency services" severity="red" />
+           <KpiCard topLabel="WRONG FIRST ACTION" value={`${wrongPct}%`} subtitle="Would not take correct first action" severity="red" />
+           <KpiCard topLabel="CORRECT RESPONSE" value={`${emergencyPct}%`} subtitle="Would call emergency services" severity="red" />
            <KpiCard topLabel="CORRECT ADVICE" value={`${dashboardData.emergency.correct_advice_percent}%`} subtitle="Gave actionable correct advice (seek help / call emergency / keep calm)" severity="red" />
         </div>
         <div style={{
@@ -130,6 +146,63 @@ const Emergency = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
               <ActionFunnel stats={dashboardData.emergency.funnel} />
             </div>
           </ChartPanel>
+        </div>
+
+        {/* 05.C + 05.D — Initial Action + Time-to-Treatment, each joined to its insight */}
+        <div className="chart-grid-2" style={{ marginBottom: '32px', alignItems: 'stretch' }}>
+
+          {/* LEFT: chart + insight joined */}
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <div className="card-type-5 on-red animate-card" style={{ borderBottomLeftRadius: 0, borderBottomRightRadius: 0, borderBottom: 'none' }}>
+              <div className="t5-header">
+                <h2 className="text-heading-1" style={{ margin: 0 }}>Initial Action Post-Symptom Onset</h2>
+                <span className="tag-pill text-label">05.C</span>
+              </div>
+              <div className="chart-wrapper" style={{ flex: 1, paddingBottom: '20px' }}>
+                <div style={{ marginTop: '16px', flex: 1 }}>
+                  {firstActionData && firstActionData.map((d, i) => (
+                    <SimpleProgressBar key={i} label={d.action.replace(/_/g, ' ')} percentage={d.percentage} color="var(--red)" />
+                  ))}
+                </div>
+              </div>
+            </div>
+            {/* Joined insight */}
+            <div className="card-type-2 on-red animate-card" style={{ borderTopLeftRadius: 0, borderTopRightRadius: 0, borderTop: 'none', marginTop: 0, boxShadow: 'none' }}>
+              <div className="t2-icon"><span style={{ fontSize: '13px' }}>⚡</span></div>
+              <h3 className="t2-heading text-heading-2" style={{ marginLeft: '12px' }}>{wrongPct}% Can't Take the Right First Action</h3>
+              <div className="t2-body text-body-sm" style={{ marginLeft: '12px' }}>
+                Only <span className="highlight-span red">{emergencyPct}%</span> would call emergency services.
+              </div>
+            </div>
+          </div>
+
+          {/* RIGHT: chart + insight joined */}
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <div className="card-type-5 on-red animate-card" style={{ borderBottomLeftRadius: 0, borderBottomRightRadius: 0, borderBottom: 'none' }}>
+              <div className="t5-header">
+                <h2 className="text-heading-1" style={{ margin: 0 }}>Perceived Time-to-Treatment Urgency</h2>
+                <span className="tag-pill text-label">05.D</span>
+              </div>
+              <div className="chart-wrapper">
+                <GenericBarChart
+                  data={formattedTreatmentData}
+                  xKey="time_category"
+                  valueKey="percentage"
+                  barColor="var(--amber)"
+                  angle={-30}
+                />
+              </div>
+            </div>
+            {/* Joined insight */}
+            <div className="card-type-2 on-red animate-card" style={{ borderTopLeftRadius: 0, borderTopRightRadius: 0, borderTop: 'none', marginTop: 0, boxShadow: 'none' }}>
+              <div className="t2-icon"><span style={{ fontSize: '13px' }}>⏱</span></div>
+              <h3 className="t2-heading text-heading-2" style={{ marginLeft: '12px' }}>48.4% Don't Understand Stroke Urgency</h3>
+              <div className="t2-body text-body-sm" style={{ marginLeft: '12px' }}>
+                While <span className="highlight-span green">{dashboardData.emergency.funnel[0].percentage}%</span> correctly say 'immediately', the rest would wait or gave no response. Nearly half the population does not understand stroke urgency.
+              </div>
+            </div>
+          </div>
+
         </div>
 
         {/* ══════════════════════════════════════════════════════
@@ -209,69 +282,6 @@ const Emergency = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
           </ChartPanel>
         </div>
 
-
-        {/* 05.C + 05.D — Initial Action + Time-to-Treatment, each joined to its insight */}
-        <div className="chart-grid-2" style={{ marginBottom: '32px', alignItems: 'stretch' }}>
-
-          {/* LEFT: chart + insight joined */}
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <div className="card-type-5 on-red animate-card" style={{ borderBottomLeftRadius: 0, borderBottomRightRadius: 0, borderBottom: 'none' }}>
-              <div className="t5-header">
-                <h2 className="text-heading-1" style={{ margin: 0 }}>Initial Action Post-Symptom Onset</h2>
-                <span className="tag-pill text-label">05.C</span>
-              </div>
-              <div className="card-type-4 on-red text-body">
-                <strong>{dashboardData.emergency.wrong_action_percent}% would not take the correct first action.</strong> Only {dashboardData.emergency.correct_action_percent}% would call emergency services.
-              </div>
-              <div className="chart-wrapper" style={{ height: '340px', minHeight: '340px' }}>
-                <div style={{ marginTop: '16px', flex: 1 }}>
-                  {firstActionData && firstActionData.map((d, i) => (
-                    <SimpleProgressBar key={i} label={d.action.replace(/_/g, ' ')} percentage={d.percentage} color="var(--red)" />
-                  ))}
-                </div>
-              </div>
-            </div>
-            {/* Joined insight */}
-            <div className="card-type-2 on-red animate-card" style={{ borderTopLeftRadius: 0, borderTopRightRadius: 0, borderTop: '1px dashed var(--red-border)', marginTop: 0, boxShadow: 'none' }}>
-              <div className="t2-icon"><span style={{ fontSize: '13px' }}>⚡</span></div>
-              <h3 className="t2-heading text-heading-2" style={{ marginLeft: '12px' }}>{dashboardData.emergency.wrong_action_percent}% Can't Take the Right First Action</h3>
-              <div className="t2-body text-body-sm" style={{ marginLeft: '12px' }}>
-                Only <span className="highlight-span red">{dashboardData.emergency.correct_action_percent}%</span> would call emergency services.
-              </div>
-            </div>
-          </div>
-
-          {/* RIGHT: chart + insight joined */}
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <div className="card-type-5 on-red animate-card" style={{ borderBottomLeftRadius: 0, borderBottomRightRadius: 0, borderBottom: 'none' }}>
-              <div className="t5-header">
-                <h2 className="text-heading-1" style={{ margin: 0 }}>Perceived Time-to-Treatment Urgency</h2>
-                <span className="tag-pill text-label">05.D</span>
-              </div>
-              <div className="card-type-4 on-red text-body">
-                Even when action is taken, <span className="highlight-span red">almost half</span> believe they have a day or more to seek treatment.
-              </div>
-              <div className="chart-wrapper">
-                <GenericBarChart
-                  data={treatmentData}
-                  xKey="time_category"
-                  valueKey="percentage"
-                  barColor="var(--amber)"
-                />
-              </div>
-            </div>
-            {/* Joined insight */}
-            <div className="card-type-2 on-red animate-card" style={{ borderTopLeftRadius: 0, borderTopRightRadius: 0, borderTop: '1px dashed var(--red-border)', marginTop: 0, boxShadow: 'none' }}>
-              <div className="t2-icon"><span style={{ fontSize: '13px' }}>⏱</span></div>
-              <h3 className="t2-heading text-heading-2" style={{ marginLeft: '12px' }}>48.4% Don't Understand Stroke Urgency</h3>
-              <div className="t2-body text-body-sm" style={{ marginLeft: '12px' }}>
-                While <span className="highlight-span green">{dashboardData.emergency.funnel[0].percentage}%</span> correctly say 'immediately', the rest would wait or gave no response. Nearly half the population does not understand stroke urgency.
-              </div>
-            </div>
-          </div>
-
-        </div>
-
         {/* ══════════════════════════════════════════════════════
             SECTION: SPECIALIST & FACILITY PREFERENCE
             ══════════════════════════════════════════════════════ */}
@@ -287,10 +297,7 @@ const Emergency = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
                 <h2 className="text-heading-1" style={{ margin: 0 }}>Preferred Specialist Consultation</h2>
                 <span className="tag-pill text-label">05.E</span>
               </div>
-              <div className="card-type-4 on-red text-body">
-                Only <span className="highlight-span red">23.9%</span> recognise the need for a Neurologist. A massive <span className="highlight-span red">61.9%</span> would consult a general Physician first.
-              </div>
-              <div className="chart-wrapper" style={{ height: '280px', minHeight: '280px' }}>
+              <div className="chart-wrapper" style={{ flex: 1, paddingBottom: '20px' }}>
                 <div style={{ marginTop: '16px' }}>
                   {specialistData && specialistData.map((d, i) => (
                     <SimpleProgressBar key={i} label={d.specialist.replace(/_/g, ' ')} percentage={d.percentage} color="var(--blue)" />
@@ -299,7 +306,7 @@ const Emergency = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
               </div>
             </div>
             {/* Joined insight */}
-            <div className="card-type-2 on-red animate-card" style={{ borderTopLeftRadius: 0, borderTopRightRadius: 0, borderTop: '1px dashed var(--red-border)', marginTop: 0, boxShadow: 'none' }}>
+            <div className="card-type-2 on-red animate-card" style={{ borderTopLeftRadius: 0, borderTopRightRadius: 0, borderTop: 'none', marginTop: 0, boxShadow: 'none' }}>
               <div className="t2-icon"><span style={{ fontSize: '13px' }}>🧠</span></div>
               <h3 className="t2-heading text-heading-2" style={{ marginLeft: '12px' }}>Only 23.9% Know a Neurologist Is Needed</h3>
               <div className="t2-body text-body-sm" style={{ marginLeft: '12px' }}>

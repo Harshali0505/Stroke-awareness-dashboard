@@ -1,13 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PageContainer from "../components/PageContainer";
 import ChartPanel from "../components/ChartPanel";
 import InsightCard from "../components/InsightCard";
 import { useStaticData } from "../data/useStaticData";
 
 const Personas = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
-  const { data: dashboardData } = useStaticData('/dashboard');
+  const { data: dashboardData, loading } = useStaticData("/analytics/dashboard-stats.json");
 
-  if (!dashboardData) return <div style={{ padding: '40px', textAlign: 'center', color: 'var(--text-secondary)', fontFamily: 'inherit' }}>Loading Personas...</div>;
+  useEffect(() => { document.title = 'Behavioral Personas | BrainLine Dashboard'; }, []);
+
+  if (loading || !dashboardData) {
+    return (
+      <PageContainer
+        title="Behavioral Personas"
+        description="Mapping the population into four distinct behavioral archetypes based on awareness, lifestyle risks, and emergency response propensity."
+        isMobileMenuOpen={isMobileMenuOpen}
+        setIsMobileMenuOpen={setIsMobileMenuOpen}
+        pageHeaderMeta={{ sectionTag: 'SECTION 07', severity: 'good', severityLabel: 'ACTIONABLE' }}
+      >
+        <p className="text-body text-muted">Loading personas...</p>
+      </PageContainer>
+    );
+  }
 
   const dataPersonas = dashboardData.personas;
 
@@ -59,12 +73,20 @@ const Personas = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
     }
   };
 
-  const personas = dataPersonas.map(p => ({
-    ...p,
-    description: metadata[p.id]?.description || '',
-    strategy: metadata[p.id]?.strategy || '',
-    metrics: metadata[p.id]?.metrics || null
-  }));
+  const personas = dataPersonas.map(p => {
+    // Convert cluster-0 -> Cluster 1, cluster-1 -> Cluster 2, etc.
+    const clusterNum = parseInt(p.id?.replace('cluster-', ''), 10);
+    const displayTitle = !isNaN(clusterNum)
+      ? p.title?.replace(/Cluster\s*\d+/, `Cluster ${clusterNum + 1}`)
+      : p.title;
+    return {
+      ...p,
+      title: displayTitle,
+      description: metadata[p.id]?.description || '',
+      strategy: metadata[p.id]?.strategy || '',
+      metrics: metadata[p.id]?.metrics || null
+    };
+  });
 
   return (
     <PageContainer

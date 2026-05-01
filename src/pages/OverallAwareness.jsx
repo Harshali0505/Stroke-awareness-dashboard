@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PageContainer from '../components/PageContainer';
 import KpiCard from '../components/KpiCard';
 import GenericPieChart from '../components/charts/GenericPieChart';
@@ -8,9 +8,23 @@ import InsightCard from '../components/InsightCard';
 import { useStaticData } from '../data/useStaticData';
 
 const OverallAwareness = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
-  const { data: dashboardData } = useStaticData('/dashboard');
+  const { data: dashboardData, loading } = useStaticData("/analytics/dashboard-stats.json");
 
-  if (!dashboardData) return <div style={{ padding: '40px', textAlign: 'center', color: 'var(--text-secondary)', fontFamily: 'inherit' }}>Loading Dashboard Data...</div>;
+  useEffect(() => { document.title = 'Overview | BrainLine Dashboard'; }, []);
+
+  if (loading || !dashboardData) {
+    return (
+      <PageContainer
+        title="The Big Picture: Stroke Awareness"
+        description="This dashboard presents a consolidated overview of stroke awareness levels across the surveyed population."
+        isMobileMenuOpen={isMobileMenuOpen}
+        setIsMobileMenuOpen={setIsMobileMenuOpen}
+        pageHeaderMeta={{ sectionTag: 'SECTION 01', severity: 'critical', severityLabel: 'CRITICAL' }}
+      >
+        <p className="text-body text-muted">Loading overview...</p>
+      </PageContainer>
+    );
+  }
 
   const kpiData = dashboardData.kpi;
   const analyticsData = dashboardData.overall_awareness;
@@ -73,7 +87,34 @@ const OverallAwareness = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
             severity="green"
           />
         </div>
+      </div>
 
+      {/* ZONE C: CHARTS */}
+      <div className="zone-c">
+        <div className="chart-grid-1">
+          <ChartPanel
+            title="Awareness Category Distribution (Actual)"
+            sectionTag="01.A"
+            severityLabel="INFO"
+            severity="blue"
+            callout={
+              <span>When scored objectively across symptoms, signs, and actions, the majority of the population drops into the <strong>Low</strong> category.</span>
+            }
+          >
+            <GenericPieChart
+              data={analyticsData}
+              labelKey="label"
+              valueKey="percentage"
+              innerRadius={0}
+            />
+          </ChartPanel>
+
+
+        </div>
+      </div>
+
+      {/* ZONE D: PERCEPTION GAP (MOVED HERE) */}
+      <div className="zone-d" style={{ marginTop: '32px' }}>
         {/* ── PERCEPTION REALITY GAP — EYE CATCHING CALLOUT ── */}
         <div style={{
           position: 'relative', overflow: 'hidden',
@@ -106,48 +147,6 @@ const OverallAwareness = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
               <span style={{ fontWeight: 700, color: 'var(--text-primary)' }}>{percentSaidYes}% of respondents</span> proudly stated they understood stroke risks. But when objectively scored, <span style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, color: 'var(--red)' }}>{percentYesButLowMod}%</span> of those confident individuals fell directly into the <strong>Low or Moderate</strong> awareness categories. Only <span style={{ fontFamily: "'JetBrains Mono', monospace", color: 'var(--green)', fontWeight: 700 }}>{percentYesHigh}%</span> proved to have actual High Awareness.
             </p>
           </div>
-        </div>
-      </div>
-
-      {/* ZONE C: CHARTS */}
-      <div className="zone-c">
-        <div className="chart-grid-1">
-          <ChartPanel
-            title="Awareness Category Distribution (Actual)"
-            sectionTag="01.A"
-            severityLabel="INFO"
-            severity="blue"
-            callout={
-              <span>When scored objectively across symptoms, signs, and actions, the majority of the population drops into the <strong>Low</strong> category.</span>
-            }
-          >
-            <GenericPieChart
-              data={analyticsData}
-              labelKey="label"
-              valueKey="percentage"
-              innerRadius={0}
-            />
-          </ChartPanel>
-        </div>
-      </div>
-
-      {/* ZONE D: SUPPORTING INSIGHTS */}
-      <div className="zone-d-divider text-label">
-        ── ADDITIONAL FINDINGS ──
-      </div>
-      <div className="zone-d">
-        <div className="grid-3-col">
-          <InsightCard type="secondary" title="The Action Gap" severity="amber">
-            <span className="highlight-span amber">{actionGapPercent}%</span> of individuals who actually know what a stroke is still fail to state they would seek immediate emergency medical help.
-          </InsightCard>
-          
-          <InsightCard type="secondary" title="Lifestyle Correlation" severity="blue">
-            Statistical testing shows total independence. Healthy and unhealthy individuals are both equally misinformed about stroke risks and symptoms.
-          </InsightCard>
-          
-          <InsightCard type="secondary" title="Data Profiles" severity="green">
-            Cluster analysis successfully isolated <span className="highlight-span blue">{numClusters} segments</span> representing how stroke knowledge predictably distributes in the public.
-          </InsightCard>
         </div>
       </div>
 

@@ -1,14 +1,12 @@
 import { useEffect, useState } from "react";
-import { BASE_URL } from "../config";
 
-export function useStaticData(endpoint) {
+export function useStaticData(jsonPath) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    setLoading(true);
-    fetch(`${BASE_URL}${endpoint}`, { cache: 'no-store' })
+    fetch(jsonPath)
       .then((res) => {
         if (!res.ok) {
           throw new Error(`HTTP error! status: ${res.status}`);
@@ -21,12 +19,11 @@ export function useStaticData(endpoint) {
         setError(null);
       })
       .catch((err) => {
-        console.error(`Failed to load data from ${endpoint}:`, err);
-        setError(err.message || 'Connection Refused');
+        console.error(`Failed to load data from ${jsonPath}:`, err);
+        setError(err.message);
         setLoading(false);
-        setData(null);
       });
-  }, [endpoint]);
+  }, [jsonPath]);
 
   return { data, loading, error };
 }

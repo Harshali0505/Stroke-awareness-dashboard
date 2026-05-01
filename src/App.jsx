@@ -18,7 +18,10 @@ export const ThemeContext = createContext({
 
 export const useTheme = () => useContext(ThemeContext);
 
-function App() {
+function AppContent() {
+  const location = useLocation();
+  const isLanding = location.pathname === '/';
+
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -72,8 +75,8 @@ function App() {
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
       <div className="app">
 
-        {/* Mobile Menu Toggle */}
-        {isMobile && (
+        {/* Mobile Menu Toggle — only on dashboard pages, not landing */}
+        {isMobile && !isLanding && (
           <button
             className="mobile-menu-toggle"
             onClick={toggleMobileMenu}
@@ -84,31 +87,37 @@ function App() {
         )}
 
         {/* Overlay for mobile menu */}
-        {isMobile && isMobileMenuOpen && (
+        {isMobile && !isLanding && isMobileMenuOpen && (
           <div
             className="mobile-overlay"
             onClick={() => setIsMobileMenuOpen(false)}
           />
         )}
 
-        <Router>
-          <ScrollToTop />
-          <Routes>
-            {/* Landing page */}
-            <Route path="/"               element={<Landing />} />
-            {/* Core pages */}
-            <Route path="/overview"       element={<OverallAwareness {...sharedProps} />} />
-            <Route path="/demographics"   element={<Demographics     {...sharedProps} />} />
-            <Route path="/lifestyle"      element={<Lifestyle        {...sharedProps} />} />
-            <Route path="/knowledge-gap"  element={<KnowledgeGap    {...sharedProps} />} />
-            <Route path="/emergency"      element={<Emergency        {...sharedProps} />} />
-            <Route path="/community"      element={<Community        {...sharedProps} />} />
-            <Route path="/personas"       element={<Personas         {...sharedProps} />} />
-          </Routes>
-        </Router>
+        <ScrollToTop />
+        <Routes>
+          {/* Landing page */}
+          <Route path="/"               element={<Landing />} />
+          {/* Core pages */}
+          <Route path="/overview"       element={<OverallAwareness {...sharedProps} />} />
+          <Route path="/demographics"   element={<Demographics     {...sharedProps} />} />
+          <Route path="/lifestyle"      element={<Lifestyle        {...sharedProps} />} />
+          <Route path="/knowledge-gap"  element={<KnowledgeGap    {...sharedProps} />} />
+          <Route path="/emergency"      element={<Emergency        {...sharedProps} />} />
+          <Route path="/community"      element={<Community        {...sharedProps} />} />
+          <Route path="/personas"       element={<Personas         {...sharedProps} />} />
+        </Routes>
 
       </div>
     </ThemeContext.Provider>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <AppContent />
+    </Router>
   );
 }
 

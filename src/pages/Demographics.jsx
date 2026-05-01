@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PageContainer from "../components/PageContainer";
 import StackedAwarenessChart from "../components/charts/StackedAwarenessChart";
 import ChartPanel from "../components/ChartPanel";
@@ -8,7 +8,7 @@ import { useStaticData } from "../data/useStaticData";
 
 const Demographics = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
   const { selected, onSelect } = useChartSelection();
-  const { data: dashboardData } = useStaticData('/dashboard');
+  const { data: dashboardData, loading } = useStaticData("/analytics/dashboard-stats.json");
 
   const formatSalaryLabel = React.useCallback((value) => {
     const s = String(value ?? "").trim().toLowerCase();
@@ -35,10 +35,10 @@ const Demographics = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
     return Object.values(map);
   }, [formatSalaryLabel]);
 
-  const ageData = dashboardData?.demographics?.age;
-  const genderData = dashboardData?.demographics?.gender;
-  const educationData = dashboardData?.demographics?.educational_level;
-  const incomeData = dashboardData?.demographics?.salary;
+  const ageData = dashboardData?.demographics?.age || [];
+  const genderData = dashboardData?.demographics?.gender || [];
+  const educationData = dashboardData?.demographics?.educational_level || [];
+  const incomeData = dashboardData?.demographics?.salary || [];
 
   const stackedAgeData = React.useMemo(() => transformToStacked(ageData, "age"), [ageData, transformToStacked]);
   const stackedGenderData = React.useMemo(() => transformToStacked(genderData, "gender"), [genderData, transformToStacked]);
@@ -53,7 +53,7 @@ const Demographics = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
       "speciality": "Speciality",
       "other": "Other"
     };
-    data = data.map(item => ({ ...item, name: renameMap[item.name.toLowerCase()] || item.name }));
+    data = data.map(item => ({ ...item, name: renameMap[item.name?.toLowerCase() || item.name] || item.name }));
     const order = ["High School", "Undergraduate", "Graduate", "Speciality", "Other"];
     return data.sort((a, b) => {
       const idxA = order.indexOf(a.name);
@@ -72,8 +72,21 @@ const Demographics = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
     });
   }, [incomeData, transformToStacked]);
 
-  if (!dashboardData) return <div style={{ padding: '40px', textAlign: 'center', color: 'var(--text-secondary)', fontFamily: 'inherit' }}>Loading Demographics...</div>;
+  useEffect(() => { document.title = 'Demographics | BrainLine Dashboard'; }, []);
 
+  if (loading || !dashboardData) {
+    return (
+      <PageContainer
+        title="Demographic Awareness Distribution"
+        description="Analyzing how background factors like age, gender, and education influence stroke literacy."
+        isMobileMenuOpen={isMobileMenuOpen}
+        setIsMobileMenuOpen={setIsMobileMenuOpen}
+        pageHeaderMeta={{ sectionTag: 'SECTION 02', severity: 'moderate', severityLabel: 'MODERATE' }}
+      >
+        <p className="text-body text-muted">Loading demographics...</p>
+      </PageContainer>
+    );
+  }
 
   return (
     <PageContainer

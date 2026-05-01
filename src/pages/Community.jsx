@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PageContainer from "../components/PageContainer";
 import { useStaticData } from "../data/useStaticData";
 import GenericBarChart from "../components/charts/GenericBarChart";
@@ -12,8 +12,8 @@ import { CHART_COLORS } from "../constants/colors";
 const Community = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
   const { selected, onSelect } = useChartSelection();
 
-  const { data: sourcesData, loading: sourcesLoading } = useStaticData("/analytics/awareness-sources");
-  const { data: sourcesStackedData, loading: sourcesStackedLoading } = useStaticData("/analytics/awareness-sources-stacked");
+  const { data: sourcesData, loading: sourcesLoading } = useStaticData("/analytics/awareness-sources.json");
+  const { data: sourcesStackedData, loading: sourcesStackedLoading } = useStaticData("/analytics/awareness-sources-stacked.json");
 
   const stackedSourcesList = React.useMemo(() => {
     if (!sourcesStackedData || !Array.isArray(sourcesStackedData)) return [];
@@ -28,6 +28,8 @@ const Community = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
     });
     return Object.values(map);
   }, [sourcesStackedData]);
+
+  useEffect(() => { document.title = 'Source of Knowledge | BrainLine Dashboard'; }, []);
 
   if (sourcesLoading || sourcesStackedLoading) {
     return (

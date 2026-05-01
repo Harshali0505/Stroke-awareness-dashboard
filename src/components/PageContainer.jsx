@@ -63,6 +63,8 @@ const PageContainer = ({
           )}
           
           {children}
+
+          <Footer />
         </div>
       </main>
 

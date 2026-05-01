@@ -86,6 +86,7 @@ html {
    2. TYPOGRAPHY SCALE
    ============================================================ */
 .text-hero { font-family: 'Inter', sans-serif; font-size: 44px; font-weight: 700; letter-spacing: -0.04em; margin-top: 0; }
+@media (max-width: 768px) { .text-hero { font-size: 28px; letter-spacing: -0.02em; } }
 .text-stat { font-family: 'JetBrains Mono', monospace; font-size: 36px; font-weight: 700; letter-spacing: -0.03em; }
 .text-stat-sm { font-family: 'JetBrains Mono', monospace; font-size: 24px; font-weight: 600; letter-spacing: -0.02em; }
 .text-heading-1 { font-family: 'Inter', sans-serif; font-size: 20px; font-weight: 600; letter-spacing: -0.02em; }
@@ -280,8 +281,7 @@ html {
 }
 .grid-2-col {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 320px));
-  justify-content: start;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 16px;
 }
 .grid-1-col {
@@ -438,7 +438,7 @@ html.sidebar-collapsed .main-content {
 }
 .sidebar-nav-item.active {
   background: #0f766e;
-  border-left-color: var(--severity-color);
+  border-left-color: #14b8a6;
   color: #fff;
 }
 [data-theme="dark"] .sidebar-nav-item.active {
@@ -518,4 +518,28 @@ g.recharts-layer.recharts-pie-sector:hover {
 }
 [data-theme="dark"] .recharts-tooltip-cursor {
   fill: rgba(255,255,255,0.04);
+}
+
+/* ============================================================
+   8. FOOTER
+   ============================================================ */
+.footer {
+  margin-top: 48px;
+  padding: 24px 0 16px;
+  border-top: 1px solid var(--border);
+}
+
+.footer-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  color: var(--text-muted);
+  margin: 0;
+  text-align: center;
+  letter-spacing: 0.02em;
 }

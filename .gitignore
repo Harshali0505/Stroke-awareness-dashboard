@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Project-specific — not needed for deployment
+analytics/
+backend-api/

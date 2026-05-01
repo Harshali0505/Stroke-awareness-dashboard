@@ -1,33 +1,51 @@
-import React from "react";
+import React, { useState } from "react";
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from "recharts";
-import { getAwarenessColor, CHART_COLORS } from "../../constants/colors";
-import ChartTooltip from "../common/ChartTooltip";
+import { getAwarenessColor } from "../../constants/colors";
 
-const renderOuterLabel = ({
-  cx,
-  cy,
-  midAngle,
-  outerRadius,
-  percent
-}) => {
+// Simple label rendered directly on slice
+const renderLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, name }) => {
   const RADIAN = Math.PI / 180;
-  const radius = outerRadius + 18;
+  const radius = innerRadius + (outerRadius - innerRadius) * 0.55;
   const x = cx + radius * Math.cos(-midAngle * RADIAN);
   const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+  // Don't render label if slice is too small
+  if (percent < 0.04) return null;
 
   return (
     <text
       x={x}
       y={y}
-      fill="var(--text-secondary, #64748b)"
-      textAnchor={x > cx ? "start" : "end"}
+      fill="white"
+      textAnchor="middle"
       dominantBaseline="central"
-      fontSize={11}
-      fontFamily="Inter, sans-serif"
-      fontWeight={600}
+      style={{ fontSize: '13px', fontWeight: 700, fontFamily: "'Inter', sans-serif", pointerEvents: 'none' }}
     >
-      {(percent * 100).toFixed(1)}%
+      {`${(percent * 100).toFixed(1)}%`}
     </text>
+  );
+};
+
+// Custom tooltip
+const CustomTooltip = ({ active, payload }) => {
+  if (!active || !payload || !payload.length) return null;
+  const entry = payload[0];
+  return (
+    <div style={{
+      background: 'var(--bg-surface)',
+      border: '1px solid var(--border)',
+      borderRadius: '10px',
+      padding: '10px 16px',
+      boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
+      fontFamily: 'Inter, sans-serif',
+    }}>
+      <div style={{ fontWeight: 700, color: entry.payload.fill || entry.color, fontSize: '13px', marginBottom: '2px' }}>
+        {entry.name}
+      </div>
+      <div style={{ fontSize: '20px', fontWeight: 800, color: 'var(--text-primary)' }}>
+        {entry.value}%
+      </div>
+    </div>
   );
 };
 
@@ -35,17 +53,10 @@ const GenericPieChart = ({
   data,
   labelKey = "label",
   valueKey = "percentage",
-  selectedValue = null,
-  onSelect = null,
-  height = 320,
-  innerRadius = 70,
-  interaction = "click",
-  showOuterLabels = true,
+  height = 360,
+  innerRadius = "60%",
   colors = null
 }) => {
-  const isHover = interaction === "hover";
-  const [activeIndex, setActiveIndex] = React.useState(null);
-
   return (
     <ResponsiveContainer width="100%" height={height}>
       <PieChart>
@@ -55,64 +66,27 @@ const GenericPieChart = ({
           nameKey={labelKey}
           cx="50%"
           cy="50%"
-          outerRadius="80%"
           innerRadius={innerRadius}
-          labelLine={showOuterLabels}
-          label={showOuterLabels ? renderOuterLabel : false}
-          onClick={(d) => {
-            if (isHover) return;
-            onSelect && onSelect(d[labelKey]);
-          }}
-          onMouseEnter={(_, idx) => {
-            if (!isHover) return;
-            setActiveIndex(idx);
-          }}
-          onMouseLeave={() => {
-            if (!isHover) return;
-            setActiveIndex(null);
-          }}
+          outerRadius="80%"
+          stroke="var(--bg-surface)"
+          strokeWidth={3}
+          label={innerRadius === 0 ? renderLabel : false}
+          labelLine={false}
         >
-          {data && data.map && data.map((entry, index) => {
-            const isActive = isHover
-              ? activeIndex === null || index === activeIndex
-              : (!selectedValue || entry[labelKey] === selectedValue);
-
-            return (
-              <Cell
-                key={index}
-                fill={colors ? colors[index % colors.length] : getAwarenessColor(entry[labelKey])}
-                opacity={isActive ? 1 : CHART_COLORS.inactiveOpacity}
-                cursor={isHover ? "default" : (onSelect ? "pointer" : "default")}
-                stroke="var(--bg-surface)"
-                strokeWidth={2}
-              />
-            );
-          })}
+          {data && data.map((entry, index) => (
+            <Cell
+              key={`cell-${index}`}
+              fill={colors ? colors[index % colors.length] : getAwarenessColor(entry[labelKey])}
+            />
+          ))}
         </Pie>
-
-        <Tooltip content={<ChartTooltip />} />
-
+        <Tooltip content={<CustomTooltip />} />
         <Legend
-          iconSize={0}
-          wrapperStyle={{ paddingTop: '16px', fontSize: '11px', fontFamily: 'Inter, sans-serif' }}
-          onClick={(e) => {
-            if (isHover) return;
-            onSelect && onSelect(e.value);
-          }}
-          formatter={(value, entry, index) => (
-            <span style={{ color: 'var(--text-secondary, #64748b)', fontFamily: 'Inter, sans-serif' }}>
-              <span
-                style={{
-                  display: 'inline-block',
-                  width: '10px',
-                  height: '10px',
-                  backgroundColor: colors ? colors[index % colors.length] : getAwarenessColor(value),
-                  marginRight: '6px',
-                  borderRadius: '50%'
-                }}
-              />
-              {value}
-            </span>
+          iconSize={10}
+          iconType="circle"
+          wrapperStyle={{ paddingTop: '20px', fontSize: '13px', fontWeight: 500, fontFamily: 'Inter, sans-serif' }}
+          formatter={(value) => (
+            <span style={{ color: 'var(--text-secondary)' }}>{value}</span>
           )}
         />
       </PieChart>

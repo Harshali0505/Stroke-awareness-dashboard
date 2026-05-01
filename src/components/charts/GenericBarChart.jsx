@@ -60,6 +60,7 @@ const GenericBarChart = ({
   height = 350,
   barColor = CHART_COLORS.neutral,
   showHoverHint = true,
+  angle = null, // new prop to force rotation
 }) => {
   const [viewportWidth, setViewportWidth] = React.useState(() =>
     typeof window !== "undefined" ? window.innerWidth : 1024
@@ -86,11 +87,12 @@ const GenericBarChart = ({
     });
   }, [data, xKey, isVerticalLayout]);
 
-  const shouldRotate =
+  const shouldRotate = angle !== null ? true : (
     !isVerticalLayout &&
     !areLabelsNumeric &&
-    (approxLabelSlot < 70 || categoryCount >= 10);
-  const tickAngle = shouldRotate ? -35 : 0;
+    (approxLabelSlot < 70 || categoryCount >= 10)
+  );
+  const tickAngle = angle !== null ? angle : (shouldRotate ? -35 : 0);
 
   const maxChars = !isVerticalLayout
     ? approxLabelSlot < 55
