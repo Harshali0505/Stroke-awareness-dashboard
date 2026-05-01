@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import PageContainer from '../components/PageContainer';
+import { useNavigate } from 'react-router-dom';
 
 const RISK_LEVELS = [
   { label: 'Low', min: 0, max: 0.25, color: '#10b981', bg: '#ecfdf5', border: '#a7f3d0' },
@@ -14,7 +14,8 @@ function getRisk(prob) {
 
 const DEFAULTS = { age: 55, avg_glucose_level: 110, bmi: 28, hypertension: 0, heart_disease: 0, ever_married: 'Yes', smoking_status: 'never smoked', gender: 'Female', work_type: 'Private', residence_type: 'Urban' };
 
-export default function PatientRiskPredictor({ isMobileMenuOpen, setIsMobileMenuOpen }) {
+export default function PatientRiskPredictor() {
+  const navigate = useNavigate();
   const animProbRef = useRef(0);
   const [inputs, setInputs] = useState(DEFAULTS);
   const [prob, setProb] = useState(0);
@@ -109,14 +110,16 @@ export default function PatientRiskPredictor({ isMobileMenuOpen, setIsMobileMenu
   const set = (k, v) => setInputs(p => ({ ...p, [k]: v }));
 
   return (
-    <PageContainer
-      title="Patient Risk Predictor"
-      description="Enter patient values → get live stroke probability → risk badge → SHAP explanation"
-      isMobileMenuOpen={isMobileMenuOpen}
-      setIsMobileMenuOpen={setIsMobileMenuOpen}
-      pageHeaderMeta={{ sectionTag: 'PREDICTION MODEL', severity: 'info', severityLabel: 'ML' }}
-    >
-      <div style={S.page}>
+    <div style={S.page}>
+      <div style={{ marginBottom: 24 }}>
+        <button onClick={() => navigate('/')} style={{ background: 'transparent', border: 'none', color: '#0d7a6b', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6, fontSize: 14, fontWeight: 600 }}>
+          ← Back to Dashboard
+        </button>
+      </div>
+      <div style={S.header}>
+        <h1 style={{ ...S.title, color: '#0d7a6b' }}>Patient Risk Predictor</h1>
+        <p style={S.subtitle}>Enter patient values → get live stroke probability → risk badge → SHAP explanation</p>
+      </div>
 
 
       {/* First Horizontal Panel: Patient Features */}
@@ -278,8 +281,7 @@ export default function PatientRiskPredictor({ isMobileMenuOpen, setIsMobileMenu
           </div>
         </div>
       </div>
-      </div>
-    </PageContainer>
+    </div>
   );
 }
 
